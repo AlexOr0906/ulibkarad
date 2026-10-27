@@ -1,3 +1,6 @@
+---
+const base = import.meta.env.BASE_URL;
+---
 <section id="top" class="hero-section relative overflow-hidden bg-mist pb-8 pt-32 md:pt-40" data-sc-act="flow">
   <div class="container-shell relative z-10">
     <div class="hero-intro flex flex-wrap items-center justify-between gap-5 border-b border-graphite/20 pb-6">
@@ -13,8 +16,11 @@
         <p class="hero-intro mt-8 max-w-md text-base leading-relaxed text-graphite md:text-lg">Внимание к вам. Забота об улыбке.<br/>Новый взгляд на знакомство со стоматологией.</p>
         <a href="#appointment" class="action-link hero-intro mt-8 inline-flex items-center gap-10 bg-ink px-7 py-5 text-xs font-semibold uppercase tracking-[.14em] text-white md:hidden">Обсудить визит <span aria-hidden="true">↗</span></a>
       </div>
-      <figure class="hero-brand hero-intro mx-auto flex w-full max-w-[24rem] flex-col items-center gap-8 md:max-w-[28rem]">
-        <img class="hero-brand-mark" src="/brand/logo-silver.svg" width="913" height="952" alt="Семейный знак стоматологии: профили взрослого и детей в контуре зуба" fetchpriority="high" />
+      <figure class="hero-brand hero-intro relative mx-auto flex w-full max-w-[24rem] flex-col items-center gap-8 md:max-w-[28rem]">
+        <span class="hero-material-rule" aria-hidden="true"></span>
+        <div class="hero-logo-depth">
+          <img class="hero-brand-mark" src={`${base}brand/logo-silver.svg`} width="921" height="960" alt="Семейный знак стоматологии: профили взрослого и детей в контуре зуба" loading="eager" fetchpriority="high" />
+        </div>
       </figure>
     </div>
 

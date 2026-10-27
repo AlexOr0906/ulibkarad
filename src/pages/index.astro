@@ -23,9 +23,8 @@ import ConceptDialog from '@/components/ConceptDialog.astro';
   </main>
   <Footer />
   <ConceptDialog />
-</BaseLayout>
-
 <script>
+  document.documentElement.classList.add('js');
   const conceptDialog = document.querySelector<HTMLDialogElement>('#concept-dialog');
   document.querySelectorAll<HTMLButtonElement>('[data-open-concept]').forEach((button) => {
     button.addEventListener('click', () => conceptDialog?.showModal());
@@ -70,6 +69,8 @@ import ConceptDialog from '@/components/ConceptDialog.astro';
   const status = document.querySelector<HTMLElement>('#form-status');
   const demoFields = document.querySelector<HTMLFieldSetElement>('#demo-fields');
   const demoSubmit = document.querySelector<HTMLButtonElement>('#demo-submit');
+  const topicSelect = document.querySelector<HTMLSelectElement>('#demo-form select[name="topic"]');
+  const selectedTopicNote = document.querySelector<HTMLElement>('#selected-topic-note');
   if (demoFields) demoFields.disabled = false;
   if (demoSubmit) demoSubmit.disabled = false;
   demoSubmit?.addEventListener('click', () => status?.classList.remove('hidden'));
@@ -77,12 +78,30 @@ import ConceptDialog from '@/components/ConceptDialog.astro';
     event.preventDefault();
     status?.classList.remove('hidden');
   });
+  function showSelectedTopic(topic: string) {
+    if (selectedTopicNote) {
+      selectedTopicNote.textContent = `Тема разговора: ${topic}. Можно изменить её в форме.`;
+      selectedTopicNote.classList.remove('hidden');
+    }
+    status?.classList.add('hidden');
+  }
+  document.querySelectorAll<HTMLAnchorElement>('[data-service-topic]').forEach((link) => {
+    link.addEventListener('click', () => {
+      const topic = link.dataset.serviceTopic;
+      if (topic && topicSelect) {
+        topicSelect.value = topic;
+        showSelectedTopic(topic);
+      }
+    });
+  });
+  topicSelect?.addEventListener('change', () => showSelectedTopic(topicSelect.value));
 
   const revealItems = document.querySelectorAll<HTMLElement>('[data-reveal], main section:not(#top) header, #contacts > div > div > div, #appointment > div > div > div, #demo-form, footer > div > div');
   const observer = new IntersectionObserver((entries, currentObserver) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('is-visible');
+        if (entry.target.hasAttribute('data-material-light')) entry.target.classList.add('light-has-arrived');
         currentObserver.unobserve(entry.target);
       }
     });
@@ -93,6 +112,7 @@ import ConceptDialog from '@/components/ConceptDialog.astro';
     item.classList.add('reveal');
     observer.observe(item);
   });
+  document.querySelectorAll<HTMLElement>('[data-material-light]').forEach((item) => observer.observe(item));
 
   const header = document.querySelector<HTMLElement>('#site-header');
   const signaturePanel = document.querySelector<HTMLElement>('.signature-panel');
@@ -100,9 +120,15 @@ import ConceptDialog from '@/components/ConceptDialog.astro';
   const signatureWords = [...document.querySelectorAll<HTMLElement>('.signature-words span')];
   const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
   const signatureDesktop = window.matchMedia('(min-width: 1024px)');
+  const heroSection = document.querySelector<HTMLElement>('#top');
   let scrollScheduled = false;
   function updateScroll() {
     header?.classList.toggle('is-scrolled', window.scrollY > 32);
+    if (heroSection) {
+      const heroRect = heroSection.getBoundingClientRect();
+      const heroProgress = motionPreference.matches ? 0 : Math.max(0, Math.min(1, -heroRect.top / Math.max(heroRect.height * .75, 1)));
+      heroSection.style.setProperty('--hero-progress', heroProgress.toFixed(4));
+    }
     if (signaturePanel && signatureSteps.length) {
       const first = signatureSteps[0].getBoundingClientRect();
       const last = signatureSteps[signatureSteps.length - 1].getBoundingClientRect();
@@ -127,3 +153,4 @@ import ConceptDialog from '@/components/ConceptDialog.astro';
   signatureDesktop.addEventListener('change', updateScroll);
   updateScroll();
 </script>
+</BaseLayout>

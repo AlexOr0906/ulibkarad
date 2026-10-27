@@ -1,8 +1,9 @@
 ---
 interface Props { light?: boolean; }
 const { light = false } = Astro.props;
+const base = import.meta.env.BASE_URL;
 ---
 <span class="brand-lockup">
-  <img class="brand-mark" src={light ? '/brand/logo-light.svg' : '/brand/logo-graphite.svg'} width="46" height="48" alt="" />
+  <img class="brand-mark" src={`${base}brand/${light ? 'logo-light.svg' : 'logo-graphite.svg'}`} width="46" height="48" alt="" />
   <span class="brand-name">Дело в улыбке<span class="brand-descriptor">Стоматология</span></span>
 </span>

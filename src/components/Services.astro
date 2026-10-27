@@ -6,13 +6,16 @@ import { services } from '@/data/site';
   <div class="container-shell">
     <SectionHeading index="01" label="Направления" title="Место для вашей улыбки" />
     <p class="mt-7 max-w-lg text-xs leading-relaxed text-graphite md:ml-[25%]">Демо направлений. Перечень услуг и содержание этого раздела будут подтверждены клиникой.</p>
-    <div class="mt-12 grid border-t border-black/15 md:mt-16 md:grid-cols-2">
+    <div class="service-grid mt-12 grid border-t border-black/15 md:mt-16 md:grid-cols-2">
       {services.map((service) => (
-        <article class="group flex min-h-[17rem] flex-col justify-between gap-12 border-b border-black/15 p-6 md:min-h-[20rem] md:p-10 md:odd:border-r" data-reveal>
+        <article class="service-item group relative flex min-h-[19rem] flex-col justify-between gap-8 border-b border-black/15 p-6 md:min-h-[23rem] md:p-10 md:odd:border-r" data-reveal>
           <span class="eyebrow text-graphite">Демо направления</span>
           <div>
             <h3 class="max-w-full text-[clamp(1.4rem,3.2vw,3rem)] font-semibold leading-[1.1] tracking-[-.02em]">{service.title}</h3>
             <p class="mt-5 max-w-md text-sm leading-relaxed text-black/55 md:text-base">{service.description}</p>
+            <a href="#appointment" data-service-topic={service.topic} class="service-topic-link mt-7 inline-flex items-center gap-6 py-2 text-xs font-medium uppercase tracking-[.08em]" aria-label={`Обсудить направление: ${service.title}`}>
+              Обсудить направление <span aria-hidden="true">↗</span>
+            </a>
           </div>
         </article>
       ))}

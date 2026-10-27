@@ -1,3 +1,6 @@
+---
+const base = import.meta.env.BASE_URL;
+---
 <dialog id="concept-dialog" class="concept-dialog" aria-labelledby="concept-title" aria-describedby="concept-summary">
   <div class="flex items-center justify-between gap-6 border-b border-graphite/25 pb-5">
     <p class="eyebrow text-graphite">Дело в улыбке · Демо</p>
@@ -12,5 +15,5 @@
   <p class="border-y border-graphite/25 py-5 text-sm leading-relaxed text-graphite">Условные разделы подписаны. Форма записи работает как демонстрация: она не сохраняет и не отправляет данные.</p>
   <h3 class="mt-7 text-sm font-semibold">Три вопроса для обсуждения</h3>
   <ol class="mt-4 list-decimal space-y-3 pl-5 text-sm leading-relaxed text-graphite"><li>Передаёт ли оформление характер вашей клиники?</li><li>Понятно ли, куда перейти с вашим вопросом?</li><li>Какие материалы и акценты хочется увидеть первыми?</li></ol>
-  <a href="/materials-checklist.md" download class="nav-link mt-8 inline-block text-xs font-medium uppercase tracking-[.08em]">Список материалов для следующего этапа ↗</a>
+  <a href={`${base}materials-checklist.md`} download class="nav-link mt-8 inline-block text-xs font-medium uppercase tracking-[.08em]">Список материалов для следующего этапа ↗</a>
 </dialog>

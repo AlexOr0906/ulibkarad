@@ -1,0 +1,24 @@
+---
+import { navigation } from '@/data/site';
+import BrandLogo from './BrandLogo.astro';
+---
+<header id="site-header" class="fixed inset-x-0 top-0 z-50 px-4 pt-4 md:px-8 md:pt-6">
+  <div class="header-bar mx-auto flex max-w-[90rem] items-center justify-between gap-5 border-b border-black/20 bg-mist/90 py-4 backdrop-blur-xl">
+    <a href="#top" class="wordmark" aria-label="Дело в улыбке — на главную">
+      <BrandLogo />
+    </a>
+    <nav class="hidden items-center gap-7 lg:flex" aria-label="Основная навигация">
+      {navigation.map((item) => <a class="nav-link text-xs font-semibold" href={item.href}>{item.label}</a>)}
+    </nav>
+    <div class="flex items-center gap-2">
+      <a href="#appointment" class="action-link hidden bg-ink px-5 py-3 text-[11px] font-semibold uppercase tracking-[.1em] text-white sm:block">Обсудить визит ↗</a>
+      <button id="menu-toggle" class="menu-toggle grid size-11 place-items-center lg:hidden" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobile-menu">
+        <span class="menu-lines" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+  <nav id="mobile-menu" class="mobile-menu mx-auto max-w-[90rem] bg-ink p-6 text-white lg:hidden" data-open="false" inert aria-label="Мобильная навигация">
+    {navigation.map((item) => <a class="block border-b border-white/15 py-4 text-2xl font-semibold" href={item.href}>{item.label}</a>)}
+    <a class="action-link mt-6 block bg-silver px-5 py-4 text-center text-sm font-semibold text-ink" href="#appointment">Обсудить визит ↗</a>
+  </nav>
+</header>

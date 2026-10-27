@@ -1,0 +1,8 @@
+---
+interface Props { light?: boolean; }
+const { light = false } = Astro.props;
+---
+<span class="brand-lockup">
+  <img class="brand-mark" src={light ? '/brand/logo-light.svg' : '/brand/logo-graphite.svg'} width="46" height="48" alt="" />
+  <span class="brand-name">Дело в улыбке<span class="brand-descriptor">Стоматология</span></span>
+</span>

@@ -1,0 +1,23 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { teamProfileFields } from '@/data/site';
+---
+<section id="doctors" class="bg-mist py-24 md:py-36" data-sc-act="flow">
+  <div class="container-shell">
+    <SectionHeading index="03" label="Команда" title="За улыбкой стоят люди" />
+    <div class="mt-12 grid items-stretch gap-10 md:mt-16 md:grid-cols-[1.15fr_1fr] md:gap-16">
+      <div class="team-editorial flex min-h-[22rem] flex-col justify-between border border-graphite/25 p-7 md:min-h-[30rem] md:p-10" data-reveal>
+        <p class="eyebrow text-graphite">Команда клиники</p>
+        <p class="display my-10 text-[clamp(2.2rem,4.5vw,4.4rem)]">Важен<br/>человек.</p>
+        <p class="max-w-xs border-t border-graphite/25 pt-5 text-xs leading-relaxed text-graphite">Материал будет добавлен.<br/>Здесь появятся реальные портреты команды.</p>
+      </div>
+      <div class="self-center" data-reveal>
+        <p class="max-w-md text-lg leading-relaxed text-graphite">Узнать врача до первой встречи. Увидеть лицо, познакомиться с профессиональным путём и понять, с каким вопросом можно обратиться.</p>
+        <p class="mt-5 text-xs leading-relaxed text-graphite">Демо раздела. Профили врачей появятся после получения фотографий и подтверждённых сведений.</p>
+        <dl class="mt-9 divide-y divide-graphite/25 border-y border-graphite/25">
+          {teamProfileFields.map((field) => <div class="py-5"><dt class="text-sm font-medium">{field.label}</dt><dd class="mt-1 text-xs text-graphite">{field.detail} · материал будет добавлен</dd></div>)}
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>

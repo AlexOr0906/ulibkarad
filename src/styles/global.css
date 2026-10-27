@@ -99,15 +99,17 @@ html:not(.js) .menu-toggle, html:not(.js) [data-open-concept] { display: none; }
 .title-mask:nth-child(3) .title-line { animation-delay: .26s; }
 .hero-intro { animation: intro-in .8s .12s var(--ease-out) both; }
 
-.ortho-route { --ortho-rail: clamp(96px, 10vw, 168px); position: relative; }
-html.js .ortho-route > section { padding-right: var(--ortho-rail); }
-.ortho-journey { display: none; position: fixed; inset: 0 0 auto; height: 100vh; height: 100svh; z-index: 20; overflow: hidden; pointer-events: none; opacity: 0; }
-html.js .ortho-journey { display: block; }
-.ortho-journey-object { position: absolute; top: 0; left: 0; display: block; width: 1000px; transform-origin: center; pointer-events: none; opacity: 0; }
-.ortho-journey-object img { display: block; width: 100%; height: auto; max-width: none; }
-.ortho-journey-aligner { filter: drop-shadow(0 8px 10px rgb(41 45 48 / .12)); }
+.ortho-route { position: relative; }
+.ortho-route > section, footer { position: relative; }
+.ortho-route > section > .container-shell, footer > .container-shell { position: relative; z-index: 2; }
+.ortho-route > #appointment { isolation: auto; }
+#appointment p.text-graphite { color: #292d30; }
+.bracket-background { --bracket-period: clamp(132px, 14vw, 190px); --bracket-height: calc(var(--bracket-period) * .94488189); display: none; position: fixed; inset: 0 0 auto; height: 100vh; height: 100svh; z-index: 1; overflow: hidden; pointer-events: none; opacity: 0; }
+html.js .bracket-background { display: block; }
+.bracket-background-strip { position: absolute; top: 50%; left: calc(var(--bracket-period) * -1); right: calc(var(--bracket-period) * -1); height: var(--bracket-height); background-image: var(--bracket-tile); background-repeat: repeat-x; background-size: var(--bracket-period) var(--bracket-height); transform: translate3d(var(--bracket-shift, 0px), -50%, 0); pointer-events: none; }
 @media (max-width: 767px) {
-  .ortho-route { --ortho-rail: 44px; }
+  .bracket-background { --bracket-period: 112px; }
+  html.js .ortho-route .signature-stage { background: transparent; }
 }
 .service-arrow { transition: transform .7s var(--ease-out), color .5s ease; }
 .service-item::after { content: ''; position: absolute; inset: auto 0 -1px; height: 1px; background: #5b5f62; transform: scaleX(0); transform-origin: left; transition: transform .8s var(--ease-out); }

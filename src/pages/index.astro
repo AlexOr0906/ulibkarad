@@ -2,7 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Header from '@/components/Header.astro';
 import Hero from '@/components/Hero.astro';
-import OrthodonticJourney from '@/components/OrthodonticJourney.astro';
+import BracketBackground from '@/components/BracketBackground.astro';
 import Services from '@/components/Services.astro';
 import Approach from '@/components/Approach.astro';
 import Doctors from '@/components/Doctors.astro';
@@ -14,10 +14,10 @@ import ConceptDialog from '@/components/ConceptDialog.astro';
 <BaseLayout title="Дело в улыбке — концепт стоматологии" description="Концепт главной страницы частной стоматологии «Дело в улыбке» в Магнитогорске.">
   <a href="#main-content" class="skip-link">Перейти к содержимому</a>
   <Header />
+  <BracketBackground />
   <main id="main-content">
     <Hero />
     <div class="ortho-route" data-ortho-route>
-      <OrthodonticJourney />
       <Services />
       <Approach />
       <Doctors />

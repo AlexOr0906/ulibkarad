@@ -29,6 +29,9 @@ changes only grammar and world will fail it.
 | Build | Grammar | Nav treatment | Hero device | Act-sequence shape | Close pattern | Signature move | World | Port |
 |---|---|---|---|---|---|---|---|---|
 | delo-v-ulybke | Quiet clinical editorial, custom | Practical persistent anchor navigation, one visit label | Static silver family sign with semantic split title | Six natural-flow sections, one local sticky, 8.6 desktop viewport heights | Contacts and compact masthead with held invitation | Supplied family sign engraved progressively alongside care principles | Supplied vector identity on silver paper | 4173 |
+| delo-v-ulybke · ortho-local, same-site iteration | Retained approved clinical editorial | Retained flush persistent anchor navigation | Retained family sign and typography | One bounded product transition added before services; seven flow markers, 9.1 desktop viewport heights | Retained contacts and invitation | Detailed bracket wire travels in a protected lane and hands off to clear polymer; earlier family-signature scene retained | Silver macro product cutouts on neutral paper | 4173; baseline 4175 |
+
+The ortho-local row records a requested iteration of the same approved site, not a claim to a four-dimension new-site fingerprint. See ORTHODONTIC-BRIEF.md for the delegated scope.
 
 *(empty: your first build has nothing to clear, so build whatever the interview
 points at. From the second onwards, this table is the constraint.)*

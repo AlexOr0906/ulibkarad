@@ -1,4 +1,5 @@
 ---
+import ArrowIcon from './ArrowIcon.astro';
 const base = import.meta.env.BASE_URL;
 ---
 <section id="top" class="hero-section relative overflow-hidden bg-mist pb-8 pt-32 md:pt-40" data-sc-act="flow">
@@ -14,7 +15,7 @@ const base = import.meta.env.BASE_URL;
           <span class="title-mask"><span class="title-line">в улыбке.</span></span>
         </h1>
         <p class="hero-intro mt-8 max-w-md text-base leading-relaxed text-graphite md:text-lg">Внимание к вам. Забота об улыбке.<br/>Новый взгляд на знакомство со стоматологией.</p>
-        <a href="#appointment" class="action-link hero-intro mt-8 inline-flex items-center gap-10 bg-ink px-7 py-5 text-xs font-semibold uppercase tracking-[.14em] text-white md:hidden">Обсудить визит <span aria-hidden="true">↗</span></a>
+        <a href="#appointment" class="action-link hero-intro mt-8 inline-flex items-center gap-10 bg-ink px-7 py-5 text-xs font-semibold uppercase tracking-[.14em] text-white md:hidden">Обсудить визит <ArrowIcon class="action-arrow" /></a>
       </div>
       <figure class="hero-brand hero-intro relative mx-auto flex w-full max-w-[24rem] flex-col items-center gap-8 md:max-w-[28rem]">
         <span class="hero-material-rule" aria-hidden="true"></span>
@@ -26,7 +27,7 @@ const base = import.meta.env.BASE_URL;
 
     <div class="hero-intro flex flex-col gap-8 border-t border-graphite/20 pt-6 md:flex-row md:items-center md:justify-between">
       <a href="#appointment" class="action-link group hidden w-fit items-center gap-10 bg-ink px-7 py-5 text-xs font-semibold uppercase tracking-[.14em] text-white md:inline-flex">
-        Обсудить визит <span class="action-arrow text-xl text-silver" aria-hidden="true">↗</span>
+        Обсудить визит <ArrowIcon class="action-arrow text-silver" />
       </a>
       <div class="flex flex-col items-start gap-1"><p class="text-xs leading-relaxed text-graphite">Демо. Концепция сайта клиники</p><button type="button" data-open-concept class="nav-link py-2 text-xs text-ink underline underline-offset-4" aria-haspopup="dialog" aria-controls="concept-dialog">О концепции</button></div>
       <a href="#services" class="nav-link eyebrow inline-flex w-fit items-center text-graphite">Посмотреть услуги</a>

@@ -1,5 +1,6 @@
 ---
 import SectionHeading from './SectionHeading.astro';
+import ArrowIcon from './ArrowIcon.astro';
 import { services } from '@/data/site';
 ---
 <section id="services" class="bg-white py-24 md:py-36" data-sc-act="flow">
@@ -14,7 +15,7 @@ import { services } from '@/data/site';
             <h3 class="max-w-full text-[clamp(1.4rem,3.2vw,3rem)] font-semibold leading-[1.1] tracking-[-.02em]">{service.title}</h3>
             <p class="mt-5 max-w-md text-sm leading-relaxed text-black/55 md:text-base">{service.description}</p>
             <a href="#appointment" data-service-topic={service.topic} class="service-topic-link mt-7 inline-flex items-center gap-6 py-2 text-xs font-medium uppercase tracking-[.08em]" aria-label={`Обсудить направление: ${service.title}`}>
-              Обсудить направление <span aria-hidden="true">↗</span>
+              Обсудить направление <ArrowIcon class="action-arrow" />
             </a>
           </div>
         </article>

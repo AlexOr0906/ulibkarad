@@ -105,7 +105,7 @@ import ConceptDialog from '@/components/ConceptDialog.astro';
         currentObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: .08 });
+  }, { threshold: .08, rootMargin: '0px 0px -8% 0px' });
   revealItems.forEach((item) => {
     const siblingIndex = Array.from(item.parentElement?.children ?? []).indexOf(item);
     item.style.setProperty('--reveal-delay', `${Math.min(siblingIndex, 2) * 60}ms`);
@@ -119,7 +119,7 @@ import ConceptDialog from '@/components/ConceptDialog.astro';
   const signatureSteps = [...document.querySelectorAll<HTMLElement>('[data-signature-step]')];
   const signatureWords = [...document.querySelectorAll<HTMLElement>('.signature-words span')];
   const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const signatureDesktop = window.matchMedia('(min-width: 1024px)');
+  const signaturePhone = window.matchMedia('(max-width: 767px) and (min-height: 561px)');
   const heroSection = document.querySelector<HTMLElement>('#top');
   let scrollScheduled = false;
   function updateScroll() {
@@ -131,10 +131,11 @@ import ConceptDialog from '@/components/ConceptDialog.astro';
     }
     if (signaturePanel && signatureSteps.length) {
       const first = signatureSteps[0].getBoundingClientRect();
-      const last = signatureSteps[signatureSteps.length - 1].getBoundingClientRect();
-      const center = window.innerHeight * .55;
-      const range = last.top + last.height * .55 - first.top;
-      const progress = motionPreference.matches || !signatureDesktop.matches ? 1 : Math.max(0, Math.min(1, (center - first.top) / Math.max(range, 1)));
+      const panelBottom = signaturePanel.getBoundingClientRect().bottom;
+      const center = signaturePhone.matches ? Math.min(window.innerHeight - 48, panelBottom + (window.innerHeight - panelBottom) * .5) : window.innerHeight * .55;
+      // Use normal-flow heights so the final sticky paragraph cannot alter its own timeline.
+      const range = signatureSteps.slice(0, -1).reduce((sum, step) => sum + step.offsetHeight, 0) + signatureSteps[signatureSteps.length - 1].offsetHeight * .55;
+      const progress = motionPreference.matches ? 1 : Math.max(0, Math.min(1, (center - first.top) / Math.max(range, 1)));
       signaturePanel.style.setProperty('--signature-progress', progress.toFixed(4));
       signaturePanel.dataset.scVerifyState = `ink:${Math.round(progress * 100)}`;
       signaturePanel.dataset.scVerifyHold = String(progress === 0 || progress === 1);
@@ -148,9 +149,15 @@ import ConceptDialog from '@/components/ConceptDialog.astro';
       requestAnimationFrame(updateScroll);
     }
   }, { passive: true });
-  window.addEventListener('resize', updateScroll, { passive: true });
+  function measureLayout() {
+    document.documentElement.style.setProperty('--site-header-height', `${header?.offsetHeight ?? 80}px`);
+    signaturePanel?.parentElement?.style.setProperty('--signature-panel-height', `${signaturePanel.offsetHeight}px`);
+    updateScroll();
+  }
+  window.addEventListener('resize', measureLayout, { passive: true });
   motionPreference.addEventListener('change', updateScroll);
-  signatureDesktop.addEventListener('change', updateScroll);
-  updateScroll();
+  signaturePhone.addEventListener('change', measureLayout);
+  document.fonts.ready.then(measureLayout);
+  measureLayout();
 </script>
 </BaseLayout>

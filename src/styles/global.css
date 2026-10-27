@@ -191,7 +191,7 @@ a { text-underline-offset: .25em; }
 @media (max-width: 767px), (max-width: 1023px) and (max-height: 560px) {
   :root { --signature-top: calc(var(--site-header-height) + 12px); }
   .mobile-menu { max-height: calc(100svh - var(--site-header-height)); }
-  .signature-story { gap: 2rem; }
+  .signature-stage { gap: 2rem; }
   .signature-panel { display: grid; grid-template-columns: 1fr 1.05fr; align-items: center; gap: 1rem; padding: 1.25rem; }
   .signature-panel > p:first-child { grid-column: 1; grid-row: 1; font-size: clamp(1rem, 4.8vw, 1.55rem); line-height: 1.18; }
   .signature-mark-frame { grid-column: 2; grid-row: 1; width: min(100%, 9rem); margin: 0 auto; }
@@ -216,8 +216,18 @@ a { text-underline-offset: .25em; }
 html:not(.js) .signature-panel, html:not(.js) .signature-copy .signature-step:last-child { position: static; }
 html:not(.js) .signature-copy::after { display: none; }
 
+@media (max-width: 767px) and (min-height: 561px) and (prefers-reduced-motion: no-preference) {
+  html.js .signature-story { height: calc(285svh - var(--site-header-height)); }
+  html.js .signature-stage { position: sticky; top: var(--site-header-height); height: calc(100svh - var(--site-header-height)); display: flex; flex-direction: column; gap: 0; background: #292d30; }
+  html.js .signature-panel { position: relative; top: auto; flex: none; }
+  html.js .signature-copy { position: relative; flex: 1; min-height: 0; margin-top: 1.5rem; border-bottom: 0; }
+  html.js .signature-copy::after { display: none; }
+  html.js .signature-copy .signature-step { position: absolute; inset: 0; min-height: 0; align-items: flex-start; padding-block: 1.5rem; border: 0; opacity: 0; pointer-events: none; transition: opacity .22s ease; }
+  html.js .signature-copy .signature-step.is-current { opacity: 1; }
+}
+
 @media (max-width: 1023px) and (max-height: 560px) {
-  .signature-story { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; }
+  .signature-stage { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; }
   .signature-panel { grid-template-columns: 1fr; gap: .5rem; padding: .875rem; }
   .signature-panel > p:first-child { grid-column: 1; grid-row: auto; font-size: .9rem; }
   .signature-mark-frame { grid-column: 1; grid-row: auto; width: 5.5rem; }
@@ -232,6 +242,7 @@ html:not(.js) .signature-copy::after { display: none; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   .reveal { opacity: 1; transform: none; }
   .signature-panel { position: static; }
+  .signature-panel::after { display: none; }
   .signature-copy::after { display: none; }
   .signature-step { min-height: 0; }
   .signature-copy .signature-step:last-child { position: static; }

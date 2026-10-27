@@ -6,7 +6,8 @@ const base = import.meta.env.BASE_URL;
 <section id="approach" class="grain relative bg-ink py-24 text-white md:py-36" data-sc-act="flow">
   <div class="container-shell relative z-10">
     <SectionHeading index="02" label="Подход" title="Спокойно. Понятно. По делу." inverted />
-    <div class="signature-story mt-16 grid gap-12 md:mt-24 md:grid-cols-[1.15fr_1fr]">
+    <div class="signature-story mt-16 md:mt-24">
+      <div class="signature-stage grid gap-12 md:grid-cols-[1.15fr_1fr]">
       <div class="signature-panel" aria-label="Семейная подпись клиники">
         <p class="display text-[clamp(1.65rem,2.7vw,2.75rem)]">Забота начинается<br/>с внимания.</p>
         <div class="signature-mark-frame" aria-hidden="true">
@@ -25,6 +26,7 @@ const base = import.meta.env.BASE_URL;
             </div>
           </article>
         ))}
+      </div>
       </div>
     </div>
   </div>

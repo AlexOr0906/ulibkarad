@@ -116,6 +116,8 @@ import ConceptDialog from '@/components/ConceptDialog.astro';
 
   const header = document.querySelector<HTMLElement>('#site-header');
   const signaturePanel = document.querySelector<HTMLElement>('.signature-panel');
+  const signatureStory = document.querySelector<HTMLElement>('.signature-story');
+  const signatureStage = document.querySelector<HTMLElement>('.signature-stage');
   const signatureSteps = [...document.querySelectorAll<HTMLElement>('[data-signature-step]')];
   const signatureWords = [...document.querySelectorAll<HTMLElement>('.signature-words span')];
   const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -131,15 +133,22 @@ import ConceptDialog from '@/components/ConceptDialog.astro';
     }
     if (signaturePanel && signatureSteps.length) {
       const first = signatureSteps[0].getBoundingClientRect();
-      const panelBottom = signaturePanel.getBoundingClientRect().bottom;
-      const center = signaturePhone.matches ? Math.min(window.innerHeight - 48, panelBottom + (window.innerHeight - panelBottom) * .5) : window.innerHeight * .55;
+      const center = window.innerHeight * .55;
       // Use normal-flow heights so the final sticky paragraph cannot alter its own timeline.
       const range = signatureSteps.slice(0, -1).reduce((sum, step) => sum + step.offsetHeight, 0) + signatureSteps[signatureSteps.length - 1].offsetHeight * .55;
-      const progress = motionPreference.matches ? 1 : Math.max(0, Math.min(1, (center - first.top) / Math.max(range, 1)));
+      let timeline = (center - first.top) / Math.max(range, 1);
+      if (signaturePhone.matches && signatureStory && signatureStage) {
+        const travel = signatureStory.offsetHeight - signatureStage.offsetHeight;
+        const fillDistance = travel * 140 / 185;
+        timeline = ((header?.offsetHeight ?? 80) - signatureStory.getBoundingClientRect().top) / Math.max(fillDistance, 1);
+      }
+      const progress = motionPreference.matches ? 1 : Math.max(0, Math.min(1, timeline));
       signaturePanel.style.setProperty('--signature-progress', progress.toFixed(4));
       signaturePanel.dataset.scVerifyState = `ink:${Math.round(progress * 100)}`;
       signaturePanel.dataset.scVerifyHold = String(progress === 0 || progress === 1);
       signatureWords.forEach((word, index) => word.classList.toggle('is-engraved', progress >= (index + 1) / 3 - .04));
+      const activeStep = Math.min(signatureSteps.length - 1, Math.floor(progress * signatureSteps.length));
+      signatureSteps.forEach((step, index) => step.classList.toggle('is-current', index === activeStep));
     }
     scrollScheduled = false;
   }

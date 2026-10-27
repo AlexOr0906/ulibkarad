@@ -1,0 +1,151 @@
+---
+const base = import.meta.env.BASE_URL;
+---
+<div class="ortho-journey" data-ortho-journey data-sc-verify-state="before-route" data-sc-verify-hold="true" aria-hidden="true">
+  <picture class="ortho-journey-object ortho-journey-wire" data-journey-wire>
+    <source srcset={`${base}orthodontics/wire-brackets-v1.webp`} type="image/webp" />
+    <img src={`${base}orthodontics/wire-brackets-v1.png`} width="2073" height="758" alt="" decoding="async" draggable="false" />
+  </picture>
+  <picture class="ortho-journey-object ortho-journey-aligner" data-journey-aligner>
+    <source srcset={`${base}orthodontics/clear-aligner-v1.webp`} type="image/webp" />
+    <img src={`${base}orthodontics/clear-aligner-v1.png`} width="1536" height="1024" alt="" loading="lazy" decoding="async" draggable="false" />
+  </picture>
+</div>
+
+<script>
+  type Section = { id: string; top: number; bottom: number; height: number; pt: number; pb: number };
+  const route = document.querySelector<HTMLElement>('[data-ortho-route]');
+  const layer = document.querySelector<HTMLElement>('[data-ortho-journey]');
+  const wire = layer?.querySelector<HTMLElement>('[data-journey-wire]');
+  const aligner = layer?.querySelector<HTMLElement>('[data-journey-aligner]');
+  const header = document.querySelector<HTMLElement>('#site-header');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const phone = matchMedia('(max-width: 767px)');
+  const clamp = (n: number) => Math.min(1, Math.max(0, n));
+  const mix = (a: number, b: number, n: number) => a + (b - a) * n;
+  const smooth = (a: number, b: number, value: number) => { const t = clamp((value - a) / Math.max(1e-5, b - a)); return t * t * (3 - 2 * t); };
+  let sections: Section[] = [];
+  let width = 0, height = 0, lane = 0, headerHeight = 80;
+  let currentY = scrollY, targetY = scrollY, frame = 0, lastTime = 0;
+  let intersects = false;
+
+  function measure() {
+    if (!route || !layer) return;
+    sections = [...route.querySelectorAll<HTMLElement>(':scope > section[id]')].map((el) => {
+      const rect = el.getBoundingClientRect(), style = getComputedStyle(el);
+      return { id: el.id, top: scrollY + rect.top, bottom: scrollY + rect.bottom, height: rect.height, pt: parseFloat(style.paddingTop), pb: parseFloat(style.paddingBottom) };
+    });
+    width = layer.clientWidth; height = layer.clientHeight; headerHeight = header?.offsetHeight ?? 80;
+    const first = route.querySelector<HTMLElement>(':scope > section');
+    lane = first ? parseFloat(getComputedStyle(first).paddingRight) : 0;
+  }
+
+  function paint(y: number) {
+    if (!layer || !wire || !aligner || sections.length < 5) return;
+    const [services, approach, team, , contacts] = sections;
+    const reading = y + headerHeight + (height - headerHeight) * .46;
+    const p = clamp((reading - services.top) / (contacts.bottom - services.top));
+    const entry = smooth(services.top - height * .3, services.top - height * .03, reading);
+    const exit = 1 - smooth(contacts.top + contacts.pt + 40, contacts.top + Math.min(contacts.height * .72, 650), reading);
+    const presence = entry * exit;
+    // Clipping follows the actual page, even while the object eases toward it.
+    const viewportY = scrollY;
+    const top = Math.max(headerHeight, services.top - viewportY);
+    const bottom = Math.min(height, contacts.bottom - viewportY);
+    if (bottom <= top || presence < .001) {
+      layer.style.opacity = '0';
+      layer.dataset.scVerifyState = reading < services.top ? 'before-route' : 'after-route';
+      layer.dataset.scVerifyHold = 'true';
+      return;
+    }
+    const compact = phone.matches;
+    const railLeft = width - lane;
+    const railX = railLeft + lane * .52;
+    const usable = height - headerHeight;
+    const active = [...sections].reverse().find(s => reading >= s.top) ?? services;
+    const dark = smooth(approach.top - 100, approach.top + 160, reading) * (1 - smooth(approach.bottom - 150, approach.bottom + 100, reading));
+    const handoff = smooth(team.top + team.height * .24, team.top + team.height * .65, reading);
+    const wireWeight = 1 - smooth(.08, .55, handoff);
+    const alignerWeight = smooth(.52, 1, handoff);
+
+    // Only the reserved side rail and real empty section-padding gaps can paint.
+    const focus = headerHeight + usable * .55;
+    const candidates = sections.map((section, index) => {
+      const previous = sections[index - 1];
+      const a = Math.max(top, (previous ? previous.bottom - previous.pb : section.top) - viewportY + 10);
+      const b = Math.min(bottom, section.top + section.pt - viewportY - 10);
+      return { id: section.id, a, b, center: (a + b) / 2, distance: Math.abs((a + b) / 2 - focus) };
+    }).filter(b => b.b - b.a > 36).sort((a, b) => a.distance - b.distance);
+    const band = reduced.matches ? undefined : candidates[0];
+    let expand = band ? 1 - smooth(height * .08, height * .3, band.distance) : 0;
+    if (band?.id === 'approach') expand *= .32;
+    if (band?.id === 'contacts') expand *= .65;
+    const bx = width * .5;
+    const by = band?.center ?? focus;
+    const baseY = headerHeight + usable * (.5 + .055 * Math.sin(p * Math.PI * 3));
+    const wireWidth = Math.min(compact ? 410 : 680, usable * .8);
+    const showcaseWidth = compact ? 640 : Math.min(1250, width * .9);
+    const wireSize = mix(wireWidth, showcaseWidth, expand);
+    const angle = mix(90 + (compact ? .45 : 1.8) * Math.sin(p * Math.PI * 4), band?.id === 'doctors' ? -7 : 0, expand);
+    const x = mix(railX, bx, expand), cy = mix(baseY, by, expand);
+    const bandHeight = band ? band.b - band.a : 0;
+    // First move vertically inside the rail, then cross the empty gap as a whole.
+    const polymerExpand = smooth(.4, .94, expand);
+    const polymerAngle = mix(-8 + 8 * Math.sin(p * Math.PI * 2), 3, polymerExpand);
+    const radians = Math.abs(polymerAngle) * Math.PI / 180;
+    const maximumInBand = Math.max(1, bandHeight - 12) / (Math.sin(radians) + 2 / 3 * Math.cos(radians));
+    const polymerSize = mix(lane * .84, Math.min(compact ? 270 : 410, maximumInBand), polymerExpand);
+    const polymerX = mix(railX, bx, polymerExpand);
+    const polymerY = mix(headerHeight + usable * (.54 + .06 * Math.sin(p * Math.PI * 3)), by, smooth(0, .35, expand));
+    const regions = [{ x: railLeft, y: top, width: lane, height: bottom - top }];
+    let clip = `polygon(${railLeft}px ${top}px, ${width}px ${top}px, ${width}px ${bottom}px, ${railLeft}px ${bottom}px)`;
+    if (band) {
+      clip = `polygon(${railLeft}px ${top}px, ${width}px ${top}px, ${width}px ${bottom}px, ${railLeft}px ${bottom}px, ${railLeft}px ${band.b}px, 0px ${band.b}px, 0px ${band.a}px, ${railLeft}px ${band.a}px)`;
+      regions.push({ x: 0, y: band.a, width, height: band.b - band.a });
+    }
+    layer.style.clipPath = clip;
+    layer.style.setProperty('-webkit-clip-path', clip);
+    layer.style.opacity = '1';
+    if (reduced.matches) {
+      wire.style.transform = `translate3d(${railX}px, ${headerHeight + usable * .5}px, 0) translate(-50%, -50%) rotate(90deg) scale(${wireWidth / 1000})`;
+      wire.style.opacity = '.48'; aligner.style.opacity = '0';
+      layer.dataset.scVerifyState = 'static-rail'; layer.dataset.scVerifyHold = 'true';
+    } else {
+      wire.style.transform = `translate3d(${x.toFixed(2)}px, ${cy.toFixed(2)}px, 0) translate(-50%, -50%) rotate(${angle.toFixed(2)}deg) scale(${(wireSize / 1000).toFixed(4)})`;
+      aligner.style.transform = `translate3d(${polymerX.toFixed(2)}px, ${polymerY.toFixed(2)}px, 0) translate(-50%, -50%) rotate(${polymerAngle.toFixed(2)}deg) scale(${(polymerSize / 1000).toFixed(4)})`;
+      wire.style.opacity = (presence * wireWeight * (.9 - dark * .28)).toFixed(4);
+      aligner.style.opacity = (presence * alignerWeight * .9).toFixed(4);
+      wire.style.filter = `brightness(${(1 + dark * .24).toFixed(3)}) drop-shadow(0 7px 8px rgb(41 45 48 / .13))`;
+      layer.dataset.scVerifyState = `${active.id}|${wireWeight > alignerWeight ? 'wire' : 'polymer'}|p:${Math.round(p * 1000)}|angle:${Math.round(angle)}`;
+      layer.dataset.scVerifyHold = 'false';
+    }
+    layer.dataset.journeySection = active.id;
+    layer.dataset.journeyMaterial = reduced.matches || wireWeight > alignerWeight ? 'wire' : 'polymer';
+    layer.dataset.drawRegions = JSON.stringify(regions);
+    layer.dataset.journeyProgress = p.toFixed(4);
+  }
+
+  function tick(time: number) {
+    frame = 0;
+    targetY = scrollY;
+    const dt = lastTime ? Math.min(48, time - lastTime) : 16; lastTime = time;
+    currentY += (targetY - currentY) * (reduced.matches ? 1 : 1 - Math.exp(-dt / (phone.matches ? 35 : 50)));
+    if (Math.abs(targetY - currentY) < .15) currentY = targetY;
+    paint(currentY);
+    if (intersects && currentY !== targetY && !document.hidden) frame = requestAnimationFrame(tick);
+  }
+  function request() { if (!frame && !document.hidden && intersects) frame = requestAnimationFrame(tick); }
+  function resize() { measure(); currentY = targetY = scrollY; paint(currentY); request(); }
+  if (route && layer) {
+    const observer = new IntersectionObserver(([entry]) => { intersects = entry.isIntersecting; if (intersects) resize(); else { if (frame) cancelAnimationFrame(frame); frame = 0; currentY = scrollY; paint(currentY); } });
+    observer.observe(route);
+    const sizeObserver = new ResizeObserver(resize);
+    [...route.querySelectorAll<HTMLElement>(':scope > section')].forEach(s => sizeObserver.observe(s));
+    window.addEventListener('scroll', request, { passive: true });
+    window.addEventListener('resize', resize, { passive: true });
+    reduced.addEventListener('change', resize);
+    document.fonts.ready.then(resize);
+    document.addEventListener('visibilitychange', () => { if (document.hidden && frame) { cancelAnimationFrame(frame); frame = 0; } else resize(); });
+    resize();
+  }
+</script>

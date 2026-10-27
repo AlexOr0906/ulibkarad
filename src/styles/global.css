@@ -99,16 +99,15 @@ html:not(.js) .menu-toggle, html:not(.js) [data-open-concept] { display: none; }
 .title-mask:nth-child(3) .title-line { animation-delay: .26s; }
 .hero-intro { animation: intro-in .8s .12s var(--ease-out) both; }
 
-.ortho-transition { position: relative; height: clamp(20rem, 40svh, 27rem); overflow: hidden; pointer-events: none; isolation: isolate; background: linear-gradient(180deg, #e9eaec 0%, #f4f4f5 76%, #fff 100%); }
-.ortho-canvas { position: absolute; inset: 0; overflow: hidden; }
-.ortho-object { position: absolute; display: block; left: 50%; top: 48%; transform: translate3d(-50%, -50%, 0); transform-origin: center; }
-.ortho-object img { display: block; width: 100%; height: auto; max-width: none; }
-.ortho-wire { width: min(94vw, 90rem); filter: drop-shadow(0 14px 14px rgb(41 45 48 / .16)); }
-.ortho-aligner { width: clamp(25rem, 38vw, 37rem); opacity: 0; filter: drop-shadow(0 12px 13px rgb(41 45 48 / .14)); }
+.ortho-route { --ortho-rail: clamp(96px, 10vw, 168px); position: relative; }
+html.js .ortho-route > section { padding-right: var(--ortho-rail); }
+.ortho-journey { display: none; position: fixed; inset: 0 0 auto; height: 100vh; height: 100svh; z-index: 20; overflow: hidden; pointer-events: none; opacity: 0; }
+html.js .ortho-journey { display: block; }
+.ortho-journey-object { position: absolute; top: 0; left: 0; display: block; width: 1000px; transform-origin: center; pointer-events: none; opacity: 0; }
+.ortho-journey-object img { display: block; width: 100%; height: auto; max-width: none; }
+.ortho-journey-aligner { filter: drop-shadow(0 8px 10px rgb(41 45 48 / .12)); }
 @media (max-width: 767px) {
-  .ortho-transition { height: clamp(17rem, 36svh, 22rem); }
-  .ortho-wire { width: 46rem; }
-  .ortho-aligner { width: min(91vw, 23rem); }
+  .ortho-route { --ortho-rail: 44px; }
 }
 .service-arrow { transition: transform .7s var(--ease-out), color .5s ease; }
 .service-item::after { content: ''; position: absolute; inset: auto 0 -1px; height: 1px; background: #5b5f62; transform: scaleX(0); transform-origin: left; transition: transform .8s var(--ease-out); }

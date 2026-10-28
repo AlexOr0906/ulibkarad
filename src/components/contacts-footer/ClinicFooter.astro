@@ -25,3 +25,8 @@ const { homeHref = base } = Astro.props;
     <div class="cf-footer-bottom"><p>© {new Date().getFullYear()} Ортофэмили</p><p>Демонстрационный макет. Данные уточняются.</p></div>
   </div>
 </footer>
+
+<script>
+  import { initClosingMotion } from './closing-motion';
+  initClosingMotion();
+</script>

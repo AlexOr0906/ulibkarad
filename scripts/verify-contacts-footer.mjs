@@ -10,7 +10,7 @@ try {
   const context=await browser.newContext({viewport:{width,height:width>1000?1000:844},reducedMotion,javaScriptEnabled});
   await context.addInitScript(()=>{Element.prototype.requestPointerLock=()=>Promise.reject(Error('Disabled during tests'));Element.prototype.setPointerCapture=()=>{};Element.prototype.releasePointerCapture=()=>{};Document.prototype.exitPointerLock=()=>{};});
   const p=await context.newPage();const errors=[],requests=[];p.on('pageerror',e=>errors.push(e.message));p.on('request',r=>requests.push(r.url()));
-  await p.goto(url);await p.evaluate(()=>document.fonts.ready);
+  await p.goto(url);await p.evaluate(()=>document.fonts.ready);await p.waitForTimeout(1400);
   assert.equal(await p.locator('iframe,form,input,a[href^="tel:"],a[href^="mailto:"]').count(),0);
   assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
   assert.ok(requests.every(r=>new URL(r).origin===new URL(url).origin),'Third-party request');

@@ -1,0 +1,47 @@
+<script>
+  if (document.body.dataset.bracketVariant === 'clinic') {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    const hero = document.querySelector<HTMLElement>('#top')!;
+    const headings = [...document.querySelectorAll<HTMLElement>('[data-heading-motion]')];
+    const sections = [...document.querySelectorAll<HTMLElement>('[data-clinic-route] > section')];
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-heading-visible', 'is-section-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {threshold: .03, rootMargin: '0px 0px -5% 0px'});
+    headings.forEach(heading => {
+      if (!reduced.matches && heading.getBoundingClientRect().top > innerHeight * .9) heading.classList.add('heading-armed');
+      else heading.classList.add('is-heading-visible');
+      observer.observe(heading);
+    });
+    sections.forEach(section => observer.observe(section));
+    document.body.dataset.clinicMotion = 'ready';
+    let previousY = scrollY, lastScroll = performance.now(), timer = 0;
+    window.addEventListener('scroll', () => {
+      const now = performance.now(), delta = Math.abs(scrollY - previousY);
+      if (delta > innerHeight * .45 || (now - lastScroll < 60 && delta > 160)) {
+        document.body.classList.add('motion-fast');
+        hero.classList.add('hero-settled');
+        headings.forEach(heading => { if (heading.getBoundingClientRect().top < innerHeight + 80) { heading.classList.add('is-heading-visible'); observer.unobserve(heading); } });
+        document.querySelectorAll<HTMLElement>('[data-reveal]').forEach(element => { if (element.getBoundingClientRect().top < innerHeight + 80) element.classList.add('is-visible'); });
+        clearTimeout(timer);
+        timer = window.setTimeout(() => document.body.classList.remove('motion-fast'), 220);
+      }
+      previousY = scrollY; lastScroll = now;
+    }, {passive: true});
+    const pointer = matchMedia('(hover: hover) and (pointer: fine)');
+    let pointerFrame = 0, lightX = 75, lightY = 45;
+    hero.addEventListener('pointermove', event => {
+      if (reduced.matches || !pointer.matches) return;
+      const r = hero.getBoundingClientRect();
+      lightX = 66 + (event.clientX - r.left) / r.width * 18;
+      lightY = 30 + (event.clientY - r.top) / r.height * 25;
+      if (!pointerFrame) pointerFrame = requestAnimationFrame(() => { hero.style.setProperty('--hero-light-x', `${lightX}%`); hero.style.setProperty('--hero-light-y', `${lightY}%`); pointerFrame = 0; });
+    }, {passive: true});
+    hero.addEventListener('pointerleave', () => { hero.style.removeProperty('--hero-light-x'); hero.style.removeProperty('--hero-light-y'); });
+    reduced.addEventListener('change', () => { if (reduced.matches) { headings.forEach(h => h.classList.add('is-heading-visible')); hero.classList.add('hero-settled'); } });
+  }
+</script>

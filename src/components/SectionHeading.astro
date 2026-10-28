@@ -8,7 +8,7 @@ interface Props {
 const { index, label, title, inverted = false } = Astro.props;
 const showLabel = ['01', '05'].includes(index);
 ---
-<header class="grid gap-8 border-t pt-5 md:grid-cols-[1fr_3fr] md:gap-12" class:list={[inverted ? 'border-white/20' : 'border-black/20']}>
+<header data-heading-motion class="section-heading grid gap-8 border-t pt-5 md:grid-cols-[1fr_3fr] md:gap-12" class:list={[inverted ? 'border-white/20' : 'border-black/20']}>
   {showLabel && <div class="eyebrow flex items-center">{label}</div>}
-  <h2 class:list={['display max-w-[18ch] text-[clamp(2.15rem,5vw,5rem)]', { 'md:col-start-2': !showLabel }]}>{title}</h2>
+  <h2 class:list={['display max-w-[18ch] text-[clamp(2.15rem,5vw,5rem)]', { 'md:col-start-2': !showLabel }]}>{title.split(' ').map((word, index) => <><span class="heading-word-mask"><span class="heading-word" style={`--word-index:${Math.min(index, 6)}`}>{word}</span></span>{' '}</>)}</h2>
 </header>

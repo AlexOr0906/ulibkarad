@@ -2,26 +2,15 @@
 import SectionHeading from './SectionHeading.astro';
 import BracketDivider from './orthodontics/BracketDivider.astro';
 import { teamProfileFields } from '@/data/site';
-import DoctorCard from './DoctorCard.astro';
-import { clinicDoctors, doctorCardExample } from '@/data/doctors';
+import DoctorCollection from './DoctorCollection.astro';
 interface Props { showDivider?: boolean; generalClinic?: boolean; }
 const { showDivider = true, generalClinic = false } = Astro.props;
-const preview = clinicDoctors.length === 0;
-const cards = preview ? [doctorCardExample] : clinicDoctors;
 ---
 <section id="doctors" class="bg-mist py-24 md:py-36" data-sc-act="flow">
   <div class="container-shell">
     <SectionHeading index="03" label="Команда" title="За улыбкой стоят люди" />
     {generalClinic ? (
-      <div class="clinic-team mt-12 grid items-start gap-10 md:mt-16 md:grid-cols-[1.15fr_1fr] md:gap-16">
-        <div class="max-w-md" data-reveal>
-          <p class="text-xl font-light leading-relaxed md:text-2xl">Узнать врача до первой встречи. Увидеть лицо, познакомиться с профессиональным путём и понять, с каким вопросом можно обратиться.</p>
-          {preview && <p class="mt-6 text-xs leading-relaxed text-graphite">Демо раздела. Показываем один макет карточки, а не состав команды. Фотографии, имена и сведения будут добавлены после согласования с клиникой.</p>}
-        </div>
-        <div class="grid w-full max-w-lg gap-12">
-          {cards.map(doctor => <DoctorCard doctor={doctor} preview={preview} />)}
-        </div>
-      </div>
+      <DoctorCollection />
     ) : (
     <div class="mt-12 grid items-stretch gap-10 md:mt-16 md:grid-cols-[1.15fr_1fr] md:gap-16">
       <div class="team-editorial flex min-h-[22rem] flex-col justify-between border border-graphite/25 p-7 md:min-h-[30rem] md:p-10" data-reveal>

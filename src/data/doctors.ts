@@ -5,6 +5,7 @@ export interface DoctorProfile {
   summary: string | null;
   portrait: { src: string; alt: string; position?: string } | null;
   profileHref: string | null;
+  study?: string;
 }
 
 // Add only profiles and image paths approved by the clinic. None supplied yet.
@@ -12,8 +13,9 @@ export interface DoctorProfile {
 // only after the corresponding page exists. No profile pages are created here.
 export const clinicDoctors: DoctorProfile[] = [];
 
-// One layout example, explicitly not an employee or the clinic's headcount.
-export const doctorCardExample: DoctorProfile = {
-  id: 'layout-example', name: null, specialty: null, summary: null,
-  portrait: null, profileHref: null,
-};
+// Graphic layout studies, explicitly not employees or the clinic's headcount.
+export const doctorCardExamples: DoctorProfile[] = [1, 2, 3, 4].map(index => ({
+  id: `layout-study-${index}`, name: null, specialty: null, summary: null,
+  portrait: null, profileHref: null, study: `team/portrait-study-${index}.svg`,
+}));
+export const doctorCardExample = doctorCardExamples[0];

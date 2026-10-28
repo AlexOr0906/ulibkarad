@@ -1,34 +1,24 @@
 ---
 import type { DoctorProfile } from '@/data/doctors';
 import ArrowIcon from './ArrowIcon.astro';
-interface Props { doctor: DoctorProfile; preview?: boolean; }
-const { doctor, preview = false } = Astro.props;
+interface Props { doctor: DoctorProfile; preview?: boolean; index?: number; }
+const { doctor, preview = false, index = 0 } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const demo = preview || !doctor.name || !doctor.specialty || !doctor.portrait;
+const image = `${base}${(doctor.portrait?.src ?? doctor.study ?? 'team/portrait-study-1.svg').replace(/^\/+/, '')}`;
 ---
-<article class="doctor-card" data-doctor-card data-preview={demo ? 'true' : undefined} data-reveal>
+<article class="doctor-card" data-doctor-card data-preview={demo ? 'true' : undefined} aria-label={demo ? `Графический макет карточки ${index + 1}` : doctor.name ?? undefined}>
   <div class="doctor-portrait">
-    {doctor.portrait ? (
-      <img src={`${base}${doctor.portrait.src.replace(/^\/+/, '')}`} alt={doctor.portrait.alt} width="900" height="1200" loading="lazy" style={`object-position: ${doctor.portrait.position ?? '50% 20%'}`} />
-    ) : (
-      <div class="doctor-portrait-placeholder" role="img" aria-label="Место для согласованного портрета врача">
-        <span class="eyebrow text-graphite">Демо. Макет карточки</span>
-        <div><p class="text-xl font-light tracking-[-.02em] text-ink md:text-2xl">Портрет врача</p><p class="mt-2 text-xs text-graphite">Фотография будет добавлена</p></div>
-        <span class="doctor-portrait-rule" aria-hidden="true"></span>
-      </div>
-    )}
+    <img src={image} alt={doctor.portrait?.alt ?? 'Нейтральный силуэт. Графическая заготовка портрета.'} width="600" height="720" loading="lazy" style={`object-position: ${doctor.portrait?.position ?? '50% 20%'}`} />
   </div>
-  <div class="pt-5 md:pt-6">
-    <p class="eyebrow leading-relaxed text-graphite">{doctor.specialty ?? 'Специальность врача'}</p>
-    <h3 class="mt-2 text-[clamp(1.55rem,2.5vw,2rem)] font-light leading-tight tracking-[-.025em]">{doctor.name ?? 'Имя и фамилия'}</h3>
-    <p class="mt-4 max-w-md text-sm leading-relaxed text-graphite">{doctor.summary ?? 'Краткая информация о враче. Сведения появятся после согласования с клиникой.'}</p>
-    {demo ? (
-      <details class="doctor-card-note mt-5 border-t border-graphite/25 pt-4">
-        <summary class="flex cursor-pointer items-center justify-between gap-5 text-xs text-ink">О демокарточке<svg class="doctor-note-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></summary>
-        <p class="mt-4 text-xs leading-relaxed text-graphite">Это пример оформления, не профиль сотрудника. После получения материалов здесь появятся согласованные имя, специальность, портрет и краткая информация. Отдельная страница врача пока не опубликована.</p>
-      </details>
-    ) : doctor.profileHref && (
+  <div class="doctor-card-copy">
+    <h3 class="text-[clamp(1.5rem,2.2vw,2rem)] font-light leading-tight tracking-[-.025em]">{doctor.name ?? 'Имя и фамилия'}</h3>
+    <p class="mt-3 text-xs leading-relaxed text-graphite">{doctor.specialty ?? 'Специальность врача'}</p>
+    {!demo && doctor.profileHref ? (
       <a class="nav-link mt-5 inline-flex items-center gap-5 text-xs font-medium" href={`${base}${doctor.profileHref.replace(/^\/+/, '')}`}>Подробнее о враче <ArrowIcon /></a>
+    ) : (
+      <button type="button" class="doctor-open mt-5 inline-flex items-center gap-5 py-2 text-xs font-medium" data-doctor-open data-preview={demo ? 'true' : undefined} data-name={doctor.name ?? 'Имя и фамилия'} data-specialty={doctor.specialty ?? 'Специальность врача'} data-summary={doctor.summary ?? 'Краткое представление врача будет добавлено после согласования с клиникой.'} data-portrait={image} aria-haspopup="dialog" aria-controls="doctor-demo" aria-label={demo ? `Посмотреть макет карточки ${index + 1}` : `О враче: ${doctor.name}`}>{demo ? 'Посмотреть макет' : 'О враче'} <ArrowIcon /></button>
     )}
+    <noscript><p class="mt-4 text-xs text-graphite">Графический макет. Реальные данные будут добавлены.</p></noscript>
   </div>
 </article>

@@ -10,6 +10,7 @@ import AppointmentCTA from '@/components/AppointmentCTA.astro';
 import Contacts from '@/components/Contacts.astro';
 import Footer from '@/components/Footer.astro';
 import ConceptDialog from '@/components/ConceptDialog.astro';
+import ClinicMotion from '@/components/ClinicMotion.astro';
 interface Props { variant: 'clinic' | 'background' | 'spacing'; }
 const { variant } = Astro.props;
 const generalClinic = variant === 'clinic';
@@ -31,6 +32,7 @@ const showDivider = variant === 'spacing';
   </main>
   <Footer />
   <ConceptDialog />
+  {generalClinic && <ClinicMotion />}
 <script>
   document.documentElement.classList.add('js');
   const conceptDialog = document.querySelector<HTMLDialogElement>('#concept-dialog');
@@ -105,6 +107,7 @@ const showDivider = variant === 'spacing';
   topicSelect?.addEventListener('change', () => showSelectedTopic(topicSelect.value));
 
   const revealItems = document.querySelectorAll<HTMLElement>('[data-reveal], main section:not(#top) header, #contacts > div > div > div, #appointment > div > div > div, #demo-form, footer > div > div');
+  const clinicMotion = document.body.dataset.bracketVariant === 'clinic';
   const observer = new IntersectionObserver((entries, currentObserver) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -117,7 +120,7 @@ const showDivider = variant === 'spacing';
   revealItems.forEach((item) => {
     const siblingIndex = Array.from(item.parentElement?.children ?? []).indexOf(item);
     item.style.setProperty('--reveal-delay', `${Math.min(siblingIndex, 2) * 60}ms`);
-    item.classList.add('reveal');
+    if (!clinicMotion) item.classList.add('reveal');
     observer.observe(item);
   });
   document.querySelectorAll<HTMLElement>('[data-material-light]').forEach((item) => observer.observe(item));

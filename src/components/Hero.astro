@@ -5,6 +5,7 @@ interface Props { generalClinic?: boolean; }
 const { generalClinic = false } = Astro.props;
 ---
 <section id="top" class="hero-section relative overflow-hidden bg-mist pb-8 pt-32 md:pt-40" data-sc-act="flow">
+  {generalClinic && <div class="hero-light-plane" aria-hidden="true"></div>}
   <div class="container-shell relative z-10">
     <div class="hero-intro flex flex-wrap items-center justify-between gap-5 border-b border-graphite/20 pb-6">
       <p class="eyebrow text-graphite">Частная стоматология · Магнитогорск</p>

@@ -13,12 +13,12 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -4 921 960">
 <defs>
   <path id="family" fill-rule="evenodd" d={shape}/>
   <linearGradient id="silver" x1="0" y1="0" x2=".85" y2="1">
-    <stop stop-color="#f6f8fa"/><stop offset=".13" stop-color="#adb6bf"/>
-    <stop offset=".27" stop-color="#535f6a"/><stop offset=".34" stop-color="#d8e0e6"/>
-    <stop offset=".41" stop-color="#ffffff"/><stop offset=".49" stop-color="#9ba6b1"/>
-    <stop offset=".56" stop-color="#414e5a"/><stop offset=".64" stop-color="#b9c3cc"/>
-    <stop offset=".76" stop-color="#f8fbfd"/><stop offset=".86" stop-color="#c4cdd5"/>
-    <stop offset="1" stop-color="#606d79"/>
+    <stop stop-color="#f7f7f7"/><stop offset=".13" stop-color="#b2b5b8"/>
+    <stop offset=".27" stop-color="#5a5e62"/><stop offset=".34" stop-color="#dde0e2"/>
+    <stop offset=".41" stop-color="#ffffff"/><stop offset=".49" stop-color="#a2a6aa"/>
+    <stop offset=".56" stop-color="#484d52"/><stop offset=".64" stop-color="#bec2c6"/>
+    <stop offset=".76" stop-color="#fafbfc"/><stop offset=".86" stop-color="#c9cdd1"/>
+    <stop offset="1" stop-color="#686e73"/>
   </linearGradient>
   <filter id="bevel" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
     <feGaussianBlur in="SourceAlpha" stdDeviation="2.5" result="surface"/>
@@ -29,8 +29,8 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -4 921 960">
     <feBlend in="SourceGraphic" in2="edgeLight" mode="screen"/>
   </filter>
 </defs>
-<use href="#family" fill="#414c56" transform="translate(2 3)"/>
-<use href="#family" fill="url(#silver)" stroke="#e0e7ed" stroke-width=".6" stroke-opacity=".55" filter="url(#bevel)"/>
+<use href="#family" fill="#484d52" transform="translate(2 3)"/>
+<use href="#family" fill="url(#silver)" stroke="#e4e6e8" stroke-width=".6" stroke-opacity=".55" filter="url(#bevel)"/>
 </svg>'''
 (root / 'public/brand/logo-chrome.svg').write_text(svg, encoding='utf-8')
 print('Created polished silver material using the unchanged family vector.')

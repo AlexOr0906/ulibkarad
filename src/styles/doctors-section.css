@@ -61,7 +61,6 @@
   .doctors-section.team-enhanced .team-rail .doctor-card[data-active='true'] { flex-grow: 2.65; }
   .doctors-section.team-enhanced .team-rail .doctor-portrait { height: clamp(25rem, 37vw, 36rem); aspect-ratio: auto; }
   .doctors-section.team-enhanced .team-rail .doctor-card .doctor-portrait img { transform: none; object-fit: cover; object-position: center top; }
-  .doctors-section.team-enhanced [data-active='false'] .doctor-portrait img { filter: grayscale(1); }
   .doctors-section.team-enhanced .doctor-card-copy { min-height: 11rem; }
   .doctors-section.team-enhanced .doctor-card-copy h3 { font-size: clamp(1.2rem, 1.65vw, 1.8rem); }
   .doctors-section.team-enhanced .doctor-card-index { font-size: .58rem; letter-spacing: .02em; }

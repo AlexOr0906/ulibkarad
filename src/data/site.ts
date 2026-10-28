@@ -32,6 +32,14 @@ export const services = [
   },
 ];
 
+// Confirmed direction names for the general clinic home. Copy remains a demo.
+export const clinicServices = [
+  { index: '01', title: 'Взрослая терапия', topic: 'Взрослая терапия', description: 'Вопросы здоровья зубов. Знакомство с врачом и понятное обсуждение возможных следующих шагов.' },
+  { index: '02', title: 'Детская терапия', topic: 'Детская терапия', description: 'Забота о зубах ребёнка. Внимание к маленькому пациенту и обсуждение вопросов с родителями.' },
+  { index: '03', title: 'Ортопедия', topic: 'Ортопедия', description: 'Восстановление зубов. Обсуждение функции, эстетики и возможных решений с учётом вашего запроса.' },
+  { index: '04', title: 'Ортодонтия', topic: 'Ортодонтия', description: 'Вопросы прикуса и положения зубов. Знакомство с направлением начинается с консультации.' },
+];
+
 export const approach = [
   {
     index: '01',

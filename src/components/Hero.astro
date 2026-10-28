@@ -1,6 +1,8 @@
 ---
 import ArrowIcon from './ArrowIcon.astro';
 import MetalEmblem from './MetalEmblem.astro';
+interface Props { generalClinic?: boolean; }
+const { generalClinic = false } = Astro.props;
 ---
 <section id="top" class="hero-section relative overflow-hidden bg-mist pb-8 pt-32 md:pt-40" data-sc-act="flow">
   <div class="container-shell relative z-10">
@@ -14,7 +16,7 @@ import MetalEmblem from './MetalEmblem.astro';
           <span class="title-mask"><span class="title-line">Дело</span></span>
           <span class="title-mask"><span class="title-line">в улыбке.</span></span>
         </h1>
-        <p class="hero-intro mt-8 max-w-md text-base leading-relaxed text-graphite md:text-lg">Внимание к вам. Забота об улыбке.<br/>Новый взгляд на знакомство со стоматологией.</p>
+        <p class="hero-intro mt-8 max-w-md text-base leading-relaxed text-graphite md:text-lg">{generalClinic ? <>Стоматология для взрослых и детей.<br/>Внимание к вам. Забота об улыбке.</> : <>Внимание к вам. Забота об улыбке.<br/>Новый взгляд на знакомство со стоматологией.</>}</p>
         <a href="#appointment" class="action-link hero-intro mt-8 inline-flex items-center gap-10 bg-ink px-7 py-5 text-xs font-semibold uppercase tracking-[.14em] text-white md:hidden">Обсудить визит <ArrowIcon class="action-arrow" /></a>
       </div>
       <figure class="hero-brand hero-intro relative mx-auto flex w-full max-w-[24rem] flex-col items-center gap-8 md:max-w-[28rem]">

@@ -1,17 +1,18 @@
 ---
 import SectionHeading from './SectionHeading.astro';
-import BracketDivider from './BracketDivider.astro';
+import BracketDivider from './orthodontics/BracketDivider.astro';
 import ArrowIcon from './ArrowIcon.astro';
-import { services } from '@/data/site';
-interface Props { showDivider?: boolean; }
-const { showDivider = true } = Astro.props;
+import { services, clinicServices } from '@/data/site';
+interface Props { showDivider?: boolean; generalClinic?: boolean; }
+const { showDivider = true, generalClinic = false } = Astro.props;
+const items = generalClinic ? clinicServices : services;
 ---
 <section id="services" class="bg-white py-24 md:py-36" data-sc-act="flow">
   <div class="container-shell">
     <SectionHeading index="01" label="Направления" title="Место для вашей улыбки" />
     <p class="mt-7 max-w-lg text-xs leading-relaxed text-graphite md:ml-[25%]">Демо направлений. Перечень услуг и содержание этого раздела будут подтверждены клиникой.</p>
     <div class="service-grid mt-12 grid border-t border-black/15 md:mt-16 md:grid-cols-2">
-      {services.map((service) => (
+      {items.map((service) => (
         <article class="service-item group relative flex min-h-[19rem] flex-col justify-between gap-8 border-b border-black/15 p-6 md:min-h-[23rem] md:p-10 md:odd:border-r" data-reveal>
           <span class="eyebrow text-graphite">Демо направления</span>
           <div>

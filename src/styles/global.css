@@ -106,7 +106,7 @@ html:not(.js) .menu-toggle, html:not(.js) [data-open-concept] { display: none; }
 .hero-intro { animation: intro-in .8s .12s var(--ease-out) both; }
 
 .ortho-route { position: relative; }
-.ortho-route > section, footer { position: relative; }
+.ortho-route > section, .clinic-route > section, footer { position: relative; }
 footer { z-index: 2; }
 .ortho-route > section > .container-shell, footer > .container-shell { position: relative; z-index: 2; }
 #appointment p.text-graphite { color: #292d30; }
@@ -127,6 +127,7 @@ body[data-bracket-variant='background'] #appointment { isolation: auto; }
 .service-arrow { transition: transform .7s var(--ease-out), color .5s ease; }
 .service-item::after { content: ''; position: absolute; inset: auto 0 -1px; height: 1px; background: #5b5f62; transform: scaleX(0); transform-origin: left; transition: transform .8s var(--ease-out); }
 .service-item.is-visible::after { transform: scaleX(1); }
+body[data-bracket-variant='clinic'] .service-item::after { background: linear-gradient(90deg, #737d86, #d9dfe4 48%, #737d86); }
 .service-topic-link { text-underline-offset: .35em; }
 .service-topic-link:focus-visible { text-decoration: underline; }
 .service-topic-link:active .action-arrow { transform: translate(2px, -2px); }
@@ -134,6 +135,15 @@ body[data-bracket-variant='background'] #appointment { isolation: auto; }
 .appointment-section.light-has-arrived::before { animation: silver-light-pass 1.6s var(--ease-out) .12s both; }
 #services h3, #approach h3 { font-weight: 350; letter-spacing: -.02em; }
 .team-editorial { background: linear-gradient(145deg, #dedfe1, #f1f1f2); }
+.doctor-portrait { position: relative; width: 100%; aspect-ratio: 4 / 3; max-height: 20rem; overflow: hidden; background: #e2e5e7; }
+.doctor-portrait > img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease-out); }
+.doctor-portrait-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 1.5rem; background: linear-gradient(135deg, #dfe3e6, #f0f2f3); }
+.doctor-portrait-rule { display: block; width: 3rem; height: 1px; background: #8b959e; }
+.doctor-card-note > summary { list-style: none; }
+.doctor-card-note > summary::-webkit-details-marker { display: none; }
+.doctor-note-chevron { flex: none; transition: transform .25s ease; }
+.doctor-card-note[open] .doctor-note-chevron { transform: rotate(180deg); }
+@media (hover: hover) and (pointer: fine) { .doctor-card:hover .doctor-portrait > img { transform: scale(1.025); } }
 .contact-location { background: linear-gradient(125deg, #e2e4e6, #f1f1f2); }
 .concept-dialog { width: min(100% - 2rem, 47rem); max-height: calc(100dvh - 2rem); margin: auto; padding: clamp(1.25rem, 4vw, 2.5rem); border: 1px solid #c9cdd1; background: #f4f4f5; color: #292d30; overflow-y: auto; box-shadow: 0 24px 80px rgb(41 45 48 / .18); }
 .concept-dialog::backdrop { background: rgb(41 45 48 / .55); }

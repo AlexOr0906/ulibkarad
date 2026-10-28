@@ -2,7 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Header from '@/components/Header.astro';
 import Hero from '@/components/Hero.astro';
-import BracketBackground from '@/components/BracketBackground.astro';
+import BracketBackground from '@/components/orthodontics/BracketBackground.astro';
 import Services from '@/components/Services.astro';
 import Approach from '@/components/Approach.astro';
 import Doctors from '@/components/Doctors.astro';
@@ -10,21 +10,22 @@ import AppointmentCTA from '@/components/AppointmentCTA.astro';
 import Contacts from '@/components/Contacts.astro';
 import Footer from '@/components/Footer.astro';
 import ConceptDialog from '@/components/ConceptDialog.astro';
-interface Props { variant: 'background' | 'spacing'; }
+interface Props { variant: 'clinic' | 'background' | 'spacing'; }
 const { variant } = Astro.props;
+const generalClinic = variant === 'clinic';
 const showDivider = variant === 'spacing';
 ---
-<BaseLayout title={`Дело в улыбке — вариант ${showDivider ? '2' : '1'}`} description="Концепт главной страницы частной стоматологии «Дело в улыбке» в Магнитогорске." bracketVariant={variant}>
+<BaseLayout title={generalClinic ? 'Дело в улыбке — стоматология для взрослых и детей' : `Дело в улыбке — вариант ${showDivider ? '2' : '1'}`} description="Концепт главной страницы частной стоматологии «Дело в улыбке» в Магнитогорске." bracketVariant={variant}>
   <a href="#main-content" class="skip-link">Перейти к содержимому</a>
   <Header />
   {variant === 'background' && <BracketBackground />}
   <main id="main-content">
-    <Hero />
-    <div class="ortho-route" data-ortho-route>
-      <Services showDivider={showDivider} />
-      <Approach showDivider={showDivider} />
-      <Doctors showDivider={showDivider} />
-      <AppointmentCTA showDivider={showDivider} />
+    <Hero generalClinic={generalClinic} />
+    <div class={generalClinic ? 'clinic-route' : 'ortho-route'} data-ortho-route={generalClinic ? undefined : ''} data-clinic-route={generalClinic ? '' : undefined}>
+      <Services showDivider={showDivider} generalClinic={generalClinic} />
+      <Approach showDivider={showDivider} generalClinic={generalClinic} />
+      <Doctors showDivider={showDivider} generalClinic={generalClinic} />
+      <AppointmentCTA showDivider={showDivider} generalClinic={generalClinic} />
       <Contacts showDivider={showDivider} />
     </div>
   </main>

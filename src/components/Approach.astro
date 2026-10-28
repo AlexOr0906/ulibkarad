@@ -1,15 +1,31 @@
 ---
 import SectionHeading from './SectionHeading.astro';
-import BracketDivider from './BracketDivider.astro';
+import BracketDivider from './orthodontics/BracketDivider.astro';
 import MetalEmblem from './MetalEmblem.astro';
 import { approach } from '@/data/site';
 const base = import.meta.env.BASE_URL;
-interface Props { showDivider?: boolean; }
-const { showDivider = true } = Astro.props;
+interface Props { showDivider?: boolean; generalClinic?: boolean; }
+const { showDivider = true, generalClinic = false } = Astro.props;
 ---
 <section id="approach" class="grain relative bg-ink py-24 text-white md:py-36" data-sc-act="flow">
   <div class="container-shell relative z-10">
     <SectionHeading index="02" label="Подход" title="Спокойно. Понятно. По делу." inverted />
+    {generalClinic ? (
+      <div class="clinic-approach mt-12 grid gap-12 md:mt-16 md:grid-cols-[1.15fr_1fr] md:gap-16">
+        <div class="self-start" data-reveal>
+          <p class="display max-w-[15ch] text-[clamp(1.8rem,3.4vw,3.4rem)]">Внимание к каждому.<br/>Забота обо всей семье.</p>
+          <p class="mt-7 max-w-sm text-xs leading-relaxed text-white/70">Демо. Предлагаемый подход клиники</p>
+        </div>
+        <div class="divide-y divide-white/20 border-y border-white/20">
+          {approach.map(item => (
+            <article class="clinic-principle py-8 first:pt-8 md:py-10" data-reveal>
+              <h3 class="text-2xl md:text-3xl">{item.title}</h3>
+              <p class="mt-5 max-w-lg text-sm leading-relaxed text-white/80 md:text-base">{item.text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    ) : (
     <div class="signature-story mt-16 md:mt-24">
       <div class="signature-stage grid gap-12 md:grid-cols-[1.15fr_1fr]">
       <div class="signature-panel" aria-label="Семейная подпись клиники">
@@ -33,6 +49,7 @@ const { showDivider = true } = Astro.props;
       </div>
       </div>
     </div>
+    )}
   </div>
   {showDivider && <BracketDivider tone="dark" />}
 </section>

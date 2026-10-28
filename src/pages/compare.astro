@@ -8,16 +8,17 @@ const variants = [
   { id: 'b', number: '02', title: 'Лента между разделами', description: 'Брекет-система появляется в свободных промежутках. Текстовые блоки остаются чистыми.' },
 ];
 ---
-<BaseLayout title="Дело в улыбке — два варианта концепции" description="Два варианта оформления сайта стоматологии «Дело в улыбке» для выбора визуального направления.">
+<BaseLayout title="Дело в улыбке — архив вариантов" description="Сохранённые предыдущие варианты оформления сайта «Дело в улыбке».">
   <main class="container-shell pb-12 pt-6 md:pb-16 md:pt-10">
     <header class="flex flex-wrap items-center justify-between gap-5 border-b border-graphite/25 pb-6 md:pb-8">
       <BrandLogo />
       <p class="eyebrow text-graphite">Концепция сайта · Демо</p>
     </header>
     <div class="pb-10 pt-12 md:pb-14 md:pt-20">
-      <p class="eyebrow mb-6 text-graphite">Выбор визуального направления</p>
-      <h1 class="display max-w-4xl text-[clamp(2.25rem,5.2vw,5rem)]">Два варианта<br/>сайта клиники.</h1>
-      <p class="mt-7 max-w-2xl text-base leading-relaxed text-graphite md:text-lg">Сравните расположение брекет-системы и выберите, что ближе по ощущению. Содержание сайта в обоих вариантах одинаковое.</p>
+      <p class="eyebrow mb-6 text-graphite">Архив оформления</p>
+      <h1 class="display max-w-4xl text-[clamp(2.25rem,5.2vw,5rem)]">Предыдущие<br/>варианты сайта.</h1>
+      <p class="mt-7 max-w-2xl text-base leading-relaxed text-graphite md:text-lg">Эти варианты с брекет-системой сохранены для сравнения. Новая главная представляет клинику в целом и использует серебряную эмблему.</p>
+      <a href={base} class="action-link mt-7 inline-flex items-center gap-6 bg-ink px-6 py-5 text-xs font-semibold uppercase tracking-[.08em] text-white">Открыть текущую главную <ArrowIcon /></a>
     </div>
     <div class="grid gap-6 lg:grid-cols-2">
       {variants.map(variant => (

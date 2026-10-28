@@ -1,0 +1,157 @@
+{
+  "date": "2026-10-28",
+  "baseline": "5b79050c0e534084889f2e9afc236d41af5eac29",
+  "skills": [
+    {
+      "name": "scroll-craft",
+      "repository": "nateherkai/scroll-craft",
+      "revision": "75d81f74e83692add18cd7a8a8e078b8a887a579",
+      "upstreamFilesVerified": 24,
+      "files": [
+        {
+          "path": "CHANGELOG.md",
+          "sha256": "1be4ff92fc5076895b071f39c067cafe1c5063c40d6890cfd3d20b23b64fc68b",
+          "bytes": 35142
+        },
+        {
+          "path": "engine/scrollcraft.css",
+          "sha256": "e19eb3aa73b0944626ca56e6e427c76f44753481e04d60f4bac20e8cf1d7758a",
+          "bytes": 19769
+        },
+        {
+          "path": "engine/scrollcraft.js",
+          "sha256": "4a419b3ede51f64790af7b56c0195ea01c98a84df8e0e768ebf343956b922f39",
+          "bytes": 62176
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "dd471a27eca72488a53e6ea6fbe9392d81aa3f01e950e63fe328affb2ddfa6e3",
+          "bytes": 1066
+        },
+        {
+          "path": "references/approved-collection.md",
+          "sha256": "8a963a46af4c6ed40656fb5b21589629ee3ce30aa06a8b31c10bc132b74f2780",
+          "bytes": 11650
+        },
+        {
+          "path": "references/assets.md",
+          "sha256": "0cc3871ad903ccaf3bf769cf3a05a54a9326ed558ac3e45e57f19043ce70efa6",
+          "bytes": 13194
+        },
+        {
+          "path": "references/device-diag.html",
+          "sha256": "8ec61db711e3f74ec38a81f418a051a88d9574240f5bbde4716ed9f053775e59",
+          "bytes": 9149
+        },
+        {
+          "path": "references/devices.md",
+          "sha256": "e5ae5a4f2924fc1b13177bf0b0ac10f04e686edd916dc33755ed1420a6a478f5",
+          "bytes": 26648
+        },
+        {
+          "path": "references/feel.md",
+          "sha256": "3951f1f0331f329dab14e8766edeecb6ce8e05437ea8986c48a074726bef41a0",
+          "bytes": 13181
+        },
+        {
+          "path": "references/hero-depth.md",
+          "sha256": "2426fb9703d4398b1e3b666b2db7f4b68e7cd41112da77700a7d63f2965dd726",
+          "bytes": 6260
+        },
+        {
+          "path": "references/taste.md",
+          "sha256": "f33c581024f466ab98612ae291aa46ccbc326875f8fa0918a3f45455a2c60e80",
+          "bytes": 14874
+        },
+        {
+          "path": "references/template.html",
+          "sha256": "4be3e8d772cf063ea5d1e695d6c39443920b2ff0e8491656013bebb87d098096",
+          "bytes": 6418
+        },
+        {
+          "path": "references/uniqueness.md",
+          "sha256": "0fd65a43624da868ca2027946bd4ce152605d6ea856eeae93b35721714c8b20e",
+          "bytes": 23527
+        },
+        {
+          "path": "references/verify.md",
+          "sha256": "de645d648f738f3e19452083eadcc649cb8477058b6ad79ab4fa29198406150a",
+          "bytes": 24189
+        },
+        {
+          "path": "references/worldflight.md",
+          "sha256": "451fead8f90604423b113cd0b0d3bfb6be1f7ca7a7b5ab9e2688ea3da762af4c",
+          "bytes": 16155
+        },
+        {
+          "path": "references/worlds.md",
+          "sha256": "dea3e4cc20c7245f87638a6d88eb2e3fc22a69dabc9f75f001dd97a3121077bd",
+          "bytes": 8046
+        },
+        {
+          "path": "scripts/doctor.mjs",
+          "sha256": "92aade1921c12cce3ebc27e3c0f727d1bfaf1e0678deb7bd930a93248dbb37d9",
+          "bytes": 7281
+        },
+        {
+          "path": "scripts/encode.sh",
+          "sha256": "01eedead388130fdce1052f4ed2e99a7420d4fffcde8621587c840b40a325d79",
+          "bytes": 3222
+        },
+        {
+          "path": "scripts/kie.mjs",
+          "sha256": "6d4a1d4cfb3ed6400cd9a453064b2949d72581f03ba56abe2038be4c78ebc136",
+          "bytes": 7780
+        },
+        {
+          "path": "scripts/serve.mjs",
+          "sha256": "3dff774c47f1ebecb22f6bb2618d1ec13c99f21a92ce53e984ed0ae525c3327e",
+          "bytes": 3206
+        },
+        {
+          "path": "scripts/shoot.mjs",
+          "sha256": "963b1f2f0425783979b41ce0fcd2c668d47376735612816a83ca8142bb225be0",
+          "bytes": 33472
+        },
+        {
+          "path": "scripts/workspace.mjs",
+          "sha256": "98896557c62c12452d2258c26e7984b0f0d69d87938650fa20705ba1b0ba193b",
+          "bytes": 3707
+        },
+        {
+          "path": "scripts/worldflight-assert.mjs",
+          "sha256": "6932652d313a5e72d9d023f74eaa4dd893752ad7db33d010d586a56f929c8449",
+          "bytes": 13115
+        },
+        {
+          "path": "SKILL.md",
+          "sha256": "6e798bb51c3dcbe4f35f098dcdd3cdd20d08e538a33993bcae909c9fd0a500a1",
+          "bytes": 24993
+        },
+        {
+          "path": "templates/FINGERPRINTS.md",
+          "sha256": "8c1597e6b068bfa77086f847cf90b9e2ebeba3ec42f1e6cc522e222e2700da16",
+          "bytes": 2387
+        }
+      ]
+    },
+    {
+      "name": "frontend-design",
+      "repository": "anthropics/skills",
+      "revision": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
+      "upstreamFilesVerified": 2,
+      "files": [
+        {
+          "path": "LICENSE.txt",
+          "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+          "bytes": 10174
+        },
+        {
+          "path": "SKILL.md",
+          "sha256": "d91970639e9f5c37682ac7ab60094d35f1c7c1f38d731bd56396563aee10c1d3",
+          "bytes": 9390
+        }
+      ]
+    }
+  ]
+}

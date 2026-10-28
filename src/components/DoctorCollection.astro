@@ -1,13 +1,15 @@
 ---
 import DoctorCard from './DoctorCard.astro';
+import '../styles/doctors-section.css';
 import ArrowIcon from './ArrowIcon.astro';
 import { clinicDoctors, doctorCardExamples } from '@/data/doctors';
 const preview = clinicDoctors.length === 0;
 const cards = preview ? doctorCardExamples : clinicDoctors;
 ---
-<div class="team-collection mt-10 md:mt-14" data-team-carousel>
+<div class="team-collection doctors-section mt-10 md:mt-14" data-team-carousel>
+  <div class="team-introduction"><p>Познакомиться до первой встречи.</p><span>Здесь появятся проверенные сведения<br />о врачах «Ортофэмили».</span></div>
   <div class="team-toolbar">
-    <p class="team-demo-note max-w-xl text-xs leading-relaxed text-graphite">{preview ? 'Демонстрационные изображения. Не являются фотографиями сотрудников клиники.' : 'Знакомство с врачом до первого визита.'}</p>
+    <p class="team-demo-note max-w-xl text-xs leading-relaxed text-graphite">{preview ? 'Демонстрационные AI-изображения. Не являются фотографиями сотрудников клиники. Количество макетов не отражает численность команды.' : 'Знакомство с врачом до первого визита.'}</p>
     <div class="team-navigation" data-team-control>
       <span class="mr-3 text-xs text-graphite" data-team-position aria-live="polite">Демоколлекция</span>
       <button class="team-arrow" type="button" data-team-prev aria-label="Предыдущие карточки врачей" aria-controls="team-rail" disabled><ArrowIcon class="team-arrow-prev" /></button>
@@ -20,7 +22,7 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
   <div class="team-progress" aria-hidden="true"><span data-team-progress></span></div>
 </div>
 
-<dialog id="doctor-demo" class="concept-dialog doctor-dialog" aria-labelledby="doctor-demo-title" aria-describedby="doctor-demo-note">
+<dialog id="doctor-demo" class="concept-dialog doctor-dialog doctors-profile" aria-labelledby="doctor-demo-title" aria-describedby="doctor-demo-note">
   <div class="flex items-center justify-between gap-6 border-b border-graphite/25 pb-4">
     <p class="eyebrow text-graphite" data-doctor-dialog-label>Демо карточки</p>
     <form method="dialog"><button class="size-11 text-2xl" type="submit" aria-label="Закрыть карточку врача">×</button></form>
@@ -80,52 +82,23 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
     sync();
 
     const dialog = document.querySelector<HTMLDialogElement>('#doctor-demo')!;
-    const dialogCopy = dialog.querySelector<HTMLElement>('.doctor-dialog-grid > div')!;
     let trigger: HTMLButtonElement | null = null;
-    let openRequest = 0;
-    let portraitTransition: ViewTransition | null = null;
-    collection.querySelectorAll<HTMLButtonElement>('[data-doctor-open]').forEach(button => button.addEventListener('click', async () => {
-      const request = ++openRequest;
+    collection.querySelectorAll<HTMLButtonElement>('[data-doctor-open]').forEach(button => button.addEventListener('click', () => {
       trigger = button;
       dialog.querySelector<HTMLElement>('#doctor-demo-title')!.textContent = button.dataset.name ?? '';
       dialog.querySelector<HTMLElement>('[data-doctor-dialog-specialty]')!.textContent = button.dataset.specialty ?? '';
       dialog.querySelector<HTMLElement>('[data-doctor-dialog-summary]')!.textContent = button.dataset.summary ?? '';
       const image = dialog.querySelector<HTMLImageElement>('[data-doctor-dialog-image]')!;
+      const source = button.closest('[data-doctor-card]')?.querySelector<HTMLImageElement>('img');
       image.loading = 'eager';
       image.src = button.dataset.portrait ?? '';
-      image.alt = button.dataset.preview ? 'Временный демонстрационный AI-портрет. Не сотрудник клиники.' : button.dataset.name ?? '';
+      image.style.objectPosition = source?.style.objectPosition ?? '50% 0%';
+      image.alt = source?.alt ?? '';
       dialog.querySelector<HTMLElement>('[data-doctor-dialog-label]')!.textContent = button.dataset.preview ? 'Демонстрация карточки' : 'О враче';
       dialog.querySelector<HTMLElement>('#doctor-demo-note')!.hidden = !button.dataset.preview;
-      const source = button.closest('[data-doctor-card]')?.querySelector<HTMLImageElement>('.doctor-portrait img');
-      const show = () => { if (!dialog.open) dialog.showModal(); };
-      if (!reduced.matches && document.startViewTransition && source) {
-        await Promise.race([image.decode().catch(() => {}), new Promise(resolve => setTimeout(resolve, 160))]);
-        if (request !== openRequest) return;
-        if (!reduced.matches && image.complete && image.naturalWidth) {
-          portraitTransition?.skipTransition();
-          source.style.viewTransitionName = 'doctor-preview';
-          dialog.dataset.morph = 'true';
-          delete dialog.dataset.morphComplete;
-          dialogCopy.inert = true;
-          const transition = document.startViewTransition(() => {
-            source.style.viewTransitionName = 'none'; image.style.viewTransitionName = 'doctor-preview'; show();
-          });
-          portraitTransition = transition;
-          const clean = () => {
-            source.style.removeProperty('view-transition-name'); image.style.removeProperty('view-transition-name');
-            dialogCopy.inert = false;
-            if (dialog.open) dialog.dataset.morphComplete = 'true';
-            if (!dialog.open) delete dialog.dataset.morph;
-            if (portraitTransition === transition) portraitTransition = null;
-          };
-          transition.finished.then(clean, clean);
-          return;
-        }
-      }
-      show();
+      if (!dialog.open) dialog.showModal();
     }));
-    dialog.addEventListener('close', () => { ++openRequest; portraitTransition?.skipTransition(); delete dialog.dataset.morph; delete dialog.dataset.morphComplete; dialogCopy.inert = false; trigger?.focus({preventScroll: true}); });
-    reduced.addEventListener('change', () => { if (reduced.matches) portraitTransition?.skipTransition(); });
+    dialog.addEventListener('close', () => trigger?.focus({preventScroll: true}));
     dialog.addEventListener('keydown', event => {
       if (event.key !== 'Tab') return;
       const controls = [...dialog.querySelectorAll<HTMLElement>('button:not([disabled]), a[href], [tabindex="0"]')].filter(e => e.getClientRects().length > 0 && !e.closest('[inert]'));

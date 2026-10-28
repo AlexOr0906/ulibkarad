@@ -4,6 +4,50 @@
     const hero = document.querySelector<HTMLElement>('#top')!;
     const headings = [...document.querySelectorAll<HTMLElement>('[data-heading-motion]')];
     const sections = [...document.querySelectorAll<HTMLElement>('[data-clinic-route] > section')];
+    const effectTargets = [...document.querySelectorAll<HTMLElement>('.service-item, .team-rail .doctor-portrait')];
+    const traces = new Set<Animation>();
+    const principles = [...document.querySelectorAll<HTMLElement>('.clinic-principle')];
+    let careFrame = 0;
+    function updateCare() {
+      careFrame = 0;
+      principles.forEach(principle => {
+        const r = principle.getBoundingClientRect();
+        const progress = reduced.matches ? 1 : Math.max(0, Math.min(1, (innerHeight * .78 - r.top) / Math.max(r.height, 1)));
+        principle.style.setProperty('--care-progress', progress.toFixed(3));
+        principle.classList.toggle('care-is-active', r.top < innerHeight * .65 && r.bottom > innerHeight * .35);
+      });
+    }
+    function revealEffect(element: HTMLElement, instant = false) {
+      if (element.classList.contains('effect-entered')) return;
+      element.classList.add('effect-entered');
+      if (instant || reduced.matches || document.body.classList.contains('motion-fast')) {
+        element.classList.add('effect-instant');
+        return;
+      }
+      if (element.matches('.service-item')) {
+        element.querySelectorAll<SVGGeometryElement>('.service-accent path, .service-accent rect').forEach((shape, index) => {
+          const length = shape.getTotalLength();
+          shape.style.strokeDasharray = `${length} ${length}`;
+          const animation = shape.animate([{strokeDashoffset: length}, {strokeDashoffset: 0}], {duration: 850, delay: index * 65, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'both'});
+          traces.add(animation);
+          const clean = () => { shape.style.removeProperty('stroke-dasharray'); traces.delete(animation); animation.cancel(); };
+          animation.finished.then(clean, clean);
+        });
+      }
+    }
+    const effectsObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { revealEffect(entry.target as HTMLElement); effectsObserver.unobserve(entry.target); }
+      });
+    }, {threshold: .05, rootMargin: '0px 0px -6% 0px'});
+    effectTargets.forEach((target, index) => {
+      if (!reduced.matches && target.getBoundingClientRect().top > innerHeight * .92) {
+        target.classList.add('effect-armed');
+        target.style.setProperty('--effect-delay', `${target.matches('.doctor-portrait') ? index % 4 * 60 : 0}ms`);
+        effectsObserver.observe(target);
+      } else revealEffect(target, true);
+    });
+    updateCare();
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -27,10 +71,17 @@
         hero.classList.add('hero-settled');
         headings.forEach(heading => { if (heading.getBoundingClientRect().top < innerHeight + 80) { heading.classList.add('is-heading-visible'); observer.unobserve(heading); } });
         document.querySelectorAll<HTMLElement>('[data-reveal]').forEach(element => { if (element.getBoundingClientRect().top < innerHeight + 80) element.classList.add('is-visible'); });
+        traces.forEach(animation => animation.cancel());
+        effectTargets.forEach(target => {
+          if (target.getBoundingClientRect().top < innerHeight + 80) {
+            target.classList.add('effect-instant', 'effect-entered'); effectsObserver.unobserve(target);
+          }
+        });
         clearTimeout(timer);
         timer = window.setTimeout(() => document.body.classList.remove('motion-fast'), 220);
       }
       previousY = scrollY; lastScroll = now;
+      if (!careFrame) careFrame = requestAnimationFrame(updateCare);
     }, {passive: true});
     const pointer = matchMedia('(hover: hover) and (pointer: fine)');
     let pointerFrame = 0, lightX = 75, lightY = 45, tiltX = 0, tiltY = 0, lightAngle = 0;
@@ -52,6 +103,13 @@
       if (pointerFrame) cancelAnimationFrame(pointerFrame); pointerFrame = 0;
       ['--hero-light-x','--hero-light-y','--emblem-tilt-x','--emblem-tilt-y','--emblem-light-angle'].forEach(property => hero.style.removeProperty(property));
     });
-    reduced.addEventListener('change', () => { if (reduced.matches) { headings.forEach(h => h.classList.add('is-heading-visible')); hero.classList.add('hero-settled'); } });
+    window.addEventListener('resize', () => { if (!careFrame) careFrame = requestAnimationFrame(updateCare); }, {passive: true});
+    reduced.addEventListener('change', () => {
+      if (reduced.matches) {
+        headings.forEach(h => h.classList.add('is-heading-visible')); hero.classList.add('hero-settled');
+        traces.forEach(animation => animation.cancel()); effectTargets.forEach(target => revealEffect(target, true));
+      }
+      updateCare();
+    });
   }
 </script>

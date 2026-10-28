@@ -11,6 +11,7 @@ import Contacts from '@/components/Contacts.astro';
 import Footer from '@/components/Footer.astro';
 import ConceptDialog from '@/components/ConceptDialog.astro';
 import ClinicMotion from '@/components/ClinicMotion.astro';
+import SilverStudy from '@/components/SilverStudy.astro';
 interface Props { variant: 'clinic' | 'background' | 'spacing'; }
 const { variant } = Astro.props;
 const generalClinic = variant === 'clinic';
@@ -33,6 +34,7 @@ const showDivider = variant === 'spacing';
   <Footer />
   <ConceptDialog />
   {generalClinic && <ClinicMotion />}
+  {generalClinic && <SilverStudy />}
 <script>
   document.documentElement.classList.add('js');
   const conceptDialog = document.querySelector<HTMLDialogElement>('#concept-dialog');

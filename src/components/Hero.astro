@@ -13,9 +13,10 @@ const { generalClinic = false } = Astro.props;
 
     <div class="hero-composition grid items-center gap-12 py-14 md:grid-cols-[1.4fr_1fr] md:gap-16 md:py-20">
       <div>
-        <h1 class="display hero-title text-[clamp(3.4rem,7.7vw,7.75rem)]">
-          <span class="title-mask"><span class="title-line">Дело</span></span>
-          <span class="title-mask"><span class="title-line">в улыбке.</span></span>
+        <h1 class="display hero-title text-[clamp(3.4rem,7.7vw,7.75rem)]" aria-label={generalClinic ? 'Дело в улыбке.' : undefined}>
+          {['Дело', 'в улыбке.'].map((line, lineIndex) => (
+            <span class="title-mask" aria-hidden={generalClinic ? 'true' : undefined}><span class="title-line">{generalClinic ? Array.from(line).map((letter, index) => <span class="hero-glyph" style={`--glyph-index:${index + lineIndex * 4}`}>{letter === ' ' ? '\u00a0' : letter}</span>) : line}</span></span>
+          ))}
         </h1>
         <p class="hero-intro mt-8 max-w-md text-base leading-relaxed text-graphite md:text-lg">{generalClinic ? <>Стоматология для взрослых и детей.<br/>Внимание к вам. Забота об улыбке.</> : <>Внимание к вам. Забота об улыбке.<br/>Новый взгляд на знакомство со стоматологией.</>}</p>
         <a href="#appointment" class="action-link hero-intro mt-8 inline-flex items-center gap-10 bg-ink px-7 py-5 text-xs font-semibold uppercase tracking-[.14em] text-white md:hidden">Обсудить визит <ArrowIcon class="action-arrow" /></a>

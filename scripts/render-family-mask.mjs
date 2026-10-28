@@ -1,0 +1,4 @@
+import {chromium} from 'playwright-core';
+import fs from 'node:fs/promises';
+const browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
+try{const page=await browser.newPage();await page.goto('http://localhost:4173/');const data=await page.evaluate(async()=>{const image=new Image();image.src='/brand/logo-graphite.svg';await image.decode();const canvas=document.createElement('canvas');canvas.width=canvas.height=2048;const ctx=canvas.getContext('2d');const scale=1920/Math.max(image.naturalWidth,image.naturalHeight);const w=image.naturalWidth*scale,h=image.naturalHeight*scale;ctx.drawImage(image,(2048-w)/2,(2048-h)/2,w,h);return canvas.toDataURL('image/png').split(',')[1]});await fs.writeFile('work/family-mask.png',Buffer.from(data,'base64'));console.log('Rendered original vector alpha with 64px border, no geometry alteration');}finally{await browser.close()}

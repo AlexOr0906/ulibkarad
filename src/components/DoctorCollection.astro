@@ -80,23 +80,55 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
     sync();
 
     const dialog = document.querySelector<HTMLDialogElement>('#doctor-demo')!;
+    const dialogCopy = dialog.querySelector<HTMLElement>('.doctor-dialog-grid > div')!;
     let trigger: HTMLButtonElement | null = null;
-    collection.querySelectorAll<HTMLButtonElement>('[data-doctor-open]').forEach(button => button.addEventListener('click', () => {
+    let openRequest = 0;
+    let portraitTransition: ViewTransition | null = null;
+    collection.querySelectorAll<HTMLButtonElement>('[data-doctor-open]').forEach(button => button.addEventListener('click', async () => {
+      const request = ++openRequest;
       trigger = button;
       dialog.querySelector<HTMLElement>('#doctor-demo-title')!.textContent = button.dataset.name ?? '';
       dialog.querySelector<HTMLElement>('[data-doctor-dialog-specialty]')!.textContent = button.dataset.specialty ?? '';
       dialog.querySelector<HTMLElement>('[data-doctor-dialog-summary]')!.textContent = button.dataset.summary ?? '';
       const image = dialog.querySelector<HTMLImageElement>('[data-doctor-dialog-image]')!;
+      image.loading = 'eager';
       image.src = button.dataset.portrait ?? '';
       image.alt = button.dataset.preview ? 'Временный демонстрационный AI-портрет. Не сотрудник клиники.' : button.dataset.name ?? '';
       dialog.querySelector<HTMLElement>('[data-doctor-dialog-label]')!.textContent = button.dataset.preview ? 'Демонстрация карточки' : 'О враче';
       dialog.querySelector<HTMLElement>('#doctor-demo-note')!.hidden = !button.dataset.preview;
-      dialog.showModal();
+      const source = button.closest('[data-doctor-card]')?.querySelector<HTMLImageElement>('.doctor-portrait img');
+      const show = () => { if (!dialog.open) dialog.showModal(); };
+      if (!reduced.matches && document.startViewTransition && source) {
+        await Promise.race([image.decode().catch(() => {}), new Promise(resolve => setTimeout(resolve, 160))]);
+        if (request !== openRequest) return;
+        if (!reduced.matches && image.complete && image.naturalWidth) {
+          portraitTransition?.skipTransition();
+          source.style.viewTransitionName = 'doctor-preview';
+          dialog.dataset.morph = 'true';
+          delete dialog.dataset.morphComplete;
+          dialogCopy.inert = true;
+          const transition = document.startViewTransition(() => {
+            source.style.viewTransitionName = 'none'; image.style.viewTransitionName = 'doctor-preview'; show();
+          });
+          portraitTransition = transition;
+          const clean = () => {
+            source.style.removeProperty('view-transition-name'); image.style.removeProperty('view-transition-name');
+            dialogCopy.inert = false;
+            if (dialog.open) dialog.dataset.morphComplete = 'true';
+            if (!dialog.open) delete dialog.dataset.morph;
+            if (portraitTransition === transition) portraitTransition = null;
+          };
+          transition.finished.then(clean, clean);
+          return;
+        }
+      }
+      show();
     }));
-    dialog.addEventListener('close', () => trigger?.focus({preventScroll: true}));
+    dialog.addEventListener('close', () => { ++openRequest; portraitTransition?.skipTransition(); delete dialog.dataset.morph; delete dialog.dataset.morphComplete; dialogCopy.inert = false; trigger?.focus({preventScroll: true}); });
+    reduced.addEventListener('change', () => { if (reduced.matches) portraitTransition?.skipTransition(); });
     dialog.addEventListener('keydown', event => {
       if (event.key !== 'Tab') return;
-      const controls = [...dialog.querySelectorAll<HTMLElement>('button:not([disabled]), a[href], [tabindex="0"]')].filter(e => e.getClientRects().length > 0);
+      const controls = [...dialog.querySelectorAll<HTMLElement>('button:not([disabled]), a[href], [tabindex="0"]')].filter(e => e.getClientRects().length > 0 && !e.closest('[inert]'));
       const first = controls[0], last = controls[controls.length - 1];
       if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
       else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }

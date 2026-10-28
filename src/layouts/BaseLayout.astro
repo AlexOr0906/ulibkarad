@@ -16,6 +16,7 @@ const { title, description, bracketVariant } = Astro.props;
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
+    <script is:inline>if(new URLSearchParams(location.search).get('scene')==='sculpture')document.documentElement.classList.add('silver-study-route');</script>
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     <meta name="robots" content="noindex, nofollow, noarchive" />

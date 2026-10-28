@@ -2,31 +2,31 @@
 const base = import.meta.env.BASE_URL;
 ---
 <div class="of-intro" data-of-intro>
-  <section class="of-opening" id="of-top" aria-labelledby="of-name" data-sc-act="flow">
+  <div class="of-scene-ground" aria-hidden="true"><div class="of-scene-shade"></div></div>
+  <section class="of-opening" id="of-top" aria-labelledby="of-name">
     <div class="of-shell">
       <div class="of-opening-meta"><p>Магнитогорск</p><p>Демо-концепция</p></div>
       <h1 class="of-title" id="of-name"><span>Ортофэмили</span></h1>
-      <div class="of-stage" data-of-stage>
         <div class="of-lead" data-of-lead>
           <p class="of-hero-description">Стоматология<br/>для взрослых и детей.</p>
-          <p class="of-lead-note">Внимание к вам.<br/>Забота об улыбке.</p>
           <a class="of-button" href="#of-visit" data-of-visit>Обсудить визит <span aria-hidden="true">↗</span></a>
-          <a class="of-text-link of-discover" href="#of-about">Познакомиться ближе <span aria-hidden="true">↓</span></a>
         </div>
-        <figure class="of-photo of-photo-main" data-of-main-photo>
-          <img src={`${base}orthofamily/mirror-hand-1280.webp`} srcset={`${base}orthofamily/mirror-hand-640.webp 640w, ${base}orthofamily/mirror-hand-1280.webp 1280w`} sizes="(max-width: 767px) 78vw, 35vw" alt="Иллюстративный кадр: рука в перчатке держит стоматологическое зеркало." width="1280" height="1599" fetchpriority="high" />
-          <figcaption>Иллюстративный кадр</figcaption>
-        </figure>
-        <figure class="of-photo-near" data-of-near-photo>
-          <div class="of-near-frame"><img src={`${base}orthofamily/care-detail-1200.webp`} srcset={`${base}orthofamily/care-detail-640.webp 640w, ${base}orthofamily/care-detail-1200.webp 1200w`} sizes="(max-width: 767px) 48vw, 27vw" alt="Демонстрационная деталь: перчатка и белая салфетка на серебристой поверхности." width="1200" height="900" decoding="async" /></div>
-          <figcaption>Демонстрационные фотоматериалы.<br/>Не фотографии клиники.</figcaption>
-        </figure>
-      </div>
     </div>
   </section>
-  <section class="of-about" id="of-about" aria-labelledby="of-about-title" data-sc-act="flow">
+  <div class="of-scene-world">
+    <div class="of-scene-stage" data-of-stage>
+        <figure class="of-photo of-photo-main" data-of-main-photo>
+          <img src={`${base}orthofamily/mirror-hand-1280.webp`} srcset={`${base}orthofamily/mirror-hand-640.webp 640w, ${base}orthofamily/mirror-hand-1280.webp 1280w`} sizes="(max-width: 767px) 90vw, 52vw" alt="Иллюстративный кадр: рука в перчатке держит стоматологическое зеркало." width="1280" height="1599" fetchpriority="high" />
+          <figcaption>Иллюстративный кадр</figcaption>
+        </figure>
+        <figure class="of-photo of-photo-near" data-of-near-photo>
+          <div class="of-near-frame"><img src={`${base}orthofamily/ceramic-crown-800.webp`} srcset={`${base}orthofamily/ceramic-crown-400.webp 400w, ${base}orthofamily/ceramic-crown-800.webp 800w`} sizes="(max-width: 767px) 58vw, 30vw" alt="Иллюстративная стоматологическая деталь: керамическая коронка на серебристой поверхности." width="800" height="600" decoding="async" /></div>
+          <figcaption>Демонстрационные изображения.<br/>Не фотографии клиники.</figcaption>
+        </figure>
+    </div>
+  </div>
+  <section class="of-about" id="of-about" aria-labelledby="of-about-title">
     <div class="of-shell of-about-grid">
-      <div class="of-about-label"><p class="of-eyebrow">О подходе</p><span class="of-about-rule" aria-hidden="true"></span></div>
       <div class="of-about-copy">
         <h2 id="of-about-title">Внимание<br/>к каждому.</h2>
         <p>Знакомство со стоматологией начинается с разговора. Важно понять ваш запрос, спокойно обсудить возможные шаги и ответить на вопросы.</p>

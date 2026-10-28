@@ -5,35 +5,86 @@
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
     const desktop = matchMedia('(min-width: 768px)');
     const lead = intro.querySelector<HTMLElement>('[data-of-lead]')!;
-    const opening = intro.querySelector<HTMLElement>('.of-opening')!;
-    const about = intro.querySelector<HTMLElement>('.of-about')!;
-    let frame = 0, lastY = scrollY;
+    const stage = intro.querySelector<HTMLElement>('[data-of-stage]')!;
+    const primary = intro.querySelector<HTMLElement>('[data-of-main-photo]')!;
+    const secondary = intro.querySelector<HTMLElement>('[data-of-near-photo]')!;
+    const aboutCopy = intro.querySelector<HTMLElement>('.of-about-copy')!;
+    const photos = [...intro.querySelectorAll<HTMLImageElement>('.of-photo img')];
+    let frame = 0, ready = false;
+    let geometry = {width: 0, height: 0, span: 1, leadBottom: 0, primaryHeight: 0, header: 88};
+    const clamp = (value: number) => Math.max(0, Math.min(1, value));
+    const smooth = (value: number) => { const p = clamp(value); return p * p * (3 - 2 * p); };
+    // Shared camera poses. All layers interpolate on the same progress, never separate reveal timers.
+    const desktopPoses = [
+      [0, .70, .54, .82, .70, .61, .60],
+      [.34, .58, .47, 1.08, .63, .64, .76],
+      [.70, .34, .44, .99, .50, .54, .94],
+      [1, .245, .39, .82, .46, .56, .78],
+    ];
+    const phonePoses = [
+      [0, .60, .58, .84, .61, .65, .58],
+      [.34, .52, .49, 1.02, .60, .59, .70],
+      [.70, .34, .30, .72, .68, .43, .86],
+      [1, .30, .18, .58, .68, .24, .82],
+    ];
+    function measure() {
+      const active = ready && !reduced.matches && (innerHeight >= 620 || (!desktop.matches && innerHeight >= 540));
+      intro.classList.toggle('of-scene-active', active);
+      const r = intro.getBoundingClientRect();
+      geometry = {width: stage.clientWidth, height: stage.clientHeight, span: Math.max(1, intro.offsetHeight - innerHeight), leadBottom: lead.getBoundingClientRect().bottom - r.top, primaryHeight: primary.offsetHeight, header: desktop.matches ? 88 : 72};
+      if (active && desktop.matches) {
+        const copyLeft = aboutCopy.getBoundingClientRect().left - r.left;
+        desktopPoses[2][4] = Math.min(.50, (copyLeft - 24 - secondary.offsetWidth * desktopPoses[2][6] / 2) / geometry.width);
+        desktopPoses[3][4] = Math.min(.46, (copyLeft - 24 - secondary.offsetWidth * desktopPoses[3][6] / 2) / geometry.width);
+      }
+      // Release the photographic world before long, narrow-phone copy reaches it.
+      // After release the group and copy move together in ordinary flow.
+      let release = 0;
+      if (active && !desktop.matches) {
+        const captionHeight = secondary.querySelector('figcaption')!.offsetHeight;
+        const finalBottom = geometry.header + Math.max(geometry.height * .18 + geometry.primaryHeight * .58 / 2, geometry.height * .24 + secondary.offsetHeight * .82 / 2 + (captionHeight + 16) * .82);
+        release = Math.max(0, finalBottom + 48 - (aboutCopy.getBoundingClientRect().top - r.top - geometry.span));
+      }
+      intro.style.setProperty('--of-release-offset', `${release}px`);
+      geometry.span = Math.max(1, geometry.span - release);
+      intro.dataset.ofSpan = String(geometry.span);
+      queue();
+    }
     function update() {
       frame = 0;
-      const r = opening.getBoundingClientRect();
-      const travel = Math.max(0, -r.top);
-      const p = reduced.matches ? 0 : Math.min(1, travel / (desktop.matches ? 700 : 540));
-      const leadBottom = lead.getBoundingClientRect().bottom - r.top;
-      const beginTone = Math.max(100, leadBottom - (desktop.matches ? 220 : 170));
-      const tone = reduced.matches ? 0 : Math.max(0, Math.min(1, (travel - beginTone) / (innerHeight * .5)));
-      const eased = tone * tone * (3 - 2 * tone);
-      const from = [238,241,243], to = [39,48,55];
-      opening.style.setProperty('--of-tone', `rgb(${from.map((v, i) => Math.round(v + (to[i] - v) * eased)).join(' ')})`);
-      intro.style.setProperty('--of-title-y', `${-p * (desktop.matches ? 90 : 26)}px`);
-      intro.style.setProperty('--of-main-y', `${-p * (desktop.matches ? 80 : 24)}px`);
-      intro.style.setProperty('--of-main-turn', `${-p * (desktop.matches ? 1.8 : .6)}deg`);
-      intro.style.setProperty('--of-main-scale', `${1 - p * (desktop.matches ? .025 : .01)}`);
-      intro.style.setProperty('--of-near-y', `${p * (desktop.matches ? 56 : 20)}px`);
-      intro.style.setProperty('--of-near-left', `${28 - p * 20}%`);
-      intro.style.setProperty('--of-near-turn', `${desktop.matches ? -3 + p * 3 : 0}deg`);
-      const ar = about.getBoundingClientRect();
-      about.style.setProperty('--of-rule-progress', String(reduced.matches ? 1 : Math.max(.15, Math.min(1, (innerHeight - ar.top) / (innerHeight * .6)))));
+      if (!intro.classList.contains('of-scene-active')) {
+        intro.style.setProperty('--of-shade', '0'); intro.style.setProperty('--of-scene-ink', '#273037'); return;
+      }
+      const p = clamp(-intro.getBoundingClientRect().top / geometry.span);
+      const poses = desktop.matches ? desktopPoses : phonePoses;
+      let i = 0; while (i < poses.length - 2 && p > poses[i + 1][0]) i++;
+      const a = poses[i], b = poses[i + 1], t = smooth((p - a[0]) / (b[0] - a[0]));
+      const pose = a.map((v, index) => v + (b[index] - v) * t);
+      // Short phone screens keep the first photograph below the immediately available CTA.
+      const phoneStart = desktop.matches ? 0 : Math.max(0, geometry.leadBottom - geometry.header + geometry.primaryHeight * .84 / 2 + 24 - geometry.height * .58);
+      intro.style.setProperty('--of-main-x', `${pose[1] * geometry.width}px`);
+      intro.style.setProperty('--of-main-y', `${pose[2] * geometry.height + phoneStart * (1 - smooth(p / .34))}px`);
+      intro.style.setProperty('--of-main-scale', String(pose[3]));
+      intro.style.setProperty('--of-near-x', `${pose[4] * geometry.width}px`);
+      intro.style.setProperty('--of-near-y', `${pose[5] * geometry.height + phoneStart * (1 - smooth(p / .34))}px`);
+      intro.style.setProperty('--of-near-scale', String(pose[6]));
+      const reveal = smooth((p - .30) / .42);
+      intro.style.setProperty('--of-near-wipe', `${(1 - reveal) * 100}%`);
+      intro.style.setProperty('--of-near-reveal', String(reveal));
+      const shade = smooth((p - .24) / .60);
+      intro.style.setProperty('--of-shade', String(shade));
+      const rgb = [238,241,243].map((v, index) => v + ([39,48,55][index] - v) * shade);
+      const luminance = rgb.map(v => v / 255).map(v => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4).reduce((sum, v, index) => sum + v * [.2126,.7152,.0722][index], 0);
+      intro.style.setProperty('--of-scene-ink', shade < .06 ? '#273037' : shade > .96 ? '#f2f4f5' : luminance > .179 ? '#000000' : '#ffffff');
+      intro.dataset.ofProgress = p.toFixed(4);
     }
     function queue() { if (!frame) frame = requestAnimationFrame(update); }
-    addEventListener('scroll', () => { if (Math.abs(scrollY - lastY) > innerHeight * .5) document.documentElement.classList.add('of-skip-intro'); lastY = scrollY; queue(); }, {passive: true});
-    addEventListener('resize', queue, {passive: true});
-    reduced.addEventListener('change', () => { document.documentElement.classList.toggle('of-motion', !reduced.matches); queue(); });
-    document.fonts.ready.then(queue); update();
+    addEventListener('scroll', queue, {passive: true});
+    addEventListener('resize', measure, {passive: true});
+    reduced.addEventListener('change', measure);
+    Promise.all(photos.map(photo => photo.decode().catch(() => {}))).then(() => { ready = photos.every(photo => photo.naturalWidth > 0); measure(); });
+    document.fonts.ready.then(measure);
+    measure();
 
     const cards = [...document.querySelectorAll<HTMLDetailsElement>('[data-of-direction]')];
     const animations = new Map<HTMLDetailsElement, Animation>();

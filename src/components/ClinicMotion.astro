@@ -33,15 +33,25 @@
       previousY = scrollY; lastScroll = now;
     }, {passive: true});
     const pointer = matchMedia('(hover: hover) and (pointer: fine)');
-    let pointerFrame = 0, lightX = 75, lightY = 45;
+    let pointerFrame = 0, lightX = 75, lightY = 45, tiltX = 0, tiltY = 0, lightAngle = 0;
     hero.addEventListener('pointermove', event => {
       if (reduced.matches || !pointer.matches) return;
       const r = hero.getBoundingClientRect();
       lightX = 66 + (event.clientX - r.left) / r.width * 18;
       lightY = 30 + (event.clientY - r.top) / r.height * 25;
-      if (!pointerFrame) pointerFrame = requestAnimationFrame(() => { hero.style.setProperty('--hero-light-x', `${lightX}%`); hero.style.setProperty('--hero-light-y', `${lightY}%`); pointerFrame = 0; });
+      tiltX = -((event.clientY - r.top) / r.height - .5) * 4;
+      tiltY = ((event.clientX - r.left) / r.width - .5) * 6;
+      lightAngle = tiltY * 3;
+      if (!pointerFrame) pointerFrame = requestAnimationFrame(() => {
+        hero.style.setProperty('--hero-light-x', `${lightX}%`); hero.style.setProperty('--hero-light-y', `${lightY}%`);
+        hero.style.setProperty('--emblem-tilt-x', `${tiltX}deg`); hero.style.setProperty('--emblem-tilt-y', `${tiltY}deg`);
+        hero.style.setProperty('--emblem-light-angle', `${lightAngle}deg`); pointerFrame = 0;
+      });
     }, {passive: true});
-    hero.addEventListener('pointerleave', () => { hero.style.removeProperty('--hero-light-x'); hero.style.removeProperty('--hero-light-y'); });
+    hero.addEventListener('pointerleave', () => {
+      if (pointerFrame) cancelAnimationFrame(pointerFrame); pointerFrame = 0;
+      ['--hero-light-x','--hero-light-y','--emblem-tilt-x','--emblem-tilt-y','--emblem-light-angle'].forEach(property => hero.style.removeProperty(property));
+    });
     reduced.addEventListener('change', () => { if (reduced.matches) { headings.forEach(h => h.classList.add('is-heading-visible')); hero.classList.add('hero-settled'); } });
   }
 </script>

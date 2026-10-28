@@ -7,7 +7,7 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
 ---
 <div class="team-collection mt-10 md:mt-14" data-team-carousel>
   <div class="team-toolbar">
-    <p class="max-w-xl text-xs leading-relaxed text-graphite">{preview ? 'Демонстрационные макеты. Реальные портреты и сведения о врачах появятся после согласования.' : 'Знакомство с врачом до первого визита.'}</p>
+    <p class="team-demo-note max-w-xl text-xs leading-relaxed text-graphite">{preview ? 'Демонстрационные изображения. Не являются фотографиями сотрудников клиники.' : 'Знакомство с врачом до первого визита.'}</p>
     <div class="team-navigation" data-team-control>
       <span class="mr-3 text-xs text-graphite" data-team-position aria-live="polite">Демоколлекция</span>
       <button class="team-arrow" type="button" data-team-prev aria-label="Предыдущие карточки врачей" aria-controls="team-rail" disabled><ArrowIcon class="team-arrow-prev" /></button>
@@ -26,12 +26,12 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
     <form method="dialog"><button class="size-11 text-2xl" type="submit" aria-label="Закрыть карточку врача">×</button></form>
   </div>
   <div class="doctor-dialog-grid mt-6">
-    <img class="doctor-dialog-image" data-doctor-dialog-image src={`${import.meta.env.BASE_URL}team/portrait-study-1.svg`} width="600" height="720" alt="Нейтральный силуэт. Графический макет." />
+    <img class="doctor-dialog-image" data-doctor-dialog-image src={`${import.meta.env.BASE_URL}team/portrait-demo-1-800.webp`} loading="lazy" width="800" height="1000" alt="Временный демонстрационный AI-портрет. Не сотрудник клиники." />
     <div>
       <h2 id="doctor-demo-title" class="text-3xl font-light tracking-[-.03em]">Имя и фамилия</h2>
       <p class="mt-3 text-sm text-graphite" data-doctor-dialog-specialty>Специальность врача</p>
       <p class="mt-6 text-sm leading-relaxed text-graphite" data-doctor-dialog-summary></p>
-      <p id="doctor-demo-note" class="mt-7 border-t border-graphite/25 pt-5 text-xs leading-relaxed text-graphite">Графический макет, не профиль сотрудника. Для наполнения нужны портрет, ФИО, специальность и согласованный текст.</p>
+      <p id="doctor-demo-note" class="mt-7 border-t border-graphite/25 pt-5 text-xs leading-relaxed text-graphite">Временный AI-портрет, не фотография сотрудника клиники. Для наполнения нужны реальные портрет, ФИО, специальность и согласованный текст.</p>
       <form method="dialog"><button class="action-link mt-7 bg-ink px-6 py-4 text-xs font-semibold uppercase tracking-[.08em] text-white" type="submit">Закрыть просмотр</button></form>
     </div>
   </div>
@@ -88,7 +88,7 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
       dialog.querySelector<HTMLElement>('[data-doctor-dialog-summary]')!.textContent = button.dataset.summary ?? '';
       const image = dialog.querySelector<HTMLImageElement>('[data-doctor-dialog-image]')!;
       image.src = button.dataset.portrait ?? '';
-      image.alt = button.dataset.preview ? 'Нейтральный силуэт. Графический макет.' : button.dataset.name ?? '';
+      image.alt = button.dataset.preview ? 'Временный демонстрационный AI-портрет. Не сотрудник клиники.' : button.dataset.name ?? '';
       dialog.querySelector<HTMLElement>('[data-doctor-dialog-label]')!.textContent = button.dataset.preview ? 'Демонстрация карточки' : 'О враче';
       dialog.querySelector<HTMLElement>('#doctor-demo-note')!.hidden = !button.dataset.preview;
       dialog.showModal();

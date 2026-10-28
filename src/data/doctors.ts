@@ -3,7 +3,7 @@ export interface DoctorProfile {
   name: string | null;
   specialty: string | null;
   summary: string | null;
-  portrait: { src: string; alt: string; position?: string } | null;
+  portrait: { src: string; alt: string; position?: string; srcSet?: string; width?: number; height?: number } | null;
   profileHref: string | null;
   study?: string;
 }
@@ -13,9 +13,15 @@ export interface DoctorProfile {
 // only after the corresponding page exists. No profile pages are created here.
 export const clinicDoctors: DoctorProfile[] = [];
 
-// Graphic layout studies, explicitly not employees or the clinic's headcount.
+// Original AI portrait demos, explicitly not staff photos or clinic headcount.
 export const doctorCardExamples: DoctorProfile[] = [1, 2, 3, 4].map(index => ({
   id: `layout-study-${index}`, name: null, specialty: null, summary: null,
-  portrait: null, profileHref: null, study: `team/portrait-study-${index}.svg`,
+  portrait: {
+    src: `team/portrait-demo-${index}-800.webp`,
+    srcSet: `team/portrait-demo-${index}-480.webp 480w, team/portrait-demo-${index}-800.webp 800w`,
+    alt: `Демонстрационный AI-портрет ${index}. Не фотография сотрудника клиники.`,
+    position: '50% 0%', width: 800, height: 1000,
+  },
+  profileHref: null,
 }));
 export const doctorCardExample = doctorCardExamples[0];

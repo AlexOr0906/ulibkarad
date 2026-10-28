@@ -6,10 +6,11 @@ const { doctor, preview = false, index = 0 } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const demo = preview || !doctor.name || !doctor.specialty || !doctor.portrait;
 const image = `${base}${(doctor.portrait?.src ?? doctor.study ?? 'team/portrait-study-1.svg').replace(/^\/+/, '')}`;
+const srcSet = doctor.portrait?.srcSet?.split(',').map(candidate => `${base}${candidate.trim().replace(/^\/+/, '')}`).join(', ');
 ---
-<article class="doctor-card" data-doctor-card data-preview={demo ? 'true' : undefined} aria-label={demo ? `Графический макет карточки ${index + 1}` : doctor.name ?? undefined}>
+<article class="doctor-card" data-doctor-card data-preview={demo ? 'true' : undefined} aria-label={demo ? `Демонстрационный макет карточки ${index + 1}` : doctor.name ?? undefined}>
   <div class="doctor-portrait">
-    <img src={image} alt={doctor.portrait?.alt ?? 'Нейтральный силуэт. Графическая заготовка портрета.'} width="600" height="720" loading="lazy" style={`object-position: ${doctor.portrait?.position ?? '50% 20%'}`} />
+    <img src={image} srcset={srcSet} sizes="(max-width: 767px) calc(100vw - 68px), (max-width: 1023px) calc(50vw - 44px), min(440px, 33vw)" alt={doctor.portrait?.alt ?? 'Нейтральный силуэт. Графическая заготовка портрета.'} width={doctor.portrait?.width ?? 600} height={doctor.portrait?.height ?? 720} loading="lazy" decoding="async" style={`object-position: ${doctor.portrait?.position ?? '50% 0%'}`} />
   </div>
   <div class="doctor-card-copy">
     <h3 class="text-[clamp(1.5rem,2.2vw,2rem)] font-light leading-tight tracking-[-.025em]">{doctor.name ?? 'Имя и фамилия'}</h3>
@@ -19,6 +20,6 @@ const image = `${base}${(doctor.portrait?.src ?? doctor.study ?? 'team/portrait-
     ) : (
       <button type="button" class="doctor-open mt-5 inline-flex items-center gap-5 py-2 text-xs font-medium" data-doctor-open data-preview={demo ? 'true' : undefined} data-name={doctor.name ?? 'Имя и фамилия'} data-specialty={doctor.specialty ?? 'Специальность врача'} data-summary={doctor.summary ?? 'Краткое представление врача будет добавлено после согласования с клиникой.'} data-portrait={image} aria-haspopup="dialog" aria-controls="doctor-demo" aria-label={demo ? `Посмотреть макет карточки ${index + 1}` : `О враче: ${doctor.name}`}>{demo ? 'Посмотреть макет' : 'О враче'} <ArrowIcon /></button>
     )}
-    <noscript><p class="mt-4 text-xs text-graphite">Графический макет. Реальные данные будут добавлены.</p></noscript>
+    {demo && <noscript><p class="mt-4 text-xs text-graphite">Временный AI-портрет. Реальные данные будут добавлены.</p></noscript>}
   </div>
 </article>

@@ -18,6 +18,7 @@
     }
     function queue() { if (!frame) frame = requestAnimationFrame(update); }
     function measure() {
+      intro.dataset.ofMotion = reduced.matches ? 'reduced' : 'full';
       span = Math.max(1, intro.offsetHeight - innerHeight);
       intro.dataset.ofSpan = String(span);
       lastProgress = -1;

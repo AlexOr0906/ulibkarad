@@ -8,6 +8,8 @@ Replace the framed glove photograph with one original transparent silver dental 
 
 ## Composition and sequence
 
+Follow-up, 29 October: user requests more time with the mirror. Desktop approach now provides at least110svh of scroll with the mirror in its protected right column and approach copy held in the left column. Phone holds the complete opening composition for60svh before its natural exit; the ground continues to change behind it. No empty spacer or input interception. Reduced motion/no-JS keep the earlier unpinned compact reading flow. The stable intro root owns `#of-top`, so return-to-top does not anchor to the mobile sticky child. A20px visual-slot inset preserves clearance from the illustrative note during scale/tilt.
+
 1. Recognition: complete wordmark and early CTA in a stable left text column. Complete mirror centred in its own right visual column; no letters over the subject and no frame/matte. All initial content fits the desktop viewport.
 2. Approach: ordinary scroll moves the hero copy away while the mirror stays in the same protected column. One continuous progress gently scales it from .96 to1 and moves it up by at most12px. No lateral travel, multi-pose turn, collision correction, overshoot or corrective jump.
 3. Reading: a broad native paper-to-graphite ground connects opening and approach. Copy occupies the same left corridor and uses a fixed appropriate ink in each section; no black/white switch halfway through a sentence. Mirror stays fully contained at every point.

@@ -11,6 +11,7 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
   <div class="team-toolbar">
     <p class="team-demo-note max-w-xl text-xs leading-relaxed text-graphite">{preview ? 'Демонстрационные AI-изображения. Не являются фотографиями сотрудников клиники. Количество макетов не отражает численность команды.' : 'Знакомство с врачом до первого визита.'}</p>
     <div class="team-navigation" data-team-control>
+      <button class="team-motion-toggle" type="button" data-team-motion aria-pressed="false" aria-label="Остановить движение портретов">Пауза</button>
       <span class="mr-3 text-xs text-graphite" data-team-position aria-live="polite">Демоколлекция</span>
       <button class="team-arrow" type="button" data-team-prev aria-label="Предыдущие карточки врачей" aria-controls="team-rail" disabled><ArrowIcon class="team-arrow-prev" /></button>
       <button class="team-arrow" type="button" data-team-next aria-label="Следующие карточки врачей" aria-controls="team-rail"><ArrowIcon class="team-arrow-next" /></button>
@@ -49,14 +50,61 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
     const status = collection.querySelector<HTMLElement>('[data-team-position]')!;
     const progress = collection.querySelector<HTMLElement>('[data-team-progress]')!;
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    const desktop = matchMedia('(min-width: 1024px)');
+    let active = 0;
+    let motionPaused = false;
+    const motionToggle = collection.querySelector<HTMLButtonElement>('[data-team-motion]')!;
+    motionToggle.addEventListener('click', () => {
+      motionPaused = !motionPaused; collection!.dataset.motionPaused = String(motionPaused);
+      motionToggle.setAttribute('aria-pressed', String(motionPaused));
+      motionToggle.setAttribute('aria-label', motionPaused ? 'Включить движение портретов' : 'Остановить движение портретов');
+      motionToggle.textContent = motionPaused ? 'Движение' : 'Пауза'; select(active);
+    });
+    collection.classList.add('team-enhanced');
+    function select(index: number) {
+      active = Math.max(0, Math.min(cards.length - 1, index));
+      cards.forEach((card, i) => {
+        card.dataset.active = String(i === active);
+        const video = card.querySelector<HTMLVideoElement>('[data-doctor-video]');
+        if (!video) return;
+        if (i === active && !motionPaused && !reduced.matches && inView && !document.hidden) {
+          if (!video.src) video.src = video.dataset.src!;
+          video.play().then(() => card.dataset.playing = 'true').catch(() => {});
+        } else { video.pause(); delete card.dataset.playing; }
+      });
+    }
+    let inView = false;
+    cards.forEach((card, i) => {
+      card.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse' && desktop.matches) { select(i); sync(); } });
+      card.addEventListener('focusin', () => { if (desktop.matches) { select(i); sync(); } });
+      card.addEventListener('pointermove', e => {
+        if (motionPaused || reduced.matches || e.pointerType !== 'mouse') return;
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--portrait-x', `${((e.clientX - r.left) / r.width - .5) * 12}px`);
+        card.style.setProperty('--portrait-y', `${((e.clientY - r.top) / r.height - .5) * 8}px`);
+      });
+      card.addEventListener('pointerleave', () => { card.style.setProperty('--portrait-x', '0px'); card.style.setProperty('--portrait-y', '0px'); });
+    });
+    new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; collection!.classList.toggle('team-in-view', inView); select(active); }, {threshold: .1}).observe(rail);
+    document.addEventListener('visibilitychange', () => select(active));
+    reduced.addEventListener('change', () => select(active));
+    desktop.addEventListener('change', () => { select(active); sync(); });
+    select(0);
     let pending = 0;
     const step = () => cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : rail.clientWidth;
     function sync() {
       pending = 0;
+      if (desktop.matches) {
+        previous.disabled = active === 0; next.disabled = active === cards.length - 1;
+        status.textContent = `Портрет ${active + 1} / ${cards.length}${collection!.querySelector('[data-preview]') ? ' · демо' : ''}`;
+        progress.style.transform = `scaleX(${(active + 1) / cards.length})`;
+        return;
+      }
       const max = Math.max(0, rail.scrollWidth - rail.clientWidth);
       previous.disabled = rail.scrollLeft <= 2;
       next.disabled = rail.scrollLeft >= max - 2;
       const first = Math.min(cards.length, Math.round(rail.scrollLeft / step()) + 1);
+      select(first - 1);
       const gap = parseFloat(getComputedStyle(rail).columnGap) || 0;
       const shown = Math.max(1, Math.floor((rail.clientWidth + gap + 2) / step()));
       const last = Math.min(cards.length, first + shown - 1);
@@ -66,6 +114,7 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
       collection!.dataset.teamIndex = String(first - 1);
     }
     function move(direction: number | 'start' | 'end') {
+      if (desktop.matches) { select(direction === 'start' ? 0 : direction === 'end' ? cards.length - 1 : active + direction); sync(); return; }
       const target = direction === 'start' ? 0 : direction === 'end' ? rail.scrollWidth : rail.scrollLeft + step() * direction;
       rail.scrollTo({left: target, behavior: reduced.matches ? 'instant' : 'smooth'});
     }
@@ -83,6 +132,31 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
 
     const dialog = document.querySelector<HTMLDialogElement>('#doctor-demo')!;
     let trigger: HTMLButtonElement | null = null;
+    let morph: ViewTransition | undefined;
+    const modalImage = dialog.querySelector<HTMLImageElement>('[data-doctor-dialog-image]')!;
+    function portraitMorph(source: HTMLImageElement | undefined, opening: boolean) {
+      morph?.skipTransition();
+      rail.querySelectorAll<HTMLElement>('[style*="view-transition-name"]').forEach(el => el.style.removeProperty('view-transition-name'));
+      modalImage.style.removeProperty('view-transition-name');
+      const update = () => { if (opening) { if (!dialog.open) dialog.showModal(); } else dialog.close(); };
+      if (reduced.matches || !document.startViewTransition || !source) { update(); return; }
+      const from = opening ? source : modalImage;
+      const to = opening ? modalImage : source;
+      document.documentElement.dataset.teamTransition = 'true';
+      from.style.viewTransitionName = 'team-portrait';
+      const transition = document.startViewTransition(() => {
+        from.style.viewTransitionName = 'none';
+        to.style.viewTransitionName = 'team-portrait';
+        update();
+      });
+      morph = transition;
+      const clean = () => { if (morph !== transition) return; from.style.removeProperty('view-transition-name'); to.style.removeProperty('view-transition-name'); delete document.documentElement.dataset.teamTransition; morph = undefined; };
+      transition.finished.then(clean, clean);
+    }
+    const closeProfile = () => portraitMorph(trigger?.closest('[data-doctor-card]')?.querySelector<HTMLImageElement>('img') ?? undefined, false);
+    dialog.addEventListener('cancel', e => { e.preventDefault(); closeProfile(); });
+    dialog.querySelectorAll('form').forEach(form => form.addEventListener('submit', e => { e.preventDefault(); closeProfile(); }));
+    reduced.addEventListener('change', () => { if (reduced.matches) morph?.skipTransition(); });
     collection.querySelectorAll<HTMLButtonElement>('[data-doctor-open]').forEach(button => button.addEventListener('click', () => {
       trigger = button;
       dialog.querySelector<HTMLElement>('#doctor-demo-title')!.textContent = button.dataset.name ?? '';
@@ -96,7 +170,7 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
       image.alt = source?.alt ?? '';
       dialog.querySelector<HTMLElement>('[data-doctor-dialog-label]')!.textContent = button.dataset.preview ? 'Демонстрация карточки' : 'О враче';
       dialog.querySelector<HTMLElement>('#doctor-demo-note')!.hidden = !button.dataset.preview;
-      if (!dialog.open) dialog.showModal();
+      portraitMorph(source ?? undefined, true);
     }));
     dialog.addEventListener('close', () => trigger?.focus({preventScroll: true}));
     dialog.addEventListener('keydown', event => {
@@ -106,6 +180,6 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
       if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
       else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
     });
-    dialog.addEventListener('click', event => { const r = dialog.getBoundingClientRect(); if (event.target === dialog && (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom)) dialog.close(); });
+    dialog.addEventListener('click', event => { const r = dialog.getBoundingClientRect(); if (event.target === dialog && (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom)) closeProfile(); });
   }
 </script>

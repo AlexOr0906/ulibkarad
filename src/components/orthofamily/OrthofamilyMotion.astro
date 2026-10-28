@@ -75,13 +75,22 @@
       let i = 0; while (i < poses.length - 2 && p > poses[i + 1][0]) i++;
       const a = poses[i], b = poses[i + 1], t = smooth((p - a[0]) / (b[0] - a[0]));
       const pose = a.map((v, index) => v + (b[index] - v) * t);
-      if (desktop.matches && p > .34 && p < .70) {
-        pose[1] = poses[1][1] + (poses[2][1] - poses[1][1]) * smooth((p - .50) / .20);
+      if (desktop.matches && p > .34) {
+        const start = Math.max(.48, (geometry.leadBottom - geometry.header) / geometry.span - .02);
+        const finish = Math.min(.94, Math.max(.70, start + .20));
+        pose[1] = p < finish
+          ? poses[1][1] + (poses[2][1] - poses[1][1]) * smooth((p - start) / (finish - start))
+          : poses[2][1] + (poses[3][1] - poses[2][1]) * smooth((p - finish) / (1 - finish));
       }
       // Short phone screens keep the first photograph below the immediately available CTA.
       const phoneStart = desktop.matches ? 0 : Math.max(0, geometry.leadBottom - geometry.header + geometry.primaryHeight * .84 / 2 + 24 - geometry.height * .58);
+      let mainY = pose[2] * geometry.height + phoneStart * (1 - smooth(p / .34));
+      if (!desktop.matches) {
+        const travel = Math.max(0, -intro.getBoundingClientRect().top);
+        mainY = Math.max(mainY, geometry.leadBottom - travel - geometry.header + 24 + geometry.primaryHeight * pose[3] / 2);
+      }
       intro.style.setProperty('--of-main-x', `${pose[1] * geometry.width}px`);
-      intro.style.setProperty('--of-main-y', `${pose[2] * geometry.height + phoneStart * (1 - smooth(p / .34))}px`);
+      intro.style.setProperty('--of-main-y', `${mainY}px`);
       intro.style.setProperty('--of-main-scale', String(pose[3]));
       intro.style.setProperty('--of-near-x', `${pose[4] * geometry.width}px`);
       intro.style.setProperty('--of-near-y', `${pose[5] * geometry.height + phoneStart * (1 - smooth(p / .34))}px`);

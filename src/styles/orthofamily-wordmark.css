@@ -1,0 +1,6 @@
+@font-face { font-family:'OF Brand'; font-style:normal; font-weight:400; font-display:swap; src:url('../../node_modules/@fontsource/cormorant-garamond/files/cormorant-garamond-latin-400-normal.woff2') format('woff2'); }
+.of-brand-wordmark { font-family:'OF Brand',Georgia,serif; font-weight:400; letter-spacing:-.025em; }
+.of-title.of-brand-wordmark { font-size:clamp(4.2rem,15vw,14rem); font-weight:400; line-height:1; letter-spacing:-.03em; }
+.of-brand-descriptor { display:block; font-family:'OF Manrope','Manrope',sans-serif; font-size:clamp(.5rem,.7vw,.75rem); font-weight:400; line-height:1.6; letter-spacing:.18em; text-transform:uppercase; margin-top:.8rem; }
+.cf-brand > .of-brand-wordmark { font-family:'OF Brand',Georgia,serif; font-weight:400; letter-spacing:-.025em; }
+@media (max-width:767px) { .of-title.of-brand-wordmark { font-size:clamp(3.2rem,15.7vw,6rem); } .of-brand-descriptor { letter-spacing:.12em; } }

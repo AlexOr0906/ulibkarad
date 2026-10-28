@@ -12,11 +12,11 @@ const { withTeam = false } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="robots" content="noindex, nofollow, noarchive" />
-    <meta name="description" content="Ортофэмили — концепция стоматологии для взрослых и детей в Магнитогорске. Демонстрация нового вступления сайта." />
+    <meta name="description" content="OrtoFamily — концепция стоматологии для взрослых и детей в Магнитогорске. Демонстрация нового вступления сайта." />
     <meta name="theme-color" content="#eef1f3" />
     <link rel="icon" type="image/svg+xml" href={`${base}brand/logo-graphite.svg`} />
     <link rel="preload" href={cyrillicFont} as="font" type="font/woff2" crossorigin />
-    <title>Ортофэмили — стоматология для взрослых и детей · Концепция</title>
+    <title>OrtoFamily — стоматология для взрослых и детей · Концепция</title>
     <script is:inline>if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('of-motion');</script>
     {withTeam && <script is:inline>document.documentElement.classList.add('js');</script>}
   </head>
@@ -38,13 +38,13 @@ const { withTeam = false } = Astro.props;
     <main id="of-main" tabindex="-1" data-of-root><slot /></main>
     {Astro.slots.has('closing') ? <slot name="closing" /> : <footer class="of-footer" id="of-visit">
       <div class="of-shell of-footer-inner">
-        <div><p class="of-footer-name">Ортофэмили</p><p>Демо-концепция. Запись не производится.<br/>Контакты и материалы будут согласованы с клиникой.</p></div>
+        <div><p class="of-footer-name">OrtoFamily</p><p>Демо-концепция. Запись не производится.<br/>Контакты и материалы будут согласованы с клиникой.</p></div>
         <a href={withTeam ? `${base}orthofamily-preview/` : `${base}orthofamily-combined/`}>{withTeam ? 'Только вступление' : 'Вступление и команда'} <span aria-hidden="true">↗</span></a>
         <a href="#of-top">В начало <span aria-hidden="true">↑</span></a>
       </div>
     </footer>}
     <dialog class="of-dialog" id="of-visit-dialog" aria-labelledby="of-dialog-title" aria-describedby="of-dialog-description">
-      <form method="dialog" class="of-dialog-top"><span>Ортофэмили</span><button type="submit" aria-label="Закрыть окно">×</button></form>
+      <form method="dialog" class="of-dialog-top"><span>OrtoFamily</span><button type="submit" aria-label="Закрыть окно">×</button></form>
       <p class="of-eyebrow">Знакомство с клиникой</p>
       <h2 id="of-dialog-title">Обсудим ваш визит.</h2>
       <p class="of-dialog-topic" id="of-dialog-topic" hidden></p>

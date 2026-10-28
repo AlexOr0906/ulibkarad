@@ -1,6 +1,6 @@
 ---
 import ArrowIcon from './ArrowIcon.astro';
-const base = import.meta.env.BASE_URL;
+import MetalEmblem from './MetalEmblem.astro';
 ---
 <section id="top" class="hero-section relative overflow-hidden bg-mist pb-8 pt-32 md:pt-40" data-sc-act="flow">
   <div class="container-shell relative z-10">
@@ -20,7 +20,7 @@ const base = import.meta.env.BASE_URL;
       <figure class="hero-brand hero-intro relative mx-auto flex w-full max-w-[24rem] flex-col items-center gap-8 md:max-w-[28rem]">
         <span class="hero-material-rule" aria-hidden="true"></span>
         <div class="hero-logo-depth">
-          <img class="hero-brand-mark" src={`${base}brand/logo-silver.svg`} width="921" height="960" alt="Семейный знак стоматологии: профили взрослого и детей в контуре зуба" loading="eager" fetchpriority="high" />
+          <MetalEmblem class="hero-brand-mark" label="Семейный знак стоматологии: профили взрослого и детей в контуре зуба" />
         </div>
       </figure>
     </div>

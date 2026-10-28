@@ -101,6 +101,7 @@ html:not(.js) .menu-toggle, html:not(.js) [data-open-concept] { display: none; }
 
 .ortho-route { position: relative; }
 .ortho-route > section, footer { position: relative; }
+footer { z-index: 2; }
 .ortho-route > section > .container-shell, footer > .container-shell { position: relative; z-index: 2; }
 .ortho-route > #appointment { isolation: auto; }
 #appointment p.text-graphite { color: #292d30; }

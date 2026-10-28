@@ -17,7 +17,7 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
       <button class="team-arrow" type="button" data-team-next aria-label="Следующие карточки врачей" aria-controls="team-rail"><ArrowIcon class="team-arrow-next" /></button>
     </div>
   </div>
-  <div id="team-rail" class="team-rail" data-team-rail tabindex="0" role="region" aria-label={preview ? 'Демонстрационная коллекция карточек врачей' : 'Коллекция карточек врачей'}>
+  <div id="team-rail" class="team-rail" data-sc-in data-team-rail tabindex="0" role="region" aria-label={preview ? 'Демонстрационная коллекция карточек врачей' : 'Коллекция карточек врачей'}>
     {cards.map((doctor, index) => <DoctorCard doctor={doctor} preview={preview} index={index} />)}
   </div>
   <div class="team-progress" aria-hidden="true"><span data-team-progress></span></div>
@@ -41,6 +41,8 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
 </dialog>
 
 <script>
+  import { initDoctorsEntrance } from './doctors-entrance';
+  initDoctorsEntrance();
   const collection = document.querySelector<HTMLElement>('[data-team-carousel]');
   if (collection) {
     const rail = collection.querySelector<HTMLElement>('[data-team-rail]')!;

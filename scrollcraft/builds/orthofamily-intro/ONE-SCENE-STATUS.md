@@ -1,5 +1,29 @@
 # Unified photographic scene and local team integration
 
+## Current full preview. 29 October 2026
+
+**Only current complete URL: http://localhost:4181/orthofamily-combined/**. Local on this computer. The complete page now includes header/mobile menu, one photographic opening/approach, four directions, team collection/profiles, demo visit action, contacts and exactly one footer. Earlier two-photo composition notes below are historical.
+
+Latest user correction: removed the separate ceramic photograph and its caption from the introduction. No replacement decoration. The name and descriptor have their own clear area, without letters overlapping the mirror photograph. The photograph still enlarges and resolves into the approach section on one native-scroll timeline; safe bounds protect the title, CTA and reading copy. Original service thumbnails remain in their own direction disclosures. Static/reduced layouts also use one photograph.
+
+### Imported parts and integration adjustments
+
+- Header: `feature/header-navigation`, **cf4837058a96b31eee75f257eda93b7cbd71edce**, changes from 810e85a and cf48370. Only seven header-owned files imported, not shared preparation or other branches. Original header component/initializer preserved. The integrated shell supplies links to of-about/of-directions/doctors/contacts, home of-top and CTA of-visit. A named header slot removes the earlier header. Preview-local CSS makes it fixed/flush above photographic layers and uses the same local serif approximation. Metrics observe only the closed bar, not the expanded panel, so menu opening does not push the scene. Root --of-header-height updates layout and anchor margins. Nonmodal menu does not lock body; Escape, focus return, outside/anchor close and resize retain source behavior.
+- Doctors: **b43abbdeb9ff4eedc1516453b48c45207cb0aa16**, imported once at f9e81e1, source files unchanged afterwards.
+- Contacts/footer: **2f3371984f496281e1e74661399c6199c7eff4e9**, imported once at 0c3a83f. Navigation/topHref props map footer links to actual sections; old demo footer removed. Null contacts, map and document placeholders retained.
+- Approved writing/live serif at 5db2e5e: **OrtoFamily**, descriptor **Стоматология · Ортодонтия**. Cormorant Garamond 400 is a local OFL approximation, not an identified exact brandboard font. Original family geometry preserved; no red selection underline.
+- Shared preparation at 3ae8903 already present. Its b3dfaa1 duplicate content from doctors was compared and not reapplied. No main merge, public push, Pages dispatch or checkout of another developer's folder.
+
+### Closing visibility regression
+
+A real integrated defect was reproduced: clipped cf heading observed itself, so ordinary smooth anchor navigation could leave it permanently pending. Fixed local closing-motion.ts: observes unclipped parent layout boxes, uses an ordinary-scroll visibility fallback, completes affected roots on explicit local anchor navigation, preserves normal one-shot entry animation, and settles reduced/restored content. New regression script checks Home → Contacts at 1280×720, other phone/desktop sizes, footer reentry/return, reduced motion and no-JS; also proves ordinary incremental entry still animates. No global disabling of the effect.
+
+### Current checks and limits
+
+Astro production build: **47 files, no errors/warnings/hints; eight static routes**. Complete Chrome integration checks passed on 1920/1440/390/320, reduced and no-JS: one fixed header and one footer, title/descriptor, brand/CTA clearance, all four navigation targets and mobile focus, Escape/return, four directions, all four profiles/Escape/focus, demo dialog, footer/back-top and no horizontal overflow. Header developer's original test passed at 1440/768/390/320, both themes, long scrollable menu, resize, reduced/no-JS. Closing developer tests passed with adapted local URL/output paths; no fake contact or external map request. The final one-photo test samples 45 positions per viewport, including 1920/1440/1280/1024/768/390/320, landscape and static modes, to reject title/CTA/approach intersections and confirm the new header is present.
+
+Physical iPhone/Safari remains untested. Brand type is provisional, clinic data/images/profiles are still marked as demo, and there is no real booking/backend. Published control at main 5b79050 is unchanged. Previous compiled proposal at port4182 and Git checkpoints remain available for recovery; do not mistake their earlier look for the current complete route.
+
 ## Follow-up: clearance fix and closing blocks
 
 The user's reported photo/caption collision is fixed separately at `174ee6a`. The enlarging portrait now leaves a measured lane before the ceramic frame is revealed. The resolved pair has a 24px desktop / 16px phone gutter; captions stay on their own side of that gutter. Visible frame, caption and reading-copy intersections were checked in 45 scroll positions across 1920/1440/1280/1024/768/430/390/320 widths, short landscape, reduced motion and no-JS. No collisions/overflow in the checked positions. The primary moves left later to keep the early CTA clear. Static layouts also separate the frames. This replaces the earlier overlap-based exit described below.

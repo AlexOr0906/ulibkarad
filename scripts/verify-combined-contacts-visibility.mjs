@@ -17,7 +17,9 @@ try {
   if(js)assert.equal(await page.locator('#cf-contacts-title').getAttribute('data-cf-motion'),'complete');
   await page.locator('.cf-footer').evaluate(e=>scrollTo({top:e.getBoundingClientRect().top+scrollY-100,behavior:'instant'}));await page.waitForTimeout(1400);
   assert.equal(await page.locator('.cf-brand > span').evaluate(e=>getComputedStyle(e).clipPath),'none');
-  await page.locator('.cf-back-top').click();await page.waitForTimeout(1200);assert.ok(await page.evaluate(()=>scrollY)<5);
+  await page.locator('.cf-back-top').click();
+  for(let attempt=0;attempt<40&&(await page.evaluate(()=>scrollY))>=5;attempt++)await page.waitForTimeout(100);
+  assert.ok(await page.evaluate(()=>scrollY)<5);
   if(mode==='normal'&&width===1280){
    // Ordinary incremental reading must still animate, rather than universally disabling the effect.
    await page.goto(url);await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(200);

@@ -1,0 +1,10 @@
+{
+  "mode": "built-in image_gen",
+  "date": "2026-10-29",
+  "prompt": "Use case: product-mockup.\nAsset type: original photographic transparent foreground for an explicitly labelled dental website concept.\nPrimary request: ONE complete realistic stainless-steel dental mouth mirror, photographed as a refined studio product cutout on a genuinely transparent alpha background. No hand, no person, no teeth, no other object.\nComposition: portrait 4:5. The entire instrument, including the complete circular mirror head and the rounded bottom of the handle, comfortably inside the canvas with generous transparent margins of at least 8% on every side. Instrument runs diagonally from lower-left toward upper-right, about 18 degrees from vertical. A small round mirror head, believable angled narrow neck, long slim cylindrical handle with fine knurled metal grip and a clean rounded end. Correct coherent professional instrument geometry, a single straight handle.\nMaterials/light: polished silver stainless steel, subtle real microtexture and softbox reflections; mirror face opaque pale silver reflecting studio light only, no scene or mouth. Photorealistic commercial macro/product photography, restrained cool neutral color, high detail, no CGI/plastic toy look. Silver must have both dark definition and bright highlights so the object remains visible on pale gray and graphite surfaces.\nAlpha requirements: actual clean transparency outside the object, continuous carefully anti-aliased photographic edges, no white matte fringe, no scattered white noise, no colored spill, no contact-shadow plate, no backdrop, no checkerboard pixels. No artificial glow. No text, labels, watermark or branding. This is a concept illustration, not a photograph of clinic equipment.",
+  "source": "mirror-object-v1-source.png",
+  "delivery": [
+    "../../public/orthofamily/mirror-object-v1-640.webp",
+    "../../public/orthofamily/mirror-object-v1-1200.webp"
+  ]
+}

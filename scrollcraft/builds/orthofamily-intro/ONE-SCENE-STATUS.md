@@ -1,5 +1,19 @@
 # Unified photographic scene and local team integration
 
+## Latest local proposal: steady transparent object. 29 October 2026
+
+Current complete route remains http://localhost:4181/orthofamily-combined/. Prior ce53e1f preserved in Git and compiled under work/control-ce53e1f on port4183. No public release.
+
+The user reported incomplete framing and abrupt motion. Replaced the framed glove photograph with one original silver dental mirror on real alpha. Desktop text stays in the left reading column; the complete object stays centred in its right visual column. Phone has a separate full-height flex layout with text/CTA first and the complete object centred below. Removed the multi-pose path, lateral movement, collision-avoidance corrections and clipping frame. One continuous progress now controls only .96→1 scale, at most12px vertical travel and -1→1deg turn. A short compositor transition softens discrete scroll input. No render loop while idle. Native curved paper-to-graphite ground replaces timed ink/background switching; reading colours remain fixed. Reduced motion/no-JS have the same stable composition. Short landscape reduces spacing/type rather than clipping the subject.
+
+Selected asset was generated with the built-in ImageGen tool, no CLI/external paid API. It is an illustrative concept object, not documented clinic equipment; the hero labels it accordingly. Two glove-extraction attempts had edge contamination and were rejected. No emblem, employee photo or other section was regenerated.
+
+Saved source: `design/orthofamily/mirror-object-v1-source.png` (1122×1402, genuine RGBA, alpha0–255); web assets `public/orthofamily/mirror-object-v1-640.webp` (32,754bytes) and `public/orthofamily/mirror-object-v1-1200.webp` (76,338bytes, actual1122px wide, accurate srcset descriptor). Full final prompt and mode: `design/orthofamily/mirror-object-prompt.json`. Only encoding/resizing after generation; inspected over both paper and graphite. Assets are project-local, not runtime-only paths.
+
+Verification: npm run build, 47 Astro sources with no errors/warnings/hints, eight routes. `scripts/verify-steady-opening.mjs` passed13 viewport/mode cases:1920/1440/1280/1024/768/600/430/390/320, short landscape, reduced and no-JS; full initial image and CTA, no crop/overflow, bounded continuous transform deltas, reverse scroll. Existing dense collision check also passed11 cases. Complete-page desktop/phone controls check passed: navigation/mobile menu/Escape, four directions, all four profiles/focus return, demo dialog, footer/back-top. Pixel review at start/mid/end. Other developers' component sources and main workflow unchanged. Physical iPhone/Safari remains untested; this is a local review proposal and a flat photographic cutout, not a3D instrument.
+
+Evidence: ignored work/verification/steady-opening; exported screenshots and report accompany this iteration. The older composition descriptions below are historical.
+
 ## Current full preview. 29 October 2026
 
 **Only current complete URL: http://localhost:4181/orthofamily-combined/**. Local on this computer. The complete page now includes header/mobile menu, one photographic opening/approach, four directions, team collection/profiles, demo visit action, contacts and exactly one footer. Earlier two-photo composition notes below are historical.

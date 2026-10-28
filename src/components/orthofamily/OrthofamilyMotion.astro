@@ -3,112 +3,30 @@
   if (introElement) {
     const intro = introElement;
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-    const desktop = matchMedia('(min-width: 768px)');
-    const lead = intro.querySelector<HTMLElement>('[data-of-lead]')!;
-    const stage = intro.querySelector<HTMLElement>('[data-of-stage]')!;
-    const primary = intro.querySelector<HTMLElement>('[data-of-main-photo]')!;
-    const descriptor = intro.querySelector<HTMLElement>('.of-brand-descriptor')!;
-    const aboutCopy = intro.querySelector<HTMLElement>('.of-about-copy')!;
-    const shell = intro.querySelector<HTMLElement>('.of-shell')!;
-    const photos = [...intro.querySelectorAll<HTMLImageElement>('.of-photo img')];
-    let frame = 0, ready = false;
-    let geometry = {width: 0, height: 0, span: 1, leadBottom: 0, leadRight: 0, brandBottom: 0, copyTop: 0, copyLeft: 0, primaryHeight: 0, primaryWidth: 0, header: 88};
+    let frame = 0, span = 1, lastProgress = -1;
     const clamp = (value: number) => Math.max(0, Math.min(1, value));
-    const smooth = (value: number) => { const p = clamp(value); return p * p * (3 - 2 * p); };
-    // Shared camera poses. All layers interpolate on the same progress, never separate reveal timers.
-    const desktopPoses = [
-      [0, .70, .54, .66],
-      [.34, .58, .47, 1.08],
-      [.70, .30, .44, .99],
-      [1, .30, .39, .90],
-    ];
-    const phonePoses = [
-      [0, .50, .58, .84],
-      [.34, .50, .49, 1.02],
-      [.70, .50, .30, .76],
-      [1, .50, .18, .72],
-    ];
-    function measure() {
-      const active = ready && !reduced.matches && (innerHeight >= 620 || (!desktop.matches && innerHeight >= 540));
-      intro.classList.toggle('of-scene-active', active);
-      const r = intro.getBoundingClientRect();
-      geometry = {width: stage.clientWidth, height: stage.clientHeight, span: Math.max(1, intro.offsetHeight - innerHeight), leadBottom: lead.getBoundingClientRect().bottom - r.top, leadRight: lead.getBoundingClientRect().right - r.left, brandBottom: descriptor.getBoundingClientRect().bottom - r.top, copyTop: aboutCopy.getBoundingClientRect().top - r.top, copyLeft: aboutCopy.getBoundingClientRect().left - r.left, primaryHeight: primary.offsetHeight, primaryWidth: primary.offsetWidth, header: parseFloat(getComputedStyle(intro).getPropertyValue('--of-header-height')) || (desktop.matches ? 88 : 72)};
-      if (active) {
-        const poses = desktop.matches ? desktopPoses : phonePoses;
-        const left = shell.getBoundingClientRect().left - r.left;
-        const right = desktop.matches ? aboutCopy.getBoundingClientRect().left - r.left - 24 : geometry.width - left;
-        // One photographic frame resolves into the free reading lane.
-        for (const [index, scale] of (desktop.matches ? [[2,.99],[3,.90]] : [[2,.76],[3,.72]])) {
-          poses[index][1] = (left + (right - left) / 2) / geometry.width;
-          poses[index][3] = Math.min(scale, (right - left) * .88 / primary.offsetWidth);
-        }
-      }
-      // Release the photographic world before long, narrow-phone copy reaches it.
-      // After release the group and copy move together in ordinary flow.
-      let release = 0;
-      if (active && !desktop.matches) {
-        const last = phonePoses[3];
-        const finalBottom = geometry.header + geometry.height * last[2] + geometry.primaryHeight * last[3] / 2;
-        release = Math.max(0, finalBottom + 48 - (aboutCopy.getBoundingClientRect().top - r.top - geometry.span));
-      }
-      intro.style.setProperty('--of-release-offset', `${release}px`);
-      geometry.span = Math.max(1, geometry.span - release);
-      intro.dataset.ofSpan = String(geometry.span);
-      queue();
-    }
     function update() {
       frame = 0;
-      if (!intro.classList.contains('of-scene-active')) {
-        intro.style.setProperty('--of-shade', '0'); intro.style.setProperty('--of-scene-ink', '#273037'); return;
-      }
-      const p = clamp(-intro.getBoundingClientRect().top / geometry.span);
-      const poses = desktop.matches ? desktopPoses : phonePoses;
-      let i = 0; while (i < poses.length - 2 && p > poses[i + 1][0]) i++;
-      const a = poses[i], b = poses[i + 1], t = smooth((p - a[0]) / (b[0] - a[0]));
-      const pose = a.map((v, index) => v + (b[index] - v) * t);
-      // Short phone screens keep the first photograph below the immediately available CTA.
-      const phoneStart = desktop.matches ? 0 : Math.max(0, geometry.leadBottom - geometry.header + geometry.primaryHeight * .84 / 2 + 24 - geometry.height * .58);
-      let mainY = pose[2] * geometry.height + phoneStart * (1 - smooth(p / .34));
-      let mainX = pose[1] * geometry.width;
-      if (!desktop.matches) {
-        const travel = Math.max(0, -intro.getBoundingClientRect().top);
-        mainY = Math.max(mainY, geometry.leadBottom - travel - geometry.header + 24 + geometry.primaryHeight * pose[3] / 2);
-      } else {
-        const travel = Math.max(0, -intro.getBoundingClientRect().top);
-        mainY = Math.max(mainY, geometry.brandBottom - travel - geometry.header + 24 + geometry.primaryHeight * pose[3] / 2);
-        const halfWidth = geometry.primaryWidth * pose[3] / 2;
-        const halfHeight = geometry.primaryHeight * pose[3] / 2;
-        for (let pass = 0; pass < 3; pass++) {
-          const clearance = smooth((geometry.leadRight + 48 - (mainX - halfWidth)) / 48);
-          const belowLead = geometry.leadBottom - travel - geometry.header + 24 + halfHeight;
-          mainY += Math.max(0, belowLead - mainY) * clearance;
-          const stageTop = geometry.header - Math.max(0, travel - geometry.span);
-          const verticalGap = geometry.copyTop - travel - (stageTop + mainY + halfHeight);
-          mainX = Math.min(mainX, geometry.copyLeft - 24 - halfWidth + Math.max(0, verticalGap));
-        }
-        if (mainX - halfWidth < geometry.leadRight) {
-          mainY = Math.max(mainY, geometry.leadBottom - travel - geometry.header + 24 + halfHeight);
-          const stageTop = geometry.header - Math.max(0, travel - geometry.span);
-          const verticalGap = geometry.copyTop - travel - (stageTop + mainY + halfHeight);
-          mainX = Math.min(mainX, geometry.copyLeft - 24 - halfWidth + Math.max(0, verticalGap));
-        }
-      }
-      intro.style.setProperty('--of-main-x', `${mainX}px`);
-      intro.style.setProperty('--of-main-y', `${mainY}px`);
-      intro.style.setProperty('--of-main-scale', String(pose[3]));
-      const shade = smooth((p - .24) / .60);
-      intro.style.setProperty('--of-shade', String(shade));
-      const rgb = [238,241,243].map((v, index) => v + ([39,48,55][index] - v) * shade);
-      const luminance = rgb.map(v => v / 255).map(v => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4).reduce((sum, v, index) => sum + v * [.2126,.7152,.0722][index], 0);
-      intro.style.setProperty('--of-scene-ink', shade < .06 ? '#273037' : shade > .96 ? '#f2f4f5' : luminance > .179 ? '#000000' : '#ffffff');
+      const p = clamp(-intro.getBoundingClientRect().top / span);
+      if (Math.abs(p - lastProgress) < .0001) return;
+      lastProgress = p;
+      const eased = p * p * (3 - 2 * p);
+      intro.style.setProperty('--of-object-scale', String(reduced.matches ? 1 : .96 + .04 * eased));
+      intro.style.setProperty('--of-object-y', `${reduced.matches ? 0 : -12 * eased}px`);
+      intro.style.setProperty('--of-object-turn', `${reduced.matches ? 0 : -1 + 2 * eased}deg`);
       intro.dataset.ofProgress = p.toFixed(4);
     }
     function queue() { if (!frame) frame = requestAnimationFrame(update); }
+    function measure() {
+      span = Math.max(1, intro.offsetHeight - innerHeight);
+      intro.dataset.ofSpan = String(span);
+      lastProgress = -1;
+      queue();
+    }
     addEventListener('scroll', queue, {passive: true});
     addEventListener('resize', measure, {passive: true});
     addEventListener('of-header-resize', measure);
     reduced.addEventListener('change', measure);
-    Promise.all(photos.map(photo => photo.decode().catch(() => {}))).then(() => { ready = photos.every(photo => photo.naturalWidth > 0); measure(); });
     document.fonts.ready.then(measure);
     measure();
 
@@ -154,3 +72,4 @@
     });
   }
 </script>
+

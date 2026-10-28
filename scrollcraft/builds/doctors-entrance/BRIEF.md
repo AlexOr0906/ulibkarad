@@ -48,3 +48,9 @@ Stock `scripts/shoot.mjs` ran for desktop, mobile and reduced motion with `--per
 Local preview: http://localhost:4173/?review=doctors-entry#approach . Scroll down normally from the preceding section to see the once-only reveal. Loading directly at #doctors can intentionally skip entry when the content is already visible; reload from #approach to view it again. Final image: outputs/doctors/entrance/desktop-portrait-end.png . Visual timing strip: outputs/doctors/entrance/desktop-states.jpg .
 
 Limits: no physical phone or Safari check. FFmpeg and a generation key are still absent; there is no new video-generation work here. Installation preserves the license and all original resources. Broad new-site skill requirements were constrained by the user's explicit section-only scope; no new-page fingerprint row was added. No deployment, merge to main, or other section changes.
+
+### Visibility correction after user review
+
+The first entrance was difficult to see: its bottom-up wipe opened below the viewport, and a shared motion-fast signal could finish it during ordinary wheel input. The local entrance now reveals from the top of each portrait, uses a 1000 ms desktop / 500 ms phone reveal, and ignores the unrelated shared guard. Only a genuine single-frame jump over 75% of the viewport bypasses motion. Heading reveal now runs on the heading wrapper so shared word transforms cannot override it. Review URL adds a preview-only «Повторить появление» button; normal pages do not show this control. A replay cancels prior runs safely.
+
+Repeated start/mid/end and interaction tests pass; added `scripts/verify-doctors-replay.mjs` explicitly verifies that an ordinary wheel step during entry does not cancel it. Astro check/build passed after the correction. Current preview: http://localhost:4173/?review=doctors-entry#doctors ; use the replay button to assess without navigating away.

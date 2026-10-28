@@ -84,12 +84,14 @@ html[data-team-transition]::view-transition-new(root) { animation: none; }
 
 /* Scroll Craft flow/in entrance. Only this section owns these masks. */
 .doctors-entrance [data-team-heading] .heading-word { transform: none; transition: none; }
-.doctors-entrance [data-team-heading].team-entry-armed .heading-word { transform: translateY(105%); }
-.doctors-entrance [data-team-rail].team-entry-armed .doctor-portrait { clip-path: inset(100% 0 0 0); transform: translateY(14px); }
+.doctors-entrance [data-team-heading].team-entry-armed h2 { clip-path: inset(0 0 100% 0); transform: translateY(14px); }
+.doctors-entrance [data-team-rail].team-entry-armed .doctor-portrait { clip-path: inset(0 0 100% 0); transform: translateY(14px); }
 @media (max-width: 767px) {
-  .doctors-entrance [data-team-rail].team-entry-armed .doctor-portrait { clip-path: inset(12% 0 0 0); transform: translateY(6px); }
+  .doctors-entrance [data-team-rail].team-entry-armed .doctor-portrait { clip-path: inset(0 0 35% 0); transform: translateY(6px); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .doctors-entrance [data-team-heading] .heading-word,
+  .doctors-entrance [data-team-heading] h2,
   .doctors-entrance [data-team-rail] .doctor-portrait { transform: none !important; clip-path: none !important; opacity: 1 !important; }
 }
+
+.doctors-section .team-entrance-replay { min-height: 44px; padding: .5rem 1rem; border: 1px solid #8f989f; font-size: .75rem; cursor: pointer; }

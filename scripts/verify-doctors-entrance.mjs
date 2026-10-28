@@ -31,7 +31,7 @@ try {
   assert.equal(await p.locator('[data-team-rail]').getAttribute('data-team-entrance'),'armed');
   await slowEnter(p,'[data-team-heading]'); await sample(p,`${name}-heading-start`);await p.waitForTimeout(160);await sample(p,`${name}-heading-mid`);await p.waitForTimeout(700);
   await slowEnter(p,'[data-team-rail]'); const start=await sample(p,`${name}-portrait-start`);assert.equal(start.rail,'playing');
-  await p.waitForTimeout(150);await sample(p,`${name}-portrait-mid`);await p.waitForTimeout(850); const end=await sample(p,`${name}-portrait-end`);assert.equal(end.rail,'complete');assert.equal(end.overflow,false);
+  await p.waitForTimeout(150);await sample(p,`${name}-portrait-mid`);await p.waitForTimeout(1400); const end=await sample(p,`${name}-portrait-end`);assert.equal(end.rail,'complete');assert.equal(end.overflow,false);
   await p.locator('[data-team-rail]').press('End');await p.waitForTimeout(900);assert.equal(await p.locator('[data-team-next]').isDisabled(),true);
   await p.locator('[data-team-rail]').press('Home');await p.waitForTimeout(800);
   for(let i=1;i<=4;i++){

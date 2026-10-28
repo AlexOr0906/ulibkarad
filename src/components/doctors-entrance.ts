@@ -18,25 +18,25 @@ export function initDoctorsEntrance() {
   }
   function enter(target: HTMLElement, instant = false) {
     if (finished.has(target) || runs.has(target)) return;
-    if (instant || reduced.matches || document.body.classList.contains('motion-fast')) { settle(target); return; }
+    if (instant || reduced.matches) { settle(target); return; }
     target.classList.remove('team-entry-armed');
     target.dataset.teamEntrance = 'playing';
     const elements = target === heading
-      ? [...heading.querySelectorAll<HTMLElement>('.heading-word')]
+      ? [...heading.querySelectorAll<HTMLElement>('h2')]
       : [...rail.querySelectorAll<HTMLElement>('.doctor-portrait')];
     const animations = elements.map((element, index) => element.animate(target === heading ? [
-      { transform: 'translateY(105%)', opacity: .35 },
-      { transform: 'translateY(0)', opacity: 1 },
+      { clipPath: 'inset(0 0 100% 0)', transform: 'translateY(14px)', opacity: .35 },
+      { clipPath: 'inset(0 0 0% 0)', transform: 'translateY(0)', opacity: 1 },
     ] : [
-      { clipPath: phone.matches ? 'inset(12% 0 0 0)' : 'inset(100% 0 0 0)', transform: `translateY(${phone.matches ? 6 : 14}px)` },
+      { clipPath: phone.matches ? 'inset(0 0 35% 0)' : 'inset(0 0 100% 0)', transform: `translateY(${phone.matches ? 6 : 14}px)` },
       { clipPath: 'inset(0% 0 0 0)', transform: 'translateY(0)' },
     ], {
-      duration: phone.matches ? 340 : target === heading ? 560 : 640,
+      duration: phone.matches ? 500 : target === heading ? 720 : 1000,
       delay: phone.matches ? 0 : index * (target === heading ? 35 : 60),
-      easing: 'cubic-bezier(.22,1,.36,1)', fill: 'both',
+      easing: 'cubic-bezier(.25,.6,.3,1)', fill: 'both',
     }));
     runs.set(target, animations);
-    Promise.all(animations.map(animation => animation.finished.catch(() => {}))).then(() => settle(target));
+    Promise.all(animations.map(animation => animation.finished.catch(() => {}))).then(() => { if (runs.get(target) === animations) settle(target); });
   }
   if (!('IntersectionObserver' in window) || !('animate' in Element.prototype)) { targets.forEach(settle); return; }
   targets.forEach(target => {
@@ -54,12 +54,12 @@ export function initDoctorsEntrance() {
     if (entry.isIntersecting) { enter(entry.target as HTMLElement); observer.unobserve(entry.target); }
   }), { rootMargin: '0px 0px -12% 0px', threshold: .01 });
   targets.forEach(target => { if (!finished.has(target)) observer.observe(target); });
-  let lastY = scrollY, lastTime = performance.now(), frame = 0;
+  let lastY = scrollY, frame = 0;
   function checkScroll() {
     frame = 0;
-    const now = performance.now(), delta = Math.abs(scrollY - lastY);
-    const fast = delta > innerHeight * .4 || delta / Math.max(1, now - lastTime) > 1.8;
-    lastY = scrollY; lastTime = now;
+    const delta = Math.abs(scrollY - lastY);
+    const fast = delta > innerHeight * .75;
+    lastY = scrollY;
     if (fast) targets.forEach(target => {
       if (target.getBoundingClientRect().top < innerHeight + 60) settle(target);
     });
@@ -70,5 +70,16 @@ export function initDoctorsEntrance() {
   section.addEventListener('pointerdown', () => targets.forEach(settle), {passive: true});
   reduced.addEventListener('change', () => { if (reduced.matches) targets.forEach(settle); });
   window.addEventListener('pageshow', event => { if (event.persisted) targets.forEach(settle); });
+  if (new URLSearchParams(location.search).get('review') === 'doctors-entry') {
+    const replay = document.createElement('button');
+    replay.type = 'button'; replay.className = 'team-entrance-replay';
+    replay.textContent = 'Повторить появление';
+    rail.closest('.team-collection')?.querySelector('.team-introduction')?.append(replay);
+    replay.addEventListener('click', () => {
+      targets.forEach(settle);
+      finished.clear();
+      targets.forEach(target => enter(target));
+    });
+  }
   document.addEventListener('visibilitychange', () => { if (document.hidden) targets.forEach(settle); });
 }

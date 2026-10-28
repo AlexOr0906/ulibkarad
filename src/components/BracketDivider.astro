@@ -1,0 +1,61 @@
+---
+interface Props { tone?: 'light' | 'dark'; }
+const { tone = 'light' } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+<div class="bracket-divider" data-bracket-divider data-tone={tone} data-sc-verify-state="static-divider" data-sc-verify-hold="true" aria-hidden="true" style={`--bracket-tile: url("${base}orthodontics/bracket-repeat-v1.svg")`}>
+  <div class="bracket-divider-strip" data-bracket-divider-strip></div>
+</div>
+
+<script>
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const dividers = [...document.querySelectorAll<HTMLElement>('[data-bracket-divider]')].map(root => ({
+    root, strip: root.querySelector<HTMLElement>('[data-bracket-divider-strip]')!, top: 0, bottom: 0, period: 144,
+  }));
+  let currentY = scrollY, frame = 0, lastTime = 0, viewportHeight = innerHeight, headerHeight = 80;
+
+  function paint(y: number) {
+    for (const divider of dividers) {
+      const visible = divider.bottom - scrollY > headerHeight && divider.top - scrollY < viewportHeight;
+      const phase = reduced.matches ? 0 : (y * .24) % divider.period;
+      if (visible || reduced.matches) divider.strip.style.setProperty('--bracket-shift', `${(-phase).toFixed(3)}px`);
+      divider.root.dataset.bracketPhase = phase.toFixed(3);
+      divider.root.dataset.scVerifyState = !visible ? 'offscreen-divider' : reduced.matches ? 'static-divider' : `horizontal:${Math.round(phase)}`;
+      divider.root.dataset.scVerifyHold = String(!visible || reduced.matches);
+    }
+  }
+  function measure() {
+    viewportHeight = innerHeight;
+    headerHeight = document.querySelector<HTMLElement>('#site-header')?.offsetHeight ?? 80;
+    for (const divider of dividers) {
+      const rect = divider.root.getBoundingClientRect();
+      divider.top = scrollY + rect.top;
+      divider.bottom = scrollY + rect.bottom;
+      divider.period = parseFloat(getComputedStyle(divider.strip).backgroundSize) || 144;
+    }
+    currentY = scrollY;
+    paint(currentY);
+  }
+  function tick(time: number) {
+    frame = 0;
+    const dt = lastTime ? Math.min(48, time - lastTime) : 16; lastTime = time;
+    currentY += (scrollY - currentY) * (reduced.matches ? 1 : 1 - Math.exp(-dt / 40));
+    if (Math.abs(scrollY - currentY) < .1) currentY = scrollY;
+    paint(currentY);
+    if (currentY !== scrollY && !document.hidden) frame = requestAnimationFrame(tick);
+  }
+  function request() { if (!frame && !document.hidden) frame = requestAnimationFrame(tick); }
+  if (dividers.length) {
+    window.addEventListener('scroll', request, {passive: true});
+    window.addEventListener('resize', measure, {passive: true});
+    reduced.addEventListener('change', measure);
+    const sizeObserver = new ResizeObserver(measure);
+    dividers.forEach(({root}) => { if (root.parentElement) sizeObserver.observe(root.parentElement); });
+    document.fonts.ready.then(measure);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden && frame) { cancelAnimationFrame(frame); frame = 0; }
+      else measure();
+    });
+    measure();
+  }
+</script>

@@ -103,14 +103,12 @@ html:not(.js) .menu-toggle, html:not(.js) [data-open-concept] { display: none; }
 .ortho-route > section, footer { position: relative; }
 footer { z-index: 2; }
 .ortho-route > section > .container-shell, footer > .container-shell { position: relative; z-index: 2; }
-.ortho-route > #appointment { isolation: auto; }
 #appointment p.text-graphite { color: #292d30; }
-.bracket-background { --bracket-period: clamp(132px, 14vw, 190px); --bracket-height: calc(var(--bracket-period) * .94488189); display: none; position: fixed; inset: 0 0 auto; height: 100vh; height: 100svh; z-index: 1; overflow: hidden; pointer-events: none; opacity: 0; }
-html.js .bracket-background { display: block; }
-.bracket-background-strip { position: absolute; top: 50%; left: calc(var(--bracket-period) * -1); right: calc(var(--bracket-period) * -1); height: var(--bracket-height); background-image: var(--bracket-tile); background-repeat: repeat-x; background-size: var(--bracket-period) var(--bracket-height); transform: translate3d(var(--bracket-shift, 0px), -50%, 0); pointer-events: none; }
-@media (max-width: 767px) {
-  .bracket-background { --bracket-period: 112px; }
-  html.js .ortho-route .signature-stage { background: transparent; }
+.bracket-divider { --bracket-period: 6rem; --bracket-height: calc(var(--bracket-period) * .94488189); position: absolute; inset: auto 0 .5rem; height: 4.5rem; z-index: 1; overflow: hidden; pointer-events: none; opacity: .32; -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent); mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent); }
+.bracket-divider[data-tone='dark'] { opacity: .22; }
+.bracket-divider-strip { position: absolute; top: 50%; left: calc(var(--bracket-period) * -1); right: calc(var(--bracket-period) * -1); height: var(--bracket-height); background-image: var(--bracket-tile); background-repeat: repeat-x; background-size: var(--bracket-period) var(--bracket-height); transform: translate3d(var(--bracket-shift, 0px), -50%, 0); }
+@media (min-width: 768px) {
+  .bracket-divider { --bracket-period: 9rem; height: 6rem; bottom: 1rem; }
 }
 .service-arrow { transition: transform .7s var(--ease-out), color .5s ease; }
 .service-item::after { content: ''; position: absolute; inset: auto 0 -1px; height: 1px; background: #5b5f62; transform: scaleX(0); transform-origin: left; transition: transform .8s var(--ease-out); }

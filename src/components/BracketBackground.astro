@@ -38,7 +38,7 @@ const base = import.meta.env.BASE_URL;
     background.style.setProperty('-webkit-clip-path', clip);
     const center = y + height * .5;
     const section = sections.find(s => center >= s.top && center < s.bottom)?.id ?? 'services';
-    const opacity = section === 'approach' ? .13 : section === 'footer' ? .07 : .095;
+    const opacity = section === 'approach' ? .13 : section === 'footer' ? .07 : .18;
     strip.style.opacity = opacity.toFixed(3);
     const distance = Math.max(0, y - (heroEnd - height * .58));
     const phase = reduced.matches ? 0 : (distance * .28) % period;

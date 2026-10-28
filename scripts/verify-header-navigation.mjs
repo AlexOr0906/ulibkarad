@@ -10,6 +10,10 @@ try {
   await c.addInitScript(()=>{Element.prototype.requestPointerLock=()=>Promise.reject(Error('disabled'));Element.prototype.setPointerCapture=()=>{};Element.prototype.releasePointerCapture=()=>{};Document.prototype.exitPointerLock=()=>{};});
   const p=await c.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));await p.goto(url);await p.evaluate(()=>document.fonts.ready);
   const disclosure=p.locator('.hn-disclosure'),toggle=p.locator('.hn-toggle');
+  assert.ok((await p.locator('.hn-brand > span').textContent()).startsWith('OrtoFamily'));
+  assert.equal(await p.locator('.hn-brand small').textContent(),'Стоматология · Ортодонтия');
+  const brandCopy=await p.locator('.hn-brand > span').boundingBox();const emblem=await p.locator('.hn-brand img').boundingBox();assert.ok(brandCopy.x>=emblem.x+emblem.width);
+  assert.match(await p.locator('.hn-brand > span').evaluate(e=>getComputedStyle(e).fontFamily),/Georgia/);
   const layout=async()=>p.evaluate(()=>{
    const brand=document.querySelector('.hn-brand').getBoundingClientRect(),cta=document.querySelector('.hn-cta').getBoundingClientRect(),head=document.querySelector('.hn-header').getBoundingClientRect(),main=document.querySelector('main').getBoundingClientRect();
    return {overflow:document.documentElement.scrollWidth>innerWidth,overlap:brand.right>cta.left+.1,covered:head.bottom>main.top+.1};

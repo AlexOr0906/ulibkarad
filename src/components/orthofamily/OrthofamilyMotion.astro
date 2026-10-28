@@ -1,0 +1,77 @@
+<script>
+  const introElement = document.querySelector<HTMLElement>('[data-of-intro]');
+  if (introElement) {
+    const intro = introElement;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    const desktop = matchMedia('(min-width: 768px)');
+    const lead = intro.querySelector<HTMLElement>('[data-of-lead]')!;
+    const opening = intro.querySelector<HTMLElement>('.of-opening')!;
+    const about = intro.querySelector<HTMLElement>('.of-about')!;
+    let frame = 0, lastY = scrollY;
+    function update() {
+      frame = 0;
+      const r = opening.getBoundingClientRect();
+      const travel = Math.max(0, -r.top);
+      const p = reduced.matches ? 0 : Math.min(1, travel / (desktop.matches ? 700 : 540));
+      const leadBottom = scrollY + lead.getBoundingClientRect().bottom;
+      const beginTone = Math.max(100, leadBottom - (desktop.matches ? 220 : 170));
+      const tone = reduced.matches ? 0 : Math.max(0, Math.min(1, (travel - beginTone) / (innerHeight * .5)));
+      const eased = tone * tone * (3 - 2 * tone);
+      const from = [238,241,243], to = [39,48,55];
+      opening.style.setProperty('--of-tone', `rgb(${from.map((v, i) => Math.round(v + (to[i] - v) * eased)).join(' ')})`);
+      intro.style.setProperty('--of-title-y', `${-p * (desktop.matches ? 90 : 26)}px`);
+      intro.style.setProperty('--of-main-y', `${-p * (desktop.matches ? 80 : 24)}px`);
+      intro.style.setProperty('--of-main-turn', `${-p * (desktop.matches ? 1.8 : .6)}deg`);
+      intro.style.setProperty('--of-main-scale', `${1 - p * (desktop.matches ? .025 : .01)}`);
+      intro.style.setProperty('--of-near-y', `${p * (desktop.matches ? 56 : 20)}px`);
+      intro.style.setProperty('--of-near-left', `${28 - p * 20}%`);
+      intro.style.setProperty('--of-near-turn', `${desktop.matches ? -3 + p * 3 : 0}deg`);
+      const ar = about.getBoundingClientRect();
+      about.style.setProperty('--of-rule-progress', String(reduced.matches ? 1 : Math.max(.15, Math.min(1, (innerHeight - ar.top) / (innerHeight * .6)))));
+    }
+    function queue() { if (!frame) frame = requestAnimationFrame(update); }
+    addEventListener('scroll', () => { if (Math.abs(scrollY - lastY) > innerHeight * .5) document.documentElement.classList.add('of-skip-intro'); lastY = scrollY; queue(); }, {passive: true});
+    addEventListener('resize', queue, {passive: true});
+    reduced.addEventListener('change', () => { document.documentElement.classList.toggle('of-motion', !reduced.matches); queue(); });
+    document.fonts.ready.then(queue); update();
+
+    const cards = [...document.querySelectorAll<HTMLDetailsElement>('[data-of-direction]')];
+    const animations = new Map<HTMLDetailsElement, Animation>();
+    function setOpen(card: HTMLDetailsElement, open: boolean) {
+      const start = card.getBoundingClientRect().height;
+      animations.get(card)?.cancel(); animations.delete(card);
+      const panel = card.querySelector<HTMLElement>('.of-direction-panel')!;
+      if (reduced.matches) { card.open = open; panel.inert = false; return; }
+      card.open = true; panel.inert = !open;
+      const end = open ? card.getBoundingClientRect().height : card.querySelector('summary')!.getBoundingClientRect().height + 1;
+      const animation = card.animate({height: [`${start}px`, `${end}px`]}, {duration: 330, easing: 'cubic-bezier(.22,1,.36,1)'});
+      animations.set(card, animation);
+      animation.onfinish = () => { card.open = open; panel.inert = false; animations.delete(card); };
+    }
+    cards.forEach(card => card.querySelector('summary')!.addEventListener('click', event => {
+      event.preventDefault();
+      const willOpen = !card.open;
+      if (willOpen) cards.filter(other => other !== card && other.open).forEach(other => setOpen(other, false));
+      setOpen(card, willOpen);
+    }));
+    reduced.addEventListener('change', () => { if (reduced.matches) animations.forEach(animation => animation.finish()); });
+    addEventListener('resize', () => animations.forEach(animation => animation.finish()), {passive: true});
+
+    const dialog = document.querySelector<HTMLDialogElement>('#of-visit-dialog')!;
+    const topic = dialog.querySelector<HTMLElement>('#of-dialog-topic')!;
+    let trigger: HTMLElement | null = null;
+    document.querySelectorAll<HTMLAnchorElement>('[data-of-visit]').forEach(link => link.addEventListener('click', event => {
+      event.preventDefault(); trigger = link;
+      topic.hidden = !link.dataset.ofTopic; topic.textContent = link.dataset.ofTopic ? `Тема разговора: ${link.dataset.ofTopic}` : '';
+      dialog.showModal(); document.body.classList.add('of-dialog-open');
+    }));
+    dialog.addEventListener('close', () => { document.body.classList.remove('of-dialog-open'); trigger?.focus({preventScroll: true}); });
+    dialog.addEventListener('click', event => { const r = dialog.getBoundingClientRect(); if (event.target === dialog && (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom)) dialog.close(); });
+    dialog.addEventListener('keydown', event => {
+      if (event.key !== 'Tab') return;
+      const controls = [...dialog.querySelectorAll<HTMLButtonElement>('button')];
+      if (event.shiftKey && document.activeElement === controls[0]) { event.preventDefault(); controls.at(-1)?.focus(); }
+      else if (!event.shiftKey && document.activeElement === controls.at(-1)) { event.preventDefault(); controls[0]?.focus(); }
+    });
+  }
+</script>

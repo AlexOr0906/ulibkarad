@@ -15,7 +15,7 @@
 .of-skip { position:fixed; z-index:100; left:1rem; top:-8rem; padding:.8rem 1rem; background:var(--of-ink); color:white !important; }
 .of-skip:focus { top:1rem; }
 .of-eyebrow { font-size:.65rem; font-weight:500; letter-spacing:.17em; text-transform:uppercase; }
-.of-header { position:fixed; z-index:30; inset:0 0 auto; background:rgb(238 241 243 / .97); border-bottom:1px solid rgb(39 48 55 / .13); }
+.of-header { position:fixed; z-index:30; inset:0 0 auto; background:#eef1f3; border-bottom:1px solid rgb(39 48 55 / .13); }
 .of-header-inner { display:flex; height:88px; align-items:center; justify-content:space-between; gap:2rem; }
 .of-brand { display:inline-flex; align-items:center; gap:.6rem; flex:none; }
 .of-brand img { width:56px; height:52px; object-fit:contain; mix-blend-mode:multiply; }
@@ -76,7 +76,7 @@
 .of-direction[open] summary svg { rotate:45deg; }
 .of-direction-panel { display:grid; grid-template-columns:1fr 168px; column-gap:2rem; row-gap:1rem; padding:0 0 1.75rem; }
 .of-direction-panel p { align-self:start; font-size:.8rem; line-height:1.85; max-width:25rem; }
-.of-direction-panel img { width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:.6rem; }
+.of-direction-panel img { width:100%; height:auto; align-self:start; aspect-ratio:4/3; object-fit:cover; border-radius:.6rem; }
 .of-direction-panel .of-text-link { grid-column:1 / -1; justify-self:start; font-size:.65rem; }
 .of-footer { background:var(--of-paper); border-top:1px solid #c9d0d4; padding:2.5rem 0; }
 .of-footer-inner { display:flex; justify-content:space-between; align-items:flex-end; gap:2rem; }

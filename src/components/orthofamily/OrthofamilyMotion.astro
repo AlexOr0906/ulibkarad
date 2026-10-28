@@ -13,7 +13,7 @@
       const r = opening.getBoundingClientRect();
       const travel = Math.max(0, -r.top);
       const p = reduced.matches ? 0 : Math.min(1, travel / (desktop.matches ? 700 : 540));
-      const leadBottom = scrollY + lead.getBoundingClientRect().bottom;
+      const leadBottom = lead.getBoundingClientRect().bottom - r.top;
       const beginTone = Math.max(100, leadBottom - (desktop.matches ? 220 : 170));
       const tone = reduced.matches ? 0 : Math.max(0, Math.min(1, (travel - beginTone) / (innerHeight * .5)));
       const eased = tone * tone * (3 - 2 * tone);
@@ -37,9 +37,11 @@
 
     const cards = [...document.querySelectorAll<HTMLDetailsElement>('[data-of-direction]')];
     const animations = new Map<HTMLDetailsElement, Animation>();
+    const targets = new Map<HTMLDetailsElement, boolean>();
     function setOpen(card: HTMLDetailsElement, open: boolean) {
       const start = card.getBoundingClientRect().height;
       animations.get(card)?.cancel(); animations.delete(card);
+      targets.set(card, open);
       const panel = card.querySelector<HTMLElement>('.of-direction-panel')!;
       if (reduced.matches) { card.open = open; panel.inert = false; return; }
       card.open = true; panel.inert = !open;
@@ -50,7 +52,7 @@
     }
     cards.forEach(card => card.querySelector('summary')!.addEventListener('click', event => {
       event.preventDefault();
-      const willOpen = !card.open;
+      const willOpen = !(targets.get(card) ?? card.open);
       if (willOpen) cards.filter(other => other !== card && other.open).forEach(other => setOpen(other, false));
       setOpen(card, willOpen);
     }));

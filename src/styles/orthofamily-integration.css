@@ -1,11 +1,15 @@
 /* Preview-only seam. Do not rewrite B's card, entrance or dialog rules here. */
 .of-page #doctors { background:#eef1f3; scroll-margin-top:100px; }
 .of-page #doctors .container-shell { width:min(calc(100% - 7rem),90rem); }
+.of-page .cf-wrap { width:min(calc(100% - 7rem),90rem); }
+.of-page #of-visit { scroll-margin-top:100px; }
 @media (min-width:768px) and (max-width:1100px) {
   .of-page #doctors .container-shell { width:calc(100% - 4rem); }
+  .of-page .cf-wrap { width:calc(100% - 4rem); }
   .of-page .of-nav { margin-right:0; gap:1rem; }
 }
 @media (max-width:767px) {
   .of-page #doctors .container-shell { width:calc(100% - 2rem); }
+  .of-page .cf-wrap { width:calc(100% - 2rem); }
   .of-page #doctors { scroll-margin-top:84px; }
 }

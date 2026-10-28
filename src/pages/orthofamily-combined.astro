@@ -7,11 +7,21 @@ import OrthofamilyShell from '@/components/orthofamily/OrthofamilyShell.astro';
 import OrthofamilyIntro from '@/components/orthofamily/OrthofamilyIntro.astro';
 import OrthofamilyDirections from '@/components/orthofamily/OrthofamilyDirections.astro';
 import Doctors from '@/components/Doctors.astro';
+import ContactsSection from '@/components/contacts-footer/ContactsSection.astro';
+import ClinicFooter from '@/components/contacts-footer/ClinicFooter.astro';
 import '@/styles/orthofamily-integration.css';
+const navigation = [
+  {label:'О клинике', href:'#of-about'},
+  {label:'Направления', href:'#of-directions'},
+  {label:'Врачи', href:'#doctors'},
+  {label:'Контакты', href:'#contacts'},
+];
 ---
 <OrthofamilyShell withTeam>
   <OrthofamilyIntro />
   <OrthofamilyDirections />
   <!-- A/B integration boundary. B components retain their own local initializer. -->
   <Doctors showDivider={false} generalClinic />
+  <div id="of-visit" tabindex="-1"><ContactsSection /></div>
+  <ClinicFooter slot="closing" homeHref={`${import.meta.env.BASE_URL}orthofamily-combined/`} topHref="#of-top" navigation={navigation} />
 </OrthofamilyShell>

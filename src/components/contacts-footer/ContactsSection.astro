@@ -1,0 +1,47 @@
+---
+import ArrowIcon from '../ArrowIcon.astro';
+import { contactDetails, type ClinicContacts } from '../../data/contacts-footer';
+import '../../styles/contacts-footer.css';
+interface Props { contacts?: ClinicContacts; }
+const { contacts = contactDetails } = Astro.props;
+---
+<section class="cf-contacts" id="contacts" aria-labelledby="cf-contacts-title">
+  <div class="cf-wrap">
+    <div class="cf-section-intro"><p>Контакты</p><p>{contacts.city}</p></div>
+    <div class="cf-heading-row">
+      <h2 id="cf-contacts-title">Будем ближе.</h2>
+      <p>Знакомство с «Ортофэмили»<br />начинается с разговора.</p>
+    </div>
+    <div class="cf-contact-grid">
+      <div class="cf-contact-copy">
+        <p class="cf-demo-note">Демонстрационный блок. Контакты уточняются.</p>
+        <dl class="cf-details">
+          <div class="cf-address"><dt>Адрес клиники</dt><dd data-cf-contact="address">{contacts.address ?? 'Точный адрес скоро появится'}</dd></div>
+          <div><dt>Телефон</dt><dd data-cf-contact="phone">{contacts.phone ? <a href={contacts.phone.href}>{contacts.phone.label}</a> : 'Номер будет добавлен'}</dd></div>
+          <div><dt>Режим работы</dt><dd data-cf-contact="hours">{contacts.hours ?? 'Расписание уточняется'}</dd></div>
+          <div><dt>Электронная почта</dt><dd data-cf-contact="email">{contacts.email ? <a href={`mailto:${contacts.email}`}>{contacts.email}</a> : 'Адрес будет добавлен'}</dd></div>
+        </dl>
+        <details class="cf-visit">
+          <summary>Обсудить визит <ArrowIcon /></summary>
+          <div class="cf-visit-note"><p>Запись пока недоступна.</p><p>Здесь появятся подтверждённые способы связи с клиникой. Этот макет не принимает и не отправляет обращения.</p></div>
+        </details>
+        <p class="cf-action-caption">Способы связи появятся после подтверждения клиникой.</p>
+      </div>
+      <div class="cf-map-area">
+        <slot name="map">
+          <div class="cf-map-placeholder">
+            <div class="cf-map-label"><span>Как нас найти</span><span>Карта ещё не подключена</span></div>
+            <div class="cf-map-surface" aria-hidden="true"><span class="cf-map-orbit"></span><span class="cf-map-orbit cf-map-orbit-two"></span><span class="cf-map-centre">О</span></div>
+            <div class="cf-map-bottom"><p>{contacts.city}</p><span>Здесь появится карта<br />или схема проезда.</span></div>
+          </div>
+        </slot>
+        <p class="cf-map-caption">Расположение и маршрут будут доступны после подтверждения точного адреса.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initClosingMotion } from './closing-motion';
+  initClosingMotion();
+</script>

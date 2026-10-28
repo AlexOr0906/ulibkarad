@@ -1,5 +1,17 @@
 # Unified photographic scene and local team integration
 
+## Follow-up: clearance fix and closing blocks
+
+The user's reported photo/caption collision is fixed separately at `174ee6a`. The enlarging portrait now leaves a measured lane before the ceramic frame is revealed. The resolved pair has a 24px desktop / 16px phone gutter; captions stay on their own side of that gutter. Visible frame, caption and reading-copy intersections were checked in 45 scroll positions across 1920/1440/1280/1024/768/430/390/320 widths, short landscape, reduced motion and no-JS. No collisions/overflow in the checked positions. The primary moves left later to keep the early CTA clear. Static layouts also separate the frames. This replaces the earlier overlap-based exit described below.
+
+Received `feature/contacts-footer` at `2f3371984f496281e1e74661399c6199c7eff4e9`, based directly on shared `3ae8903`. Imported only its nine new files: ContactsSection/ClinicFooter/local motion/README, contacts data, local stylesheet, independent preview and two verification scripts. These include work from 7ef0b96 and 2f33719; shared preparation and doctors were not reapplied. The combined page appends contacts and supplies the footer through a named shell slot, removing the earlier demo footer. No header/menu redesign.
+
+Minimal integration adjustment: ClinicFooter accepts optional navigation/topHref props so the shared version links to the actual new IDs; its independent preview keeps the original defaults. The combined footer uses of-about/of-directions/doctors/contacts and of-top, with no links to absent legal pages. Null contact values and legal-document placeholders retained. No invented phone/address/hours/license, no map iframe or external map request. Contact visit action is native demo details; the existing header/hero visit links still open the current demo dialog, with #of-visit at the contact section as no-JS fallback. Existing B doctor sources were verified unchanged against f9e81e1.
+
+Header work is independently owned in `feature/header-navigation`; do not redesign it in parallel. Receiving contract: fixed flush top, current 88px desktop/72px phone; scene-local --of-header-height has these values. Existing targets: #of-top, #of-about, #of-directions, #doctors, #contacts. CTA href #of-visit, optional data-of-visit for the existing demo dialog. Current anchor offsets 100px, doctors on phone84px. Future header integration must coordinate actual height without changing section IDs.
+
+Latest production build: 42 Astro files, no errors/warnings/hints, seven routes. Main/Pages and deployment workflow remain unchanged. New source remains local on feature/orthofamily-home. Detailed closing-block and clearance evidence is exported with the follow-up screenshots; physical iPhone/Safari still not tested.
+
 28 October 2026. Working branch: `feature/orthofamily-home`. Scene checkpoint: `6e89370`. Prior proposal: `f8e6753`. Published control remains `5b79050c0e534084889f2e9afc236d41af5eac29`.
 
 ## Preview and result

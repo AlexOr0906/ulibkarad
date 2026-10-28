@@ -15,8 +15,8 @@ const directions = [
       <p>Демонстрационная структура направлений. Подробности будут подтверждены клиникой.</p>
     </header>
     <div class="of-direction-list">
-      {directions.map((item, index) => (
-        <details class="of-direction" open={index === 0} data-of-direction>
+      {directions.map((item) => (
+        <details class="of-direction" data-of-direction>
           <summary><span>{item.title}</span><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M12 4v16" fill="none" stroke="currentColor" stroke-width="1.2" /></svg></summary>
           <div class="of-direction-panel">
             <p>{item.text}</p>

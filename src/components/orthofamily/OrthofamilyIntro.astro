@@ -1,8 +1,9 @@
 ---
 import '@/styles/orthofamily-wordmark.css';
+import '@/styles/opening-transition.css';
 const base = import.meta.env.BASE_URL;
 ---
-<div class="of-intro" id="of-top" data-of-intro>
+<div class="of-intro of-opening-transition" id="of-top" data-of-intro>
   <div class="of-scene-ground" aria-hidden="true"></div>
   <div class="of-hero">
   <div class="of-hero-frame">
@@ -22,7 +23,7 @@ const base = import.meta.env.BASE_URL;
   </section>
   <div class="of-scene-world">
     <div class="of-scene-stage" data-of-stage>
-        <figure class="of-photo of-photo-main" data-of-main-photo>
+        <figure class="of-photo of-photo-main" data-of-main-photo style={`--of-mirror-mask: url("${base}orthofamily/mirror-object-v1-1200.webp")`}>
           <img src={`${base}orthofamily/mirror-object-v1-1200.webp`} srcset={`${base}orthofamily/mirror-object-v1-640.webp 640w, ${base}orthofamily/mirror-object-v1-1200.webp 1122w`} sizes="(max-width: 767px) 90vw, 44vw" alt="Иллюстративное изображение: серебристое стоматологическое зеркало без фона." width="1122" height="1402" fetchpriority="high" />
         </figure>
     </div>

@@ -3,6 +3,8 @@ import '@/styles/orthofamily.css';
 import OrthofamilyMotion from './OrthofamilyMotion.astro';
 import cyrillicFont from '@fontsource-variable/manrope/files/manrope-cyrillic-wght-normal.woff2?url';
 const base = import.meta.env.BASE_URL;
+interface Props { withTeam?: boolean; }
+const { withTeam = false } = Astro.props;
 ---
 <!doctype html>
 <html lang="ru" class="of-document">
@@ -16,8 +18,9 @@ const base = import.meta.env.BASE_URL;
     <link rel="preload" href={cyrillicFont} as="font" type="font/woff2" crossorigin />
     <title>Ортофэмили — стоматология для взрослых и детей · Концепция</title>
     <script is:inline>if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('of-motion');</script>
+    {withTeam && <script is:inline>document.documentElement.classList.add('js');</script>}
   </head>
-  <body class="of-page">
+  <body class="of-page" data-bracket-variant={withTeam ? 'clinic' : undefined}>
     <a class="of-skip" href="#of-main">Перейти к содержимому</a>
     <header class="of-header">
       <div class="of-shell of-header-inner">
@@ -27,6 +30,7 @@ const base = import.meta.env.BASE_URL;
         </a>
         <nav class="of-nav" aria-label="Основная навигация">
           <a href="#of-about">Подход</a><a href="#of-directions">Направления</a>
+          {withTeam && <a href="#doctors">Команда</a>}
         </nav>
         <a class="of-button of-header-visit" href="#of-visit" data-of-visit>Обсудить визит <span aria-hidden="true">↗</span></a>
       </div>
@@ -35,7 +39,7 @@ const base = import.meta.env.BASE_URL;
     <footer class="of-footer" id="of-visit">
       <div class="of-shell of-footer-inner">
         <div><p class="of-footer-name">Ортофэмили</p><p>Демо-концепция. Запись не производится.<br/>Контакты и материалы будут согласованы с клиникой.</p></div>
-        <a href={base} target="_blank" rel="noopener">Контрольная версия <span aria-hidden="true">↗</span></a>
+        <a href={withTeam ? `${base}orthofamily-preview/` : `${base}orthofamily-combined/`}>{withTeam ? 'Только вступление' : 'Вступление и команда'} <span aria-hidden="true">↗</span></a>
         <a href="#of-top">В начало <span aria-hidden="true">↑</span></a>
       </div>
     </footer>

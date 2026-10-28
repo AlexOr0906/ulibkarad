@@ -1,26 +1,29 @@
 ---
 import DoctorCard from './DoctorCard.astro';
+import '../styles/doctors-section.css';
 import ArrowIcon from './ArrowIcon.astro';
 import { clinicDoctors, doctorCardExamples } from '@/data/doctors';
 const preview = clinicDoctors.length === 0;
 const cards = preview ? doctorCardExamples : clinicDoctors;
 ---
-<div class="team-collection mt-10 md:mt-14" data-team-carousel>
+<div class="team-collection doctors-section mt-10 md:mt-14" data-team-carousel>
+  <div class="team-introduction"><p>Познакомиться до первой встречи.</p><span>Здесь появятся проверенные сведения<br />о врачах «Ортофэмили».</span></div>
   <div class="team-toolbar">
-    <p class="team-demo-note max-w-xl text-xs leading-relaxed text-graphite">{preview ? 'Демонстрационные изображения. Не являются фотографиями сотрудников клиники.' : 'Знакомство с врачом до первого визита.'}</p>
+    <p class="team-demo-note max-w-xl text-xs leading-relaxed text-graphite">{preview ? 'Демонстрационные AI-изображения. Не являются фотографиями сотрудников клиники. Количество макетов не отражает численность команды.' : 'Знакомство с врачом до первого визита.'}</p>
     <div class="team-navigation" data-team-control>
+      <button class="team-motion-toggle" type="button" data-team-motion aria-pressed="false" aria-label="Остановить движение портретов">Пауза</button>
       <span class="mr-3 text-xs text-graphite" data-team-position aria-live="polite">Демоколлекция</span>
       <button class="team-arrow" type="button" data-team-prev aria-label="Предыдущие карточки врачей" aria-controls="team-rail" disabled><ArrowIcon class="team-arrow-prev" /></button>
       <button class="team-arrow" type="button" data-team-next aria-label="Следующие карточки врачей" aria-controls="team-rail"><ArrowIcon class="team-arrow-next" /></button>
     </div>
   </div>
-  <div id="team-rail" class="team-rail" data-team-rail tabindex="0" role="region" aria-label={preview ? 'Демонстрационная коллекция карточек врачей' : 'Коллекция карточек врачей'}>
+  <div id="team-rail" class="team-rail" data-sc-in data-team-rail tabindex="0" role="region" aria-label={preview ? 'Демонстрационная коллекция карточек врачей' : 'Коллекция карточек врачей'}>
     {cards.map((doctor, index) => <DoctorCard doctor={doctor} preview={preview} index={index} />)}
   </div>
   <div class="team-progress" aria-hidden="true"><span data-team-progress></span></div>
 </div>
 
-<dialog id="doctor-demo" class="concept-dialog doctor-dialog" aria-labelledby="doctor-demo-title" aria-describedby="doctor-demo-note">
+<dialog id="doctor-demo" class="concept-dialog doctor-dialog doctors-profile" aria-labelledby="doctor-demo-title" aria-describedby="doctor-demo-note">
   <div class="flex items-center justify-between gap-6 border-b border-graphite/25 pb-4">
     <p class="eyebrow text-graphite" data-doctor-dialog-label>Демо карточки</p>
     <form method="dialog"><button class="size-11 text-2xl" type="submit" aria-label="Закрыть карточку врача">×</button></form>
@@ -38,6 +41,8 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
 </dialog>
 
 <script>
+  import { initDoctorsEntrance } from './doctors-entrance';
+  initDoctorsEntrance();
   const collection = document.querySelector<HTMLElement>('[data-team-carousel]');
   if (collection) {
     const rail = collection.querySelector<HTMLElement>('[data-team-rail]')!;
@@ -47,14 +52,61 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
     const status = collection.querySelector<HTMLElement>('[data-team-position]')!;
     const progress = collection.querySelector<HTMLElement>('[data-team-progress]')!;
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    const desktop = matchMedia('(min-width: 1024px)');
+    let active = 0;
+    let motionPaused = false;
+    const motionToggle = collection.querySelector<HTMLButtonElement>('[data-team-motion]')!;
+    motionToggle.addEventListener('click', () => {
+      motionPaused = !motionPaused; collection!.dataset.motionPaused = String(motionPaused);
+      motionToggle.setAttribute('aria-pressed', String(motionPaused));
+      motionToggle.setAttribute('aria-label', motionPaused ? 'Включить движение портретов' : 'Остановить движение портретов');
+      motionToggle.textContent = motionPaused ? 'Движение' : 'Пауза'; select(active);
+    });
+    collection.classList.add('team-enhanced');
+    function select(index: number) {
+      active = Math.max(0, Math.min(cards.length - 1, index));
+      cards.forEach((card, i) => {
+        card.dataset.active = String(i === active);
+        const video = card.querySelector<HTMLVideoElement>('[data-doctor-video]');
+        if (!video) return;
+        if (i === active && !motionPaused && !reduced.matches && inView && !document.hidden) {
+          if (!video.src) video.src = video.dataset.src!;
+          video.play().then(() => card.dataset.playing = 'true').catch(() => {});
+        } else { video.pause(); delete card.dataset.playing; }
+      });
+    }
+    let inView = false;
+    cards.forEach((card, i) => {
+      card.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse' && desktop.matches) { select(i); sync(); } });
+      card.addEventListener('focusin', () => { if (desktop.matches) { select(i); sync(); } });
+      card.addEventListener('pointermove', e => {
+        if (motionPaused || reduced.matches || e.pointerType !== 'mouse') return;
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--portrait-x', `${((e.clientX - r.left) / r.width - .5) * 12}px`);
+        card.style.setProperty('--portrait-y', `${((e.clientY - r.top) / r.height - .5) * 8}px`);
+      });
+      card.addEventListener('pointerleave', () => { card.style.setProperty('--portrait-x', '0px'); card.style.setProperty('--portrait-y', '0px'); });
+    });
+    new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; collection!.classList.toggle('team-in-view', inView); select(active); }, {threshold: .1}).observe(rail);
+    document.addEventListener('visibilitychange', () => select(active));
+    reduced.addEventListener('change', () => select(active));
+    desktop.addEventListener('change', () => { select(active); sync(); });
+    select(0);
     let pending = 0;
     const step = () => cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : rail.clientWidth;
     function sync() {
       pending = 0;
+      if (desktop.matches) {
+        previous.disabled = active === 0; next.disabled = active === cards.length - 1;
+        status.textContent = `Портрет ${active + 1} / ${cards.length}${collection!.querySelector('[data-preview]') ? ' · демо' : ''}`;
+        progress.style.transform = `scaleX(${(active + 1) / cards.length})`;
+        return;
+      }
       const max = Math.max(0, rail.scrollWidth - rail.clientWidth);
       previous.disabled = rail.scrollLeft <= 2;
       next.disabled = rail.scrollLeft >= max - 2;
       const first = Math.min(cards.length, Math.round(rail.scrollLeft / step()) + 1);
+      select(first - 1);
       const gap = parseFloat(getComputedStyle(rail).columnGap) || 0;
       const shown = Math.max(1, Math.floor((rail.clientWidth + gap + 2) / step()));
       const last = Math.min(cards.length, first + shown - 1);
@@ -64,6 +116,7 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
       collection!.dataset.teamIndex = String(first - 1);
     }
     function move(direction: number | 'start' | 'end') {
+      if (desktop.matches) { select(direction === 'start' ? 0 : direction === 'end' ? cards.length - 1 : active + direction); sync(); return; }
       const target = direction === 'start' ? 0 : direction === 'end' ? rail.scrollWidth : rail.scrollLeft + step() * direction;
       rail.scrollTo({left: target, behavior: reduced.matches ? 'instant' : 'smooth'});
     }
@@ -80,52 +133,48 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
     sync();
 
     const dialog = document.querySelector<HTMLDialogElement>('#doctor-demo')!;
-    const dialogCopy = dialog.querySelector<HTMLElement>('.doctor-dialog-grid > div')!;
     let trigger: HTMLButtonElement | null = null;
-    let openRequest = 0;
-    let portraitTransition: ViewTransition | null = null;
-    collection.querySelectorAll<HTMLButtonElement>('[data-doctor-open]').forEach(button => button.addEventListener('click', async () => {
-      const request = ++openRequest;
+    let morph: ViewTransition | undefined;
+    const modalImage = dialog.querySelector<HTMLImageElement>('[data-doctor-dialog-image]')!;
+    function portraitMorph(source: HTMLImageElement | undefined, opening: boolean) {
+      morph?.skipTransition();
+      rail.querySelectorAll<HTMLElement>('[style*="view-transition-name"]').forEach(el => el.style.removeProperty('view-transition-name'));
+      modalImage.style.removeProperty('view-transition-name');
+      const update = () => { if (opening) { if (!dialog.open) dialog.showModal(); } else dialog.close(); };
+      if (reduced.matches || !document.startViewTransition || !source) { update(); return; }
+      const from = opening ? source : modalImage;
+      const to = opening ? modalImage : source;
+      document.documentElement.dataset.teamTransition = 'true';
+      from.style.viewTransitionName = 'team-portrait';
+      const transition = document.startViewTransition(() => {
+        from.style.viewTransitionName = 'none';
+        to.style.viewTransitionName = 'team-portrait';
+        update();
+      });
+      morph = transition;
+      const clean = () => { if (morph !== transition) return; from.style.removeProperty('view-transition-name'); to.style.removeProperty('view-transition-name'); delete document.documentElement.dataset.teamTransition; morph = undefined; };
+      transition.finished.then(clean, clean);
+    }
+    const closeProfile = () => portraitMorph(trigger?.closest('[data-doctor-card]')?.querySelector<HTMLImageElement>('img') ?? undefined, false);
+    dialog.addEventListener('cancel', e => { e.preventDefault(); closeProfile(); });
+    dialog.querySelectorAll('form').forEach(form => form.addEventListener('submit', e => { e.preventDefault(); closeProfile(); }));
+    reduced.addEventListener('change', () => { if (reduced.matches) morph?.skipTransition(); });
+    collection.querySelectorAll<HTMLButtonElement>('[data-doctor-open]').forEach(button => button.addEventListener('click', () => {
       trigger = button;
       dialog.querySelector<HTMLElement>('#doctor-demo-title')!.textContent = button.dataset.name ?? '';
       dialog.querySelector<HTMLElement>('[data-doctor-dialog-specialty]')!.textContent = button.dataset.specialty ?? '';
       dialog.querySelector<HTMLElement>('[data-doctor-dialog-summary]')!.textContent = button.dataset.summary ?? '';
       const image = dialog.querySelector<HTMLImageElement>('[data-doctor-dialog-image]')!;
+      const source = button.closest('[data-doctor-card]')?.querySelector<HTMLImageElement>('img');
       image.loading = 'eager';
       image.src = button.dataset.portrait ?? '';
-      image.alt = button.dataset.preview ? 'Временный демонстрационный AI-портрет. Не сотрудник клиники.' : button.dataset.name ?? '';
+      image.style.objectPosition = source?.style.objectPosition ?? '50% 0%';
+      image.alt = source?.alt ?? '';
       dialog.querySelector<HTMLElement>('[data-doctor-dialog-label]')!.textContent = button.dataset.preview ? 'Демонстрация карточки' : 'О враче';
       dialog.querySelector<HTMLElement>('#doctor-demo-note')!.hidden = !button.dataset.preview;
-      const source = button.closest('[data-doctor-card]')?.querySelector<HTMLImageElement>('.doctor-portrait img');
-      const show = () => { if (!dialog.open) dialog.showModal(); };
-      if (!reduced.matches && document.startViewTransition && source) {
-        await Promise.race([image.decode().catch(() => {}), new Promise(resolve => setTimeout(resolve, 160))]);
-        if (request !== openRequest) return;
-        if (!reduced.matches && image.complete && image.naturalWidth) {
-          portraitTransition?.skipTransition();
-          source.style.viewTransitionName = 'doctor-preview';
-          dialog.dataset.morph = 'true';
-          delete dialog.dataset.morphComplete;
-          dialogCopy.inert = true;
-          const transition = document.startViewTransition(() => {
-            source.style.viewTransitionName = 'none'; image.style.viewTransitionName = 'doctor-preview'; show();
-          });
-          portraitTransition = transition;
-          const clean = () => {
-            source.style.removeProperty('view-transition-name'); image.style.removeProperty('view-transition-name');
-            dialogCopy.inert = false;
-            if (dialog.open) dialog.dataset.morphComplete = 'true';
-            if (!dialog.open) delete dialog.dataset.morph;
-            if (portraitTransition === transition) portraitTransition = null;
-          };
-          transition.finished.then(clean, clean);
-          return;
-        }
-      }
-      show();
+      portraitMorph(source ?? undefined, true);
     }));
-    dialog.addEventListener('close', () => { ++openRequest; portraitTransition?.skipTransition(); delete dialog.dataset.morph; delete dialog.dataset.morphComplete; dialogCopy.inert = false; trigger?.focus({preventScroll: true}); });
-    reduced.addEventListener('change', () => { if (reduced.matches) portraitTransition?.skipTransition(); });
+    dialog.addEventListener('close', () => trigger?.focus({preventScroll: true}));
     dialog.addEventListener('keydown', event => {
       if (event.key !== 'Tab') return;
       const controls = [...dialog.querySelectorAll<HTMLElement>('button:not([disabled]), a[href], [tabindex="0"]')].filter(e => e.getClientRects().length > 0 && !e.closest('[inert]'));
@@ -133,6 +182,6 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
       if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
       else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
     });
-    dialog.addEventListener('click', event => { const r = dialog.getBoundingClientRect(); if (event.target === dialog && (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom)) dialog.close(); });
+    dialog.addEventListener('click', event => { const r = dialog.getBoundingClientRect(); if (event.target === dialog && (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom)) closeProfile(); });
   }
 </script>

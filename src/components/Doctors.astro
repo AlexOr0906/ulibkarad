@@ -6,9 +6,9 @@ import DoctorCollection from './DoctorCollection.astro';
 interface Props { showDivider?: boolean; generalClinic?: boolean; }
 const { showDivider = true, generalClinic = false } = Astro.props;
 ---
-<section id="doctors" class="bg-mist py-24 md:py-36" data-sc-act="flow">
+<section id="doctors" class="bg-mist py-24 md:py-36" class:list={[{'doctors-entrance': generalClinic}]} data-sc-act="flow">
   <div class="container-shell">
-    <SectionHeading index="03" label="Команда" title="За улыбкой стоят люди" />
+    <div data-team-heading={generalClinic ? '' : undefined} data-sc-in={generalClinic ? '' : undefined}><SectionHeading index="03" label="Команда" title="За улыбкой стоят люди" /></div>
     {generalClinic ? (
       <DoctorCollection />
     ) : (

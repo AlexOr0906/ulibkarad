@@ -1,0 +1,17 @@
+---
+// Existing team utilities/base styles are required by the unchanged B components.
+// No legacy page-motion initializer or Scroll Craft engine is started here.
+import '@/styles/global.css';
+import '@/styles/clinic-motion.css';
+import OrthofamilyShell from '@/components/orthofamily/OrthofamilyShell.astro';
+import OrthofamilyIntro from '@/components/orthofamily/OrthofamilyIntro.astro';
+import OrthofamilyDirections from '@/components/orthofamily/OrthofamilyDirections.astro';
+import Doctors from '@/components/Doctors.astro';
+import '@/styles/orthofamily-integration.css';
+---
+<OrthofamilyShell withTeam>
+  <OrthofamilyIntro />
+  <OrthofamilyDirections />
+  <!-- A/B integration boundary. B components retain their own local initializer. -->
+  <Doctors showDivider={false} generalClinic />
+</OrthofamilyShell>

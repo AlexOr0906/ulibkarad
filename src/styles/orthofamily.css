@@ -3,9 +3,9 @@
 .of-document { scroll-behavior: smooth; scrollbar-gutter: stable; background: #eef1f3; }
 .of-page { --of-paper:#eef1f3; --of-ink:#273037; --of-dark:#273037; --of-silver:#c9cdd1; margin:0; font:400 16px/1.55 'OF Manrope',sans-serif; background:var(--of-paper); color:var(--of-ink); }
 .of-page *, .of-page *::before, .of-page *::after { box-sizing:border-box; }
-.of-page :where(h1,h2,p,figure) { margin:0; }
+:where(.of-header,.of-opening,.of-about,.of-directions,.of-footer,.of-dialog) :where(h1,h2,p,figure) { margin:0; }
 .of-page :where(a,button,summary) { -webkit-tap-highlight-color:transparent; }
-.of-page :where(a,button) { color:inherit; font:inherit; }
+:where(.of-header,.of-opening,.of-about,.of-directions,.of-footer,.of-dialog) :where(a,button) { color:inherit; font:inherit; }
 .of-page a { text-decoration:none; }
 .of-page button { cursor:pointer; }
 .of-page :focus-visible { outline:2px solid currentColor; outline-offset:5px; }
@@ -66,7 +66,7 @@
 .of-scene-active .of-scene-stage { position:sticky; top:var(--of-header-height); width:100%; height:calc(100svh - var(--of-header-height)); margin:0; overflow:clip; }
 .of-scene-active .of-photo-main { left:0; top:0; transform:translate3d(calc(var(--of-main-x) - 50%),calc(var(--of-main-y) - 50%),0) scale(var(--of-main-scale)); }
 .of-scene-active .of-photo-near { left:0; top:0; transform:translate3d(calc(var(--of-near-x) - 50%),calc(var(--of-near-y) - 50%),0) scale(var(--of-near-scale)); }
-.of-scene-active .of-near-frame { clip-path:inset(0 var(--of-near-wipe,100%) 0 0 round 1rem); }
+.of-scene-active .of-near-frame { clip-path:inset(var(--of-near-wipe,28%) round 1rem); opacity:var(--of-near-reveal,0); }
 .of-scene-active .of-photo-near figcaption { opacity:var(--of-near-reveal,0); }
 .of-directions { position:relative; z-index:5; padding:100px 0 110px; background:#f5f6f6; }
 .of-directions-grid { display:grid; grid-template-columns:.9fr 1.5fr; gap:6rem; }

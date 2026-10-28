@@ -69,7 +69,7 @@
       intro.style.setProperty('--of-near-y', `${pose[5] * geometry.height + phoneStart * (1 - smooth(p / .34))}px`);
       intro.style.setProperty('--of-near-scale', String(pose[6]));
       const reveal = smooth((p - .30) / .42);
-      intro.style.setProperty('--of-near-wipe', `${(1 - reveal) * 100}%`);
+      intro.style.setProperty('--of-near-wipe', `${(1 - reveal) * 28}%`);
       intro.style.setProperty('--of-near-reveal', String(reveal));
       const shade = smooth((p - .24) / .60);
       intro.style.setProperty('--of-shade', String(shade));

@@ -1,5 +1,7 @@
 # Orthofamily introduction — local review
 
+Historical first proposal at f8e6753. Superseded locally by the unified scene and A/B preview; current verification is in `ONE-SCENE-STATUS.md`. Previous compiled proposal remains on port 4182 while that local process is running.
+
 28 October 2026. Branch `feature/orthofamily-home`, separate local route `/orthofamily-preview/` on port 4181. Published control remains 5b79050. This is an A-stage proposal for three opening sections, not a public release or a complete rebuilt clinic site.
 
 ## Result

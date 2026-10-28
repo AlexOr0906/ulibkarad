@@ -15,7 +15,7 @@ Main image = own mirror/glove photograph. Secondary = existing original ceramic 
 
 ## Layer contract
 
-One paper ground covers the entire introduction; a graphite layer changes opacity on that same ground. It has no section boundary. Main portrait is the front layer; secondary begins occluded behind it and emerges through relative travel. Title is above the photographic layer and stays readable; controls stay semantic and interactive. Approach text stays in normal document flow and at full opacity. Its ink is selected against the interpolated ground rather than faded with it.
+One paper ground covers the entire introduction; a graphite layer changes opacity on that same ground. It has no section boundary. Main portrait is the dominant layer; the secondary starts occluded within that composition and opens through a bounded mask with the same shared progress, then overlaps its lower side. Title is above the photographic layer and stays readable; controls stay semantic and interactive. Approach text stays in normal document flow and at full opacity. Its ink is selected against the interpolated ground rather than faded with it.
 
 Shared p derives from the bounded sticky travel of the actual introduction. Piecewise smooth interpolation through four authored poses controls image centres/scales and graphite opacity. There are no independent entrance observers/timers, wheel/touch capture, wait gates, automatic scrolling or animation loops. Reduced motion/no-JS keep a shorter static overlapping composition with ordinary content flow.
 

@@ -4,6 +4,8 @@ export interface DoctorProfile {
   specialty: string | null;
   summary: string | null;
   portrait: { src: string; alt: string; position?: string; srcSet?: string; width?: number; height?: number } | null;
+  /** Optional approved, silent video portrait; paths relative to public/. */
+  video?: { src: string; type?: string };
   profileHref: string | null;
   study?: string;
 }

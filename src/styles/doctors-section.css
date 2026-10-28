@@ -1,0 +1,97 @@
+/* Local to the home team collection; archive layouts and other sections are untouched. */
+.doctors-section { min-width: 0; }
+.doctors-section .team-introduction { display: flex; justify-content: space-between; align-items: end; gap: 2rem; margin-bottom: 2.5rem; padding-top: .25rem; }
+.doctors-section .team-introduction > p { font-size: clamp(1.25rem, 2vw, 1.8rem); line-height: 1.15; font-weight: 300; letter-spacing: -.04em; }
+.doctors-section .team-introduction > span { max-width: 24rem; font-size: .8rem; line-height: 1.8; color: #5b5f62; }
+.doctors-section .team-toolbar { align-items: end; gap: 1.5rem; margin-bottom: 1.5rem; }
+.doctors-section .team-rail { gap: 1.5rem; padding: 4px 4px 1rem; scroll-padding-inline: 4px; }
+.doctors-section .team-rail .doctor-card { position: relative; flex-basis: calc((100% - 1.5rem) / 2.35); padding-bottom: 1.5rem; border-bottom: 1px solid #aeb4b9; }
+.doctors-section .team-rail .doctor-portrait { height: auto; aspect-ratio: 4 / 5; max-height: none; }
+/* Portraits never wait for the shared page entrance choreography. */
+.doctors-section .team-rail .doctor-portrait::before,
+.doctors-section .team-rail .doctor-portrait::after { display: none; }
+.doctors-section .team-rail .doctor-portrait img { transform: none; }
+.doctors-section .doctor-card-copy { padding: 1.4rem .25rem 0; }
+.doctors-section .doctor-card-index { margin-bottom: .8rem; font-size: .62rem; letter-spacing: .08em; text-transform: uppercase; color: #5b5f62; }
+.doctors-section .doctor-open::after { content: ''; position: absolute; inset: 0; z-index: 1; }
+.doctors-section .doctor-card:focus-within { outline: 2px solid #292d30; outline-offset: -2px; }
+.doctors-section .team-arrow { border-radius: 50%; width: 3rem; height: 3rem; }
+.doctors-section .team-rail:focus-visible, .doctors-section button:focus-visible,
+.doctors-profile button:focus-visible { outline: 2px solid #292d30; outline-offset: 3px; }
+.doctors-profile { width: min(calc(100% - 2rem), 64rem); overscroll-behavior: contain; }
+.doctors-profile .doctor-dialog-grid { grid-template-columns: 1fr 1fr; align-items: center; gap: clamp(1.5rem, 4vw, 3.5rem); }
+.doctors-profile .doctor-dialog-image { height: auto; max-height: 65dvh; aspect-ratio: 4 / 5; object-fit: contain; }
+.doctors-profile[open] { animation: team-profile-enter .22s ease-out both; }
+@keyframes team-profile-enter { from { opacity: 0; translate: 0 10px; } to { opacity: 1; translate: 0 0; } }
+@media (hover: hover) and (pointer: fine) {
+  .doctors-section .team-rail .doctor-card:hover .doctor-portrait img { transform: scale(1.025); }
+  .doctors-section .doctor-card:hover { border-color: #292d30; }
+}
+@media (max-width: 767px) {
+  .doctors-section .team-introduction { display: block; margin-bottom: 1.75rem; }
+  .doctors-section .team-introduction > span { display: block; margin-top: .65rem; }
+  .doctors-section .team-toolbar { flex-direction: column; align-items: start; }
+  .doctors-section .team-navigation { align-self: end; }
+  .doctors-section .team-rail .doctor-card { flex-basis: 88%; }
+  .doctors-section .team-rail { gap: 1rem; }
+  .doctors-profile .doctor-dialog-grid { grid-template-columns: minmax(0, 1fr); align-items: start; }
+  .doctors-profile .doctor-dialog-image { height: min(45dvh, 24rem); width: 100%; aspect-ratio: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .doctors-section *, .doctors-profile, .doctors-profile *, .doctors-profile::backdrop { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .doctors-section .team-rail .doctor-card .doctor-portrait img { transform: none !important; }
+}
+
+/* Motion study: expanding portrait gallery, local to the team block. */
+.doctors-section .doctor-portrait { isolation: isolate; }
+.doctors-section .doctor-portrait-number { position: absolute; top: 1.25rem; left: 1.25rem; z-index: 3; font-size: .7rem; letter-spacing: .15em; color: #44494d; }
+.doctors-section .doctor-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; opacity: 0; transition: opacity .45s; }
+.doctors-section [data-playing='true'] .doctor-video { opacity: 1; }
+.doctors-section .doctor-portrait img { scale: 1.045; translate: var(--portrait-x, 0px) var(--portrait-y, 0px); transition: translate .7s cubic-bezier(.2,.7,.2,1), filter .7s, scale .9s; }
+.doctors-section.team-in-view [data-active='true'] .doctor-portrait img { animation: team-portrait-drift 7s ease-in-out infinite alternate; }
+@keyframes team-portrait-drift { from { scale: 1.045; } to { scale: 1.085; } }
+.doctors-profile[open] { animation: none; }
+.doctors-profile[open] .doctor-dialog-grid > div { animation: team-copy-arrive .45s cubic-bezier(.2,.75,.2,1) both; }
+@keyframes team-copy-arrive { from { translate: 0 16px; } to { translate: 0 0; } }
+::view-transition-group(team-portrait) { animation-duration: .65s; animation-timing-function: cubic-bezier(.22,1,.36,1); }
+::view-transition-old(team-portrait), ::view-transition-new(team-portrait) { height: 100%; object-fit: cover; object-position: center top; mix-blend-mode: normal; }
+@media (min-width: 1024px) {
+  .doctors-section.team-enhanced .team-rail { gap: .8rem; overflow: hidden; scroll-snap-type: none; }
+  .doctors-section.team-enhanced .team-rail .doctor-card { flex: 1 1 0%; transition: flex-grow .85s cubic-bezier(.22,1,.36,1); }
+  .doctors-section.team-enhanced .team-rail .doctor-card[data-active='true'] { flex-grow: 2.65; }
+  .doctors-section.team-enhanced .team-rail .doctor-portrait { height: clamp(25rem, 37vw, 36rem); aspect-ratio: auto; }
+  .doctors-section.team-enhanced .team-rail .doctor-card .doctor-portrait img { transform: none; object-fit: cover; object-position: center top; }
+  .doctors-section.team-enhanced .doctor-card-copy { min-height: 11rem; }
+  .doctors-section.team-enhanced .doctor-card-copy h3 { font-size: clamp(1.2rem, 1.65vw, 1.8rem); }
+  .doctors-section.team-enhanced .doctor-card-index { font-size: .58rem; letter-spacing: .02em; }
+  .doctors-section.team-enhanced .doctor-open { white-space: nowrap; }
+  .doctors-section.team-enhanced .doctor-open .arrow-icon { transition: rotate .6s, translate .6s; }
+  .doctors-section.team-enhanced [data-active='true'] .doctor-open .arrow-icon { rotate: 45deg; translate: 4px 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .doctors-section .doctor-portrait img { animation: none !important; scale: 1; translate: none; }
+  ::view-transition-group(team-portrait) { animation: none; }
+}
+.doctors-section .team-motion-toggle { font-size: .7rem; min-height: 44px; padding-inline: .75rem; cursor: pointer; border-bottom: 1px solid #8f989f; }
+.doctors-section[data-motion-paused='true'] .doctor-portrait img { animation-play-state: paused !important; translate: none; }
+@media (prefers-reduced-motion: reduce) { .doctors-section .team-motion-toggle { display: none; } }
+/* One moving portrait, without a cross-faded second face. */
+::view-transition-old(team-portrait) { display: none; }
+::view-transition-new(team-portrait) { animation: none; }
+html[data-team-transition]::view-transition { pointer-events: none; }
+html[data-team-transition]::view-transition-old(root) { animation: none; opacity: 0; }
+html[data-team-transition]::view-transition-new(root) { animation: none; }
+
+/* Scroll Craft flow/in entrance. Only this section owns these masks. */
+.doctors-entrance [data-team-heading] .heading-word { transform: none; transition: none; }
+.doctors-entrance [data-team-heading].team-entry-armed h2 { clip-path: inset(0 0 100% 0); transform: translateY(14px); }
+.doctors-entrance [data-team-rail].team-entry-armed .doctor-portrait { clip-path: inset(0 0 100% 0); transform: translateY(14px); }
+@media (max-width: 767px) {
+  .doctors-entrance [data-team-rail].team-entry-armed .doctor-portrait { clip-path: inset(0 0 35% 0); transform: translateY(6px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .doctors-entrance [data-team-heading] h2,
+  .doctors-entrance [data-team-rail] .doctor-portrait { transform: none !important; clip-path: none !important; opacity: 1 !important; }
+}
+
+.doctors-section .team-entrance-replay { min-height: 44px; padding: .5rem 1rem; border: 1px solid #8f989f; font-size: .75rem; cursor: pointer; }

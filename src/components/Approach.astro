@@ -3,6 +3,8 @@ import SectionHeading from './SectionHeading.astro';
 import BracketDivider from './BracketDivider.astro';
 import { approach } from '@/data/site';
 const base = import.meta.env.BASE_URL;
+interface Props { showDivider?: boolean; }
+const { showDivider = true } = Astro.props;
 ---
 <section id="approach" class="grain relative bg-ink py-24 text-white md:py-36" data-sc-act="flow">
   <div class="container-shell relative z-10">
@@ -31,5 +33,5 @@ const base = import.meta.env.BASE_URL;
       </div>
     </div>
   </div>
-  <BracketDivider tone="dark" />
+  {showDivider && <BracketDivider tone="dark" />}
 </section>

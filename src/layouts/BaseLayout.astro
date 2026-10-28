@@ -6,9 +6,10 @@ const base = import.meta.env.BASE_URL;
 interface Props {
   title: string;
   description: string;
+  bracketVariant?: 'background' | 'spacing';
 }
 
-const { title, description } = Astro.props;
+const { title, description, bracketVariant } = Astro.props;
 ---
 <!doctype html>
 <html lang="ru">
@@ -22,7 +23,7 @@ const { title, description } = Astro.props;
     <link rel="preload" href={cyrillicFontUrl} as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
   </head>
-  <body>
+  <body data-bracket-variant={bracketVariant}>
     <slot />
     <script is:inline src={`${base}vendor/scrollcraft.js`}></script>
     <script is:inline>window.ScrollCraft.mount(document.body);</script>

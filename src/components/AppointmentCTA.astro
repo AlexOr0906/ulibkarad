@@ -1,6 +1,8 @@
 ---
 import ArrowIcon from './ArrowIcon.astro';
 import BracketDivider from './BracketDivider.astro';
+interface Props { showDivider?: boolean; }
+const { showDivider = true } = Astro.props;
 ---
 <section id="appointment" class="appointment-section relative isolate overflow-hidden bg-silver py-24 md:py-36" data-sc-act="flow" data-material-light>
   <div class="container-shell relative z-10">
@@ -41,5 +43,5 @@ import BracketDivider from './BracketDivider.astro';
       </form>
     </div>
   </div>
-  <BracketDivider />
+  {showDivider && <BracketDivider />}
 </section>

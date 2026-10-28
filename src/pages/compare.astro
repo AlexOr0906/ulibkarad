@@ -1,0 +1,40 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import BrandLogo from '@/components/BrandLogo.astro';
+import ArrowIcon from '@/components/ArrowIcon.astro';
+const base = import.meta.env.BASE_URL;
+const variants = [
+  { id: 'a', number: '01', title: 'Лента на фоне', description: 'Брекет-система сопровождает прокрутку по центру экрана, оставаясь на фоне разделов.' },
+  { id: 'b', number: '02', title: 'Лента между разделами', description: 'Брекет-система появляется в свободных промежутках. Текстовые блоки остаются чистыми.' },
+];
+---
+<BaseLayout title="Дело в улыбке — два варианта концепции" description="Два варианта оформления сайта стоматологии «Дело в улыбке» для выбора визуального направления.">
+  <main class="container-shell pb-12 pt-6 md:pb-16 md:pt-10">
+    <header class="flex flex-wrap items-center justify-between gap-5 border-b border-graphite/25 pb-6 md:pb-8">
+      <BrandLogo />
+      <p class="eyebrow text-graphite">Концепция сайта · Демо</p>
+    </header>
+    <div class="pb-10 pt-12 md:pb-14 md:pt-20">
+      <p class="eyebrow mb-6 text-graphite">Выбор визуального направления</p>
+      <h1 class="display max-w-4xl text-[clamp(2.25rem,5.2vw,5rem)]">Два варианта<br/>сайта клиники.</h1>
+      <p class="mt-7 max-w-2xl text-base leading-relaxed text-graphite md:text-lg">Сравните расположение брекет-системы и выберите, что ближе по ощущению. Содержание сайта в обоих вариантах одинаковое.</p>
+    </div>
+    <div class="grid gap-6 lg:grid-cols-2">
+      {variants.map(variant => (
+        <article class="flex min-w-0 flex-col border border-graphite/25 bg-white">
+          <a href={`${base}variant-${variant.id}/`} target="_blank" rel="noopener" class="block border-b border-graphite/20 focus-visible:outline-offset-[-4px]" aria-label={`Открыть вариант ${variant.number === '01' ? '1' : '2'}: ${variant.title}, в новой вкладке`}>
+            <img src={`${base}review/variant-${variant.id}.png`} width="1440" height="900" alt={`Предпросмотр: ${variant.title.toLowerCase()}`} class="block h-auto w-full" />
+          </a>
+          <div class="flex flex-1 flex-col p-6 md:p-8">
+            <p class="eyebrow text-graphite">Вариант {variant.number}</p>
+            <h2 class="mt-5 text-2xl font-light tracking-[-.025em] md:text-3xl">{variant.title}</h2>
+            <p class="mb-8 mt-4 max-w-lg text-sm leading-relaxed text-graphite md:text-base">{variant.description}</p>
+            <a href={`${base}variant-${variant.id}/`} target="_blank" rel="noopener" class="action-link mt-auto flex items-center justify-between gap-6 bg-ink px-6 py-5 text-xs font-semibold uppercase tracking-[.08em] text-white">Открыть вариант {variant.number === '01' ? '1' : '2'} <ArrowIcon /></a>
+          </div>
+        </article>
+      ))}
+    </div>
+    <p class="mt-7 text-sm leading-relaxed text-graphite">Каждый вариант откроется в новой вкладке. Можно посмотреть на компьютере и телефоне.</p>
+    <footer class="mt-12 border-t border-graphite/25 pt-6 text-xs leading-relaxed text-graphite">Демо для обсуждения. Материалы клиники уточняются, форма записи демонстрационная.</footer>
+  </main>
+</BaseLayout>

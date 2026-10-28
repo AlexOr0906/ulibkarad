@@ -1,0 +1,179 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Hero from '@/components/Hero.astro';
+import BracketBackground from '@/components/BracketBackground.astro';
+import Services from '@/components/Services.astro';
+import Approach from '@/components/Approach.astro';
+import Doctors from '@/components/Doctors.astro';
+import AppointmentCTA from '@/components/AppointmentCTA.astro';
+import Contacts from '@/components/Contacts.astro';
+import Footer from '@/components/Footer.astro';
+import ConceptDialog from '@/components/ConceptDialog.astro';
+interface Props { variant: 'background' | 'spacing'; }
+const { variant } = Astro.props;
+const showDivider = variant === 'spacing';
+---
+<BaseLayout title={`Дело в улыбке — вариант ${showDivider ? '2' : '1'}`} description="Концепт главной страницы частной стоматологии «Дело в улыбке» в Магнитогорске." bracketVariant={variant}>
+  <a href="#main-content" class="skip-link">Перейти к содержимому</a>
+  <Header />
+  {variant === 'background' && <BracketBackground />}
+  <main id="main-content">
+    <Hero />
+    <div class="ortho-route" data-ortho-route>
+      <Services showDivider={showDivider} />
+      <Approach showDivider={showDivider} />
+      <Doctors showDivider={showDivider} />
+      <AppointmentCTA showDivider={showDivider} />
+      <Contacts showDivider={showDivider} />
+    </div>
+  </main>
+  <Footer />
+  <ConceptDialog />
+<script>
+  document.documentElement.classList.add('js');
+  const conceptDialog = document.querySelector<HTMLDialogElement>('#concept-dialog');
+  document.querySelectorAll<HTMLButtonElement>('[data-open-concept]').forEach((button) => {
+    button.addEventListener('click', () => conceptDialog?.showModal());
+  });
+  conceptDialog?.addEventListener('click', (event) => {
+    if (event.target === conceptDialog) {
+      const rect = conceptDialog.getBoundingClientRect();
+      if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) conceptDialog.close();
+    }
+  });
+  const menuButton = document.querySelector<HTMLButtonElement>('#menu-toggle');
+  const menu = document.querySelector<HTMLElement>('#mobile-menu');
+  function setMenuOpen(open: boolean) {
+    menuButton?.setAttribute('aria-expanded', String(open));
+    menuButton?.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
+    if (menu) {
+      menu.dataset.open = String(open);
+      menu.inert = !open;
+    }
+  }
+  menuButton?.addEventListener('click', () => {
+    const open = menuButton.getAttribute('aria-expanded') === 'true';
+    setMenuOpen(!open);
+  });
+  menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+    setMenuOpen(false);
+  }));
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && menuButton?.getAttribute('aria-expanded') === 'true') {
+      setMenuOpen(false);
+      menuButton.focus();
+    }
+  });
+  document.addEventListener('click', (event) => {
+    if (event.target instanceof Node && !document.querySelector('#site-header')?.contains(event.target)) setMenuOpen(false);
+  });
+  window.matchMedia('(min-width: 1024px)').addEventListener('change', (event) => {
+    if (event.matches) setMenuOpen(false);
+  });
+
+  const form = document.querySelector<HTMLFormElement>('#demo-form');
+  const status = document.querySelector<HTMLElement>('#form-status');
+  const demoFields = document.querySelector<HTMLFieldSetElement>('#demo-fields');
+  const demoSubmit = document.querySelector<HTMLButtonElement>('#demo-submit');
+  const topicSelect = document.querySelector<HTMLSelectElement>('#demo-form select[name="topic"]');
+  const selectedTopicNote = document.querySelector<HTMLElement>('#selected-topic-note');
+  if (demoFields) demoFields.disabled = false;
+  if (demoSubmit) demoSubmit.disabled = false;
+  demoSubmit?.addEventListener('click', () => status?.classList.remove('hidden'));
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    status?.classList.remove('hidden');
+  });
+  function showSelectedTopic(topic: string) {
+    if (selectedTopicNote) {
+      selectedTopicNote.textContent = `Тема разговора: ${topic}. Можно изменить её в форме.`;
+      selectedTopicNote.classList.remove('hidden');
+    }
+    status?.classList.add('hidden');
+  }
+  document.querySelectorAll<HTMLAnchorElement>('[data-service-topic]').forEach((link) => {
+    link.addEventListener('click', () => {
+      const topic = link.dataset.serviceTopic;
+      if (topic && topicSelect) {
+        topicSelect.value = topic;
+        showSelectedTopic(topic);
+      }
+    });
+  });
+  topicSelect?.addEventListener('change', () => showSelectedTopic(topicSelect.value));
+
+  const revealItems = document.querySelectorAll<HTMLElement>('[data-reveal], main section:not(#top) header, #contacts > div > div > div, #appointment > div > div > div, #demo-form, footer > div > div');
+  const observer = new IntersectionObserver((entries, currentObserver) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        if (entry.target.hasAttribute('data-material-light')) entry.target.classList.add('light-has-arrived');
+        currentObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: .08, rootMargin: '0px 0px -8% 0px' });
+  revealItems.forEach((item) => {
+    const siblingIndex = Array.from(item.parentElement?.children ?? []).indexOf(item);
+    item.style.setProperty('--reveal-delay', `${Math.min(siblingIndex, 2) * 60}ms`);
+    item.classList.add('reveal');
+    observer.observe(item);
+  });
+  document.querySelectorAll<HTMLElement>('[data-material-light]').forEach((item) => observer.observe(item));
+
+  const header = document.querySelector<HTMLElement>('#site-header');
+  const signaturePanel = document.querySelector<HTMLElement>('.signature-panel');
+  const signatureStory = document.querySelector<HTMLElement>('.signature-story');
+  const signatureStage = document.querySelector<HTMLElement>('.signature-stage');
+  const signatureSteps = [...document.querySelectorAll<HTMLElement>('[data-signature-step]')];
+  const signatureWords = [...document.querySelectorAll<HTMLElement>('.signature-words span')];
+  const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const signaturePhone = window.matchMedia('(max-width: 767px) and (min-height: 561px)');
+  const heroSection = document.querySelector<HTMLElement>('#top');
+  let scrollScheduled = false;
+  function updateScroll() {
+    header?.classList.toggle('is-scrolled', window.scrollY > 32);
+    if (heroSection) {
+      const heroRect = heroSection.getBoundingClientRect();
+      const heroProgress = motionPreference.matches ? 0 : Math.max(0, Math.min(1, -heroRect.top / Math.max(heroRect.height * .75, 1)));
+      heroSection.style.setProperty('--hero-progress', heroProgress.toFixed(4));
+    }
+    if (signaturePanel && signatureSteps.length) {
+      const first = signatureSteps[0].getBoundingClientRect();
+      const center = window.innerHeight * .55;
+      // Use normal-flow heights so the final sticky paragraph cannot alter its own timeline.
+      const range = signatureSteps.slice(0, -1).reduce((sum, step) => sum + step.offsetHeight, 0) + signatureSteps[signatureSteps.length - 1].offsetHeight * .55;
+      let timeline = (center - first.top) / Math.max(range, 1);
+      if (signaturePhone.matches && signatureStory && signatureStage) {
+        const travel = signatureStory.offsetHeight - signatureStage.offsetHeight;
+        const fillDistance = travel * 140 / 185;
+        timeline = ((header?.offsetHeight ?? 80) - signatureStory.getBoundingClientRect().top) / Math.max(fillDistance, 1);
+      }
+      const progress = motionPreference.matches ? 1 : Math.max(0, Math.min(1, timeline));
+      signaturePanel.style.setProperty('--signature-progress', progress.toFixed(4));
+      signaturePanel.dataset.scVerifyState = `ink:${Math.round(progress * 100)}`;
+      signaturePanel.dataset.scVerifyHold = String(progress === 0 || progress === 1);
+      signatureWords.forEach((word, index) => word.classList.toggle('is-engraved', progress >= (index + 1) / 3 - .04));
+      const activeStep = Math.min(signatureSteps.length - 1, Math.floor(progress * signatureSteps.length));
+      signatureSteps.forEach((step, index) => step.classList.toggle('is-current', index === activeStep));
+    }
+    scrollScheduled = false;
+  }
+  window.addEventListener('scroll', () => {
+    if (!scrollScheduled) {
+      scrollScheduled = true;
+      requestAnimationFrame(updateScroll);
+    }
+  }, { passive: true });
+  function measureLayout() {
+    document.documentElement.style.setProperty('--site-header-height', `${header?.offsetHeight ?? 80}px`);
+    signaturePanel?.parentElement?.style.setProperty('--signature-panel-height', `${signaturePanel.offsetHeight}px`);
+    updateScroll();
+  }
+  window.addEventListener('resize', measureLayout, { passive: true });
+  motionPreference.addEventListener('change', updateScroll);
+  signaturePhone.addEventListener('change', measureLayout);
+  document.fonts.ready.then(measureLayout);
+  measureLayout();
+</script>
+</BaseLayout>

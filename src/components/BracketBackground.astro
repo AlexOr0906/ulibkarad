@@ -1,0 +1,73 @@
+---
+const base = import.meta.env.BASE_URL;
+---
+<div class="bracket-background" data-bracket-background data-sc-verify-state="before-hero-exit" data-sc-verify-hold="true" aria-hidden="true" style={`--bracket-tile: url("${base}orthodontics/bracket-repeat-v1.svg")`}>
+  <div class="bracket-background-strip" data-bracket-strip></div>
+</div>
+
+<script>
+  const background = document.querySelector<HTMLElement>('[data-bracket-background]');
+  const strip = background?.querySelector<HTMLElement>('[data-bracket-strip]');
+  const hero = document.querySelector<HTMLElement>('#top');
+  const header = document.querySelector<HTMLElement>('#site-header');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  let sections: {id: string; top: number; bottom: number}[] = [];
+  let heroEnd = 0, height = 0, period = 190, headerHeight = 80;
+  let currentY = scrollY, targetY = scrollY, frame = 0, lastTime = 0;
+  const smooth = (a: number, b: number, n: number) => { const t = Math.min(1, Math.max(0, (n - a) / Math.max(1, b - a))); return t * t * (3 - 2 * t); };
+
+  function measure() {
+    if (!background || !strip || !hero) return;
+    heroEnd = scrollY + hero.getBoundingClientRect().bottom;
+    headerHeight = header?.offsetHeight ?? 80;
+    height = background.clientHeight;
+    period = parseFloat(getComputedStyle(strip).backgroundSize) || 190;
+    sections = [...document.querySelectorAll<HTMLElement>('[data-ortho-route] > section[id], footer')].map(el => {
+      const r = el.getBoundingClientRect();
+      return {id: el.id || 'footer', top: scrollY + r.top, bottom: scrollY + r.bottom};
+    });
+  }
+
+  function paint(y: number) {
+    if (!background || !strip) return;
+    const presence = smooth(heroEnd - height * .58, heroEnd - height * .35, y);
+    const clipTop = Math.max(headerHeight, heroEnd - scrollY);
+    background.style.opacity = presence.toFixed(4);
+    const clip = `inset(${Math.max(0, Math.min(height, clipTop)).toFixed(2)}px 0px 0px)`;
+    background.style.clipPath = clip;
+    background.style.setProperty('-webkit-clip-path', clip);
+    const center = y + height * .5;
+    const section = sections.find(s => center >= s.top && center < s.bottom)?.id ?? 'services';
+    const opacity = section === 'approach' ? .13 : section === 'footer' ? .07 : .18;
+    strip.style.opacity = opacity.toFixed(3);
+    const distance = Math.max(0, y - (heroEnd - height * .58));
+    const phase = reduced.matches ? 0 : (distance * .28) % period;
+    strip.style.setProperty('--bracket-shift', `${(-phase).toFixed(3)}px`);
+    background.dataset.bracketSection = section;
+    background.dataset.bracketPhase = phase.toFixed(3);
+    background.dataset.scVerifyState = presence < .001 ? 'before-hero-exit' : reduced.matches ? 'static-horizontal-wire' : `${section}|horizontal|phase:${Math.round(phase)}`;
+    background.dataset.scVerifyHold = String(presence < .001 || reduced.matches);
+  }
+
+  function tick(time: number) {
+    frame = 0; targetY = scrollY;
+    const dt = lastTime ? Math.min(48, time - lastTime) : 16; lastTime = time;
+    currentY += (targetY - currentY) * (reduced.matches ? 1 : 1 - Math.exp(-dt / 40));
+    if (Math.abs(targetY - currentY) < .1) currentY = targetY;
+    paint(currentY);
+    if (currentY !== targetY && !document.hidden) frame = requestAnimationFrame(tick);
+  }
+  function request() { if (!frame && !document.hidden) frame = requestAnimationFrame(tick); }
+  function resize() { measure(); currentY = targetY = scrollY; paint(currentY); }
+  if (background && strip && hero) {
+    window.addEventListener('scroll', request, {passive: true});
+    window.addEventListener('resize', resize, {passive: true});
+    reduced.addEventListener('change', resize);
+    const sizeObserver = new ResizeObserver(resize);
+    sizeObserver.observe(hero);
+    document.querySelectorAll<HTMLElement>('[data-ortho-route] > section, footer').forEach(e => sizeObserver.observe(e));
+    document.fonts.ready.then(resize);
+    document.addEventListener('visibilitychange', () => { if (document.hidden && frame) {cancelAnimationFrame(frame);frame=0;} else resize(); });
+    resize();
+  }
+</script>

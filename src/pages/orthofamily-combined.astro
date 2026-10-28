@@ -9,6 +9,8 @@ import OrthofamilyDirections from '@/components/orthofamily/OrthofamilyDirection
 import Doctors from '@/components/Doctors.astro';
 import ContactsSection from '@/components/contacts-footer/ContactsSection.astro';
 import ClinicFooter from '@/components/contacts-footer/ClinicFooter.astro';
+import ClinicHeader from '@/components/header-navigation/ClinicHeader.astro';
+import IntegratedHeaderMetrics from '@/components/orthofamily/IntegratedHeaderMetrics.astro';
 import '@/styles/orthofamily-integration.css';
 const navigation = [
   {label:'О клинике', href:'#of-about'},
@@ -18,6 +20,8 @@ const navigation = [
 ];
 ---
 <OrthofamilyShell withTeam>
+  <ClinicHeader slot="header" homeHref="#of-top" contactHref="#of-visit" links={navigation} />
+  <IntegratedHeaderMetrics />
   <OrthofamilyIntro />
   <OrthofamilyDirections />
   <!-- A/B integration boundary. B components retain their own local initializer. -->

@@ -46,18 +46,48 @@ export function initClosingMotion() {
     Promise.all(animations.map(a=>a.finished.catch(()=>{}))).then(()=>{if(running.get(target)===animations)finish(target);});
   }
   if (!('IntersectionObserver' in window) || !('animate' in Element.prototype) || reduced.matches) { targets.forEach(finish); return; }
-  targets.forEach(target=>{target.dataset.cfMotion='armed';target.classList.add('cf-motion-pending');});
-  const observer = new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){enter(entry.target as HTMLElement);observer.unobserve(entry.target);}}),{rootMargin:'0px 0px -8% 0px',threshold:.05});
-  targets.forEach(target=>observer.observe(target));
+  targets.forEach(target=>{
+    const rect=target.getBoundingClientRect();
+    if(rect.top<innerHeight&&rect.bottom>0)finish(target);
+    else{target.dataset.cfMotion='armed';target.classList.add('cf-motion-pending');}
+  });
+  // Observe an unclipped layout box. A fully clipped heading can never cross
+  // an IntersectionObserver threshold when the heading itself is observed.
+  const triggers=new Map<HTMLElement,HTMLElement[]>();
+  targets.forEach(target=>{
+    const trigger=target.parentElement!;
+    triggers.set(trigger,[...(triggers.get(trigger)??[]),target]);
+  });
+  const observer = new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){triggers.get(entry.target as HTMLElement)?.forEach(target=>enter(target));observer.unobserve(entry.target);}}),{rootMargin:'0px 0px -8% 0px',threshold:.01});
+  triggers.forEach((_,trigger)=>observer.observe(trigger));
   roots.forEach(root=>{
     root.addEventListener('focusin',()=>targets.filter(t=>root.contains(t)).forEach(finish));
     root.addEventListener('pointerdown',()=>targets.filter(t=>root.contains(t)).forEach(finish),{passive:true});
   });
-  let y=scrollY;
+  let y=scrollY, frame=0;
   window.addEventListener('scroll',()=>{
-    const jump=Math.abs(scrollY-y)>innerHeight*.75;y=scrollY;
-    if(jump)targets.filter(t=>t.getBoundingClientRect().top<innerHeight).forEach(finish);
+    if(frame)return;
+    frame=requestAnimationFrame(()=>{
+      frame=0;const jump=Math.abs(scrollY-y)>innerHeight*.75;y=scrollY;
+      targets.forEach(target=>{
+        const rect=target.getBoundingClientRect();
+        if(rect.top<innerHeight*.92&&rect.bottom>0){if(jump)finish(target);else enter(target);}
+      });
+    });
   },{passive:true});
+  function settleAnchor(hash:string){
+    const id=hash.slice(1);if(!id)return;
+    const destination=document.getElementById(id);if(!destination)return;
+    const affected=roots.filter(root=>root===destination||root.contains(destination)||destination.contains(root));
+    targets.filter(target=>affected.some(root=>root.contains(target))).forEach(finish);
+  }
+  document.addEventListener('click',event=>{
+    const link=event.target instanceof Element?event.target.closest<HTMLAnchorElement>('a[href]'):null;
+    if(!link)return;const url=new URL(link.href,location.href);
+    if(url.origin===location.origin&&url.pathname===location.pathname)settleAnchor(url.hash);
+  },{capture:true});
+  window.addEventListener('hashchange',()=>settleAnchor(location.hash));
+  settleAnchor(location.hash);
   reduced.addEventListener('change',()=>{if(reduced.matches)targets.forEach(finish);});
   window.addEventListener('pageshow',e=>{if(e.persisted)targets.forEach(finish);});
   if(new URLSearchParams(location.search).get('review')==='closing-motion') {

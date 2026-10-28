@@ -7,7 +7,7 @@ interface Props { withTeam?: boolean; }
 const { withTeam = false } = Astro.props;
 ---
 <!doctype html>
-<html lang="ru" class="of-document">
+<html lang="ru" class:list={['of-document', {'of-complete': Astro.slots.has('header') }]}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -22,7 +22,7 @@ const { withTeam = false } = Astro.props;
   </head>
   <body class="of-page" data-bracket-variant={withTeam ? 'clinic' : undefined}>
     <a class="of-skip" href="#of-main">Перейти к содержимому</a>
-    <header class="of-header">
+    {Astro.slots.has('header') ? <slot name="header" /> : <header class="of-header">
       <div class="of-shell of-header-inner">
         <a class="of-brand" href="#of-top" aria-label="Ортофэмили — в начало">
           <img src={`${base}orthofamily/brand/emblem-silver-original.jpg`} alt="" width="1322" height="1190" />
@@ -34,7 +34,7 @@ const { withTeam = false } = Astro.props;
         </nav>
         <a class="of-button of-header-visit" href="#of-visit" data-of-visit>Обсудить визит <span aria-hidden="true">↗</span></a>
       </div>
-    </header>
+    </header>}
     <main id="of-main" tabindex="-1" data-of-root><slot /></main>
     {Astro.slots.has('closing') ? <slot name="closing" /> : <footer class="of-footer" id="of-visit">
       <div class="of-shell of-footer-inner">

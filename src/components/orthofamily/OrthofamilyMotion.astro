@@ -32,7 +32,7 @@
       const active = ready && !reduced.matches && (innerHeight >= 620 || (!desktop.matches && innerHeight >= 540));
       intro.classList.toggle('of-scene-active', active);
       const r = intro.getBoundingClientRect();
-      geometry = {width: stage.clientWidth, height: stage.clientHeight, span: Math.max(1, intro.offsetHeight - innerHeight), leadBottom: lead.getBoundingClientRect().bottom - r.top, primaryHeight: primary.offsetHeight, header: desktop.matches ? 88 : 72};
+      geometry = {width: stage.clientWidth, height: stage.clientHeight, span: Math.max(1, intro.offsetHeight - innerHeight), leadBottom: lead.getBoundingClientRect().bottom - r.top, primaryHeight: primary.offsetHeight, header: parseFloat(getComputedStyle(intro).getPropertyValue('--of-header-height')) || (desktop.matches ? 88 : 72)};
       if (active) {
         const poses = desktop.matches ? desktopPoses : phonePoses;
         const left = shell.getBoundingClientRect().left - r.left;
@@ -111,6 +111,7 @@
     function queue() { if (!frame) frame = requestAnimationFrame(update); }
     addEventListener('scroll', queue, {passive: true});
     addEventListener('resize', measure, {passive: true});
+    addEventListener('of-header-resize', measure);
     reduced.addEventListener('change', measure);
     Promise.all(photos.map(photo => photo.decode().catch(() => {}))).then(() => { ready = photos.every(photo => photo.naturalWidth > 0); measure(); });
     document.fonts.ready.then(measure);

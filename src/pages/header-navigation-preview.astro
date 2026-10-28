@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ClinicHeader from '../components/header-navigation/ClinicHeader.astro';
+---
+<BaseLayout title="OrtoFamily: шапка и меню, предпросмотр" description="Отдельная проверка адаптивной шапки, навигации, темы и клавиатуры.">
+  <div class="hn-preview" id="top" data-hn-preview data-theme="light">
+    <ClinicHeader />
+    <main id="main-content" class="hn-demo-wrap">
+      <div class="hn-demo-intro"><div><h1>Шапка «OrtoFamily»</h1><p>Отдельный предпросмотр. Ниже контрольные секции для проверки переходов, а не новая версия главной.</p></div><div class="hn-demo-themes" hidden aria-label="Фон предпросмотра"><button type="button" data-hn-theme="light" aria-pressed="true">Светлый</button><button type="button" data-hn-theme="dark" aria-pressed="false">Графитовый</button></div></div>
+      <section class="hn-demo-section" id="approach"><h2>О клинике</h2><p>Контрольный якорь #approach. Меню открывается в потоке страницы и не закрывает содержимое.</p></section>
+      <section class="hn-demo-section" id="services"><h2>Направления</h2><p>Контрольный якорь #services. Существующий блок направлений остаётся без изменений.</p></section>
+      <section class="hn-demo-section" id="doctors"><h2>Врачи</h2><p>Контрольный якорь #doctors. Блок команды подключит основной разработчик.</p></section>
+      <section class="hn-demo-section" id="contacts"><h2>Контакты</h2><p>Телефон и другие способы связи уточняются. Запись через сайт пока недоступна. Кнопка в шапке ведёт к этому блоку.</p><a href="#top">Вернуться к шапке</a></section>
+    </main>
+  </div>
+</BaseLayout>
+<script>
+  document.querySelector<HTMLElement>('.hn-demo-themes')!.hidden=false;
+  const preview=document.querySelector<HTMLElement>('[data-hn-preview]')!;
+  document.querySelectorAll<HTMLButtonElement>('[data-hn-theme]').forEach(button=>button.addEventListener('click',()=>{
+    const theme=button.dataset.hnTheme!;preview.dataset.theme=theme;
+    preview.querySelector<HTMLElement>('[data-hn-header]')!.dataset.theme=theme;
+    document.querySelectorAll('[data-hn-theme]').forEach(control=>control.setAttribute('aria-pressed',String(control===button)));
+  }));
+</script>

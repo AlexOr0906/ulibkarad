@@ -2,6 +2,8 @@
 
 Основа: `87d3e5514c826d368d5720d7f2c42415cee59afb`. Контракт A получен в `b5ae25c528f95e9e0ca27a6da005e5ed6baae725`. Ветка B: `feature/internal-pages-patients`. Главная и компоненты About не изменяются.
 
+**Последующий интеграционный этап:** `feature/internal-pages-integration`, точный About A `7fc4ee7499e5baa8c616bd22cb1a1fe46df9cefa`. Актуальная сборка/добавления API и lifecycle описаны в `SITE-PREVIEW-INTEGRATION.md`; ниже сохраняется контракт исходного прототипа с уточнениями API.
+
 ## Направление до реализации
 
 Серебристая информационная страница: крупный открытый заголовок, компактный индекс слева и читаемые разделы справа. Светлая бумага `#EEF1F3`, белый `#FFFFFF`, графит `#273037`, вторичный `#596770`, серебро `#C9CDD1`, тёмная поверхность `#292D30`. Manrope для русского текста; существующий Cormorant Garamond только в фирменном знаке. Эмблема прежняя.
@@ -44,10 +46,13 @@ Backend, CMS, поиск, анкеты, приём/отправка обраще
 | `footerNavigation?: HeaderLink[]` | Относительные пути/хеши без BASE_URL: существующий Footer сам добавляет корень сайта |
 | `contactHref?: string` | По умолчанию `${BASE_URL}#contacts`, существующий честный демоблок связи |
 | `transitionHrefs?: string[]` | Полные site-relative href страниц, где уже подключён этот layout; по умолчанию два новых preview. Не регистрировать несуществующие маршруты или главную |
+| `homeHref?: string` | Корень семьи маршрутов с завершающим `/`; default BASE_URL. Footer добавляет к нему относительные пути навигации |
+| `activeHref?: string` | Default текущий pathname; SSR активный пункт Header/Footer через aria-current |
+| `contentOwnsHeaderOffset?: boolean` | Default false; true для About A, у которого уже есть собственный отступ под фиксированную шапку |
 | default slot | Контент с одним h1; layout не добавляет контейнер, article, дополнительный main или hero |
 | named slot `head` | Дополнительные метаданные без повторных html/head/body |
 
-Layout владеет html/head/body, одним `main#ip-main`, skip-link, существующими Header/Footer и **одним** IntegratedHeaderMetrics. Корень `body#ip-top`; футер возвращает к нему. Домашняя ссылка шапки/футера всегда BASE_URL; навигация футера использует именно этот префикс. Технические классы `of-document of-complete of-page` нужны существующим стилям/метрикам, новые общие классы имеют префикс `ip-*`.
+Layout владеет html/head/body, одним `main#ip-main`, skip-link, существующими Header/Footer и **одним** IntegratedHeaderMetrics. Корень `body#ip-top`; футер возвращает к нему. Домашняя ссылка шапки/футера — homeHref (default BASE_URL); навигация футера использует именно этот префикс. Технические классы `of-document of-complete of-page` нужны существующим стилям/метрикам, новые общие классы имеют префикс `ip-*`.
 
 Интерфейс About дополнительно сверен read-only с `origin/feature/about-clinic` / `7fc4ee7`: тот же `AboutPageContent.astro`, props homeHref/doctorsHref/contactHref, собственный initAboutMotion. Его компоненты в эту ветку не переносились и не редактировались.
 
@@ -59,14 +64,14 @@ import InternalPageLayout from '@/layouts/InternalPageLayout.astro';
 import AboutPageContent from '@/components/about-clinic/AboutPageContent.astro';
 const base = import.meta.env.BASE_URL;
 ---
-<InternalPageLayout title="О клинике" description="Подтверждённое описание клиники">
-  <AboutPageContent homeHref={base} doctorsHref={`${base}#doctors`} contactHref={`${base}#contacts`} />
+<InternalPageLayout title="О клинике" description="Подтверждённое описание клиники" contentOwnsHeaderOffset>
+  <AboutPageContent homeHref={base} doctorsHref={`${base}#doctors`} contactHref={`${base}#contacts`} autoMotion={false} />
 </InternalPageLayout>
 ```
 
 После назначения реальных `/about/` и `/patients/` обновить на **обеих** страницах `transitionHrefs`, `navigation`, `footerNavigation`. Значения в коде сейчас ведут только на существующие preview/главную. Страницы услуг и конечный `/about/` не созданы. About владеет собственными `.ac-shell`, `ac-*`, локальной анимацией и cleanup; layout не запускает и не изменяет её.
 
-Общий motion: `initInternalMotion(root: HTMLElement): () => void`, файл `src/components/internal-pages/internal-motion.ts`. Повторный вызов на одном root возвращает существующий cleanup; второй набор observers/listeners не создаётся. В нативной MPA скрипты автоматически запускаются в новом документе. При `pagehide` без bfcache cleanup снимает listeners/observer/rAF, при восстановлении из bfcache эффекты завершаются, не повторяются. ClientRouter не подключён; если его решат добавить отдельно, владелец router должен вызвать cleanup старого root и инициализацию нового, включая согласованный локальный initializer About.
+Общий motion: `initInternalMotion(root: HTMLElement): () => void`, файл `src/components/internal-pages/internal-motion.ts`. Повторный вызов на одном root возвращает существующий cleanup; второй набор observers/listeners не создаётся. В интеграции lifecycle принадлежит `initInternalPage` из `internal-lifecycle.ts`: он запускает общий эффект и локальный About один раз, вызывает cleanup при pagehide без bfcache. При восстановлении из bfcache эффекты завершаются, не повторяются. ClientRouter не подключён; если его решат добавить отдельно, владелец router должен вызвать cleanup старого root и инициализацию нового через этот coordinator.
 
 Декоративные цели помечаются `data-ip-enter`, короткая задержка 0–120 мс — `data-ip-delay`, ограниченная маска заголовка — `data-ip-mask`. Без JS эти атрибуты ничего не скрывают. Не помечать main/section/nav/контейнер со всеми ссылками: эффекты применяются только к заголовку, короткому тексту или отдельной иллюстрации. Быстрый скролл, фокус, якорь и reduced-motion завершают эффект. Текст не требует ожидания длинной сцены.
 

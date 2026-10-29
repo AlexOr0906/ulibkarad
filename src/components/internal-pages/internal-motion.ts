@@ -67,7 +67,6 @@ export function initInternalMotion(root: HTMLElement): () => void {
     targets.forEach(settle); observer?.disconnect(); controller.abort();
     cancelAnimationFrame(frame); instances.delete(root);
   }
-  window.addEventListener('pagehide', event => { if (!event.persisted) cleanup(); }, {signal});
   instances.set(root, cleanup);
   return cleanup;
 }

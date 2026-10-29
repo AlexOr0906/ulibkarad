@@ -15,10 +15,12 @@ interface Props {
   footerNavigation?: HeaderLink[];
   contactHref?: string;
   transitionHrefs?: string[];
+  homeHref?: string;
+  activeHref?: string;
+  contentOwnsHeaderOffset?: boolean;
 }
 const base = import.meta.env.BASE_URL;
-const homeHref = base;
-const { title, description, contactHref = `${base}#contacts`,
+const { title, description, homeHref = base, activeHref = Astro.url.pathname, contentOwnsHeaderOffset = false, contactHref = `${base}#contacts`,
   navigation = [
     {label:'О клинике',href:`${base}#of-about`},
     {label:'Направления',href:`${base}#of-directions`},
@@ -62,16 +64,16 @@ const transitionPaths = transitionHrefs.map(href => new URL(href, Astro.url).pat
     </script>
     <slot name="head" />
   </head>
-  <body class="of-page ip-page" id="ip-top">
+  <body class:list={['of-page', 'ip-page', {'ip-content-offset':contentOwnsHeaderOffset}]} id="ip-top">
     <a class="of-skip" href="#ip-main">Перейти к содержимому</a>
-    <ClinicHeader homeHref={homeHref} contactHref={contactHref} links={navigation} instanceId="internal-header" />
+    <ClinicHeader homeHref={homeHref} contactHref={contactHref} links={navigation} instanceId="internal-header" activeHref={activeHref} />
     <IntegratedHeaderMetrics />
     <main id="ip-main" tabindex="-1" data-internal-main><slot /></main>
-    <ClinicFooter homeHref={homeHref} topHref="#ip-top" navigation={footerNavigation} />
+    <ClinicFooter homeHref={homeHref} topHref="#ip-top" navigation={footerNavigation} activeHref={activeHref} />
     <script>
-      import { initInternalMotion } from '@/components/internal-pages/internal-motion';
+      import { initInternalPage } from '@/components/internal-pages/internal-lifecycle';
       const root = document.querySelector<HTMLElement>('[data-internal-main]');
-      if (root) initInternalMotion(root);
+      if (root) initInternalPage(root);
     </script>
   </body>
 </html>

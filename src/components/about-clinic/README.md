@@ -6,18 +6,18 @@
 
 ```astro
 ---
-import InternalLayout from 'ПУТЬ_ШАБЛОНА_ВТОРОГО_АККАУНТА';
+import InternalLayout from '@/layouts/InternalPageLayout.astro';
 import AboutPageContent from '@/components/about-clinic/AboutPageContent.astro';
 const base = import.meta.env.BASE_URL;
 ---
-<InternalLayout title="О клинике · OrthoFamily" description="Стоматология для всей семьи. Знакомство с OrthoFamily.">
-  <AboutPageContent homeHref={base} doctorsHref={`${base}#doctors`} contactHref={`${base}#contacts`} />
+<InternalLayout title="О клинике" description="Стоматология для всей семьи. Знакомство с OrthoFamily." contentOwnsHeaderOffset>
+  <AboutPageContent homeHref={base} doctorsHref={`${base}#doctors`} contactHref={`${base}#contacts`} autoMotion={false} />
 </InternalLayout>
 ```
 
-Путь layout выше — пример контракта, не существующий импорт/новый файл. Владелец общего шаблона определит конечный route, навигацию и metadata. About содержит article/h1, не второй main. Его `.ac-shell` уже задаёт поля; не сжимать slot дополнительным контейнером. Соглашение целиком в корневом `INTERNAL-PAGES-HANDOFF.md`.
+Layout подключён в интеграционной ветке `feature/internal-pages-integration`: `/site-preview/about/`. Общая цепочка начинается с `/site-preview/`, «Пациентам» — `/site-preview/patients/`. Это изолированные маршруты, не публикация. Навигация цепочки задаётся `src/data/site-preview-navigation.ts`; реальная сборка About — `src/pages/site-preview/about.astro`. About содержит article/h1, не второй main. Его `.ac-shell` уже задаёт поля; не сжимать slot дополнительным контейнером. `contentOwnsHeaderOffset` сохраняет исходный верхний отступ About без двойного отступа layout.
 
-`initAboutMotion(root: HTMLElement): () => void` — локальный идемпотентный initializer/cleanup. В текущем preview компонент запускает его один раз обычным Astro script; router hooks не регистрирует. Будущий общий motion может вызывать его в собственном жизненном цикле. При замене страницы вызвать возвращённый cleanup, чтобы отключить observer/listeners и завершить анимации. Не дублировать инициализацию.
+`initAboutMotion(root: HTMLElement): () => void` — локальный идемпотентный initializer/cleanup. `autoMotion` по умолчанию true: самостоятельный About preview запускает локальный эффект как раньше. В общем layout передавать **autoMotion={false}**: единственным владельцем становится `initInternalPage` из `internal-lifecycle.ts`. Он вызывает локальный initializer один раз и его cleanup при pagehide без bfcache; при bfcache оставляет обработчики для собственного pageshow About. ClientRouter не используется, поэтому замены DOM и повторного module-script нет. `about-motion.ts`, композиция, данные, media и тайминги сохранены из A-коммита. Не регистрировать второй initializer.
 
 ## Все передаваемые файлы
 

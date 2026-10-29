@@ -1,0 +1,9 @@
+---
+import InternalPageLayout from '@/layouts/InternalPageLayout.astro';
+import PatientsPageContent from '@/components/patients/PatientsPageContent.astro';
+import {sitePreviewNavigation} from '@/data/site-preview-navigation';
+const nav = sitePreviewNavigation(import.meta.env.BASE_URL);
+---
+<InternalPageLayout title="Пациентам" description="Информация для пациентов OrthoFamily. Прототип раздела: сведения и документы ожидаются от клиники." homeHref={nav.home} contactHref={nav.contactHref} navigation={nav.navigation} footerNavigation={nav.footerNavigation} transitionHrefs={nav.transitionHrefs}>
+  <PatientsPageContent homeHref={nav.home} contactHref={nav.contactHref} />
+</InternalPageLayout>

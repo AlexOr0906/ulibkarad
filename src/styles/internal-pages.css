@@ -1,6 +1,7 @@
 /* New internal documents only. The approved home never imports this sheet. */
 .ip-document { --ip-gutter:3.5rem; --ip-width:90rem; }
 .ip-page { padding-top:var(--of-header-height); }
+.ip-page.ip-content-offset { padding-top:0; }
 .ip-page #ip-main { min-height:60svh; outline-offset:-5px; }
 .ip-page :where([id]) { scroll-margin-top:calc(var(--of-header-height) + 24px); }
 .ip-shell { width:min(calc(100% - var(--ip-gutter)*2),var(--ip-width)); margin-inline:auto; }

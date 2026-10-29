@@ -5,11 +5,11 @@ import AboutReveal from './AboutReveal.astro';
 import ArrowIcon from '../ArrowIcon.astro';
 import '@/styles/orthofamily-wordmark.css';
 import '@/styles/about-clinic.css';
-interface Props { homeHref?:string; doctorsHref?:string; contactHref?:string; }
+interface Props { homeHref?:string; doctorsHref?:string; contactHref?:string; autoMotion?:boolean; }
 const base=import.meta.env.BASE_URL;
-const {homeHref=base,doctorsHref=`${base}#doctors`,contactHref=`${base}#contacts`}=Astro.props;
+const {homeHref=base,doctorsHref=`${base}#doctors`,contactHref=`${base}#contacts`,autoMotion=true}=Astro.props;
 ---
-<article class="ac-page" id="ac-top" data-about-page aria-labelledby="ac-title">
+<article class="ac-page" id="ac-top" data-about-page data-ac-auto-motion={autoMotion ? 'true' : undefined} aria-labelledby="ac-title">
   <nav class="ac-crumb ac-shell" aria-label="Хлебные крошки"><a href={homeHref}>Главная</a><span aria-hidden="true">/</span><span aria-current="page">{content.breadcrumb}</span></nav>
   <div class="ac-hero ac-shell">
     <div class="ac-hero-copy">
@@ -42,5 +42,5 @@ const {homeHref=base,doctorsHref=`${base}#doctors`,contactHref=`${base}#contacts
 </article>
 <script>
   import {initAboutMotion} from './about-motion';
-  document.querySelectorAll<HTMLElement>('[data-about-page]').forEach(root=>initAboutMotion(root));
+  document.querySelectorAll<HTMLElement>('[data-about-page][data-ac-auto-motion="true"]').forEach(root=>initAboutMotion(root));
 </script>

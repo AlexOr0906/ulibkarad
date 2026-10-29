@@ -1,6 +1,7 @@
 ---
 import '@/styles/orthofamily.css';
 import OrthofamilyMotion from './OrthofamilyMotion.astro';
+import OrthofamilyIcon from './OrthofamilyIcon.astro';
 import cyrillicFont from '@fontsource-variable/manrope/files/manrope-cyrillic-wght-normal.woff2?url';
 const base = import.meta.env.BASE_URL;
 interface Props { withTeam?: boolean; }
@@ -32,24 +33,24 @@ const { withTeam = false } = Astro.props;
           <a href="#of-about">Подход</a><a href="#of-directions">Направления</a>
           {withTeam && <a href="#doctors">Команда</a>}
         </nav>
-        <a class="of-button of-header-visit" href="#of-visit" data-of-visit>Обсудить визит <span aria-hidden="true">↗</span></a>
+        <a class="of-button of-header-visit" href="#of-visit" data-of-visit>Обсудить визит <OrthofamilyIcon /></a>
       </div>
     </header>}
     <main id="of-main" tabindex="-1" data-of-root><slot /></main>
     {Astro.slots.has('closing') ? <slot name="closing" /> : <footer class="of-footer" id="of-visit">
       <div class="of-shell of-footer-inner">
         <div><p class="of-footer-name">OrtoFamily</p><p>Демо-концепция. Запись не производится.<br/>Контакты и материалы будут согласованы с клиникой.</p></div>
-        <a href={withTeam ? `${base}orthofamily-preview/` : `${base}orthofamily-combined/`}>{withTeam ? 'Только вступление' : 'Вступление и команда'} <span aria-hidden="true">↗</span></a>
-        <a href="#of-top">В начало <span aria-hidden="true">↑</span></a>
+        <a href={withTeam ? `${base}orthofamily-preview/` : `${base}orthofamily-combined/`}>{withTeam ? 'Только вступление' : 'Вступление и команда'} <OrthofamilyIcon /></a>
+        <a href="#of-top">В начало <OrthofamilyIcon direction="up" /></a>
       </div>
     </footer>}
     <dialog class="of-dialog" id="of-visit-dialog" aria-labelledby="of-dialog-title" aria-describedby="of-dialog-description">
-      <form method="dialog" class="of-dialog-top"><span>OrtoFamily</span><button type="submit" aria-label="Закрыть окно">×</button></form>
+      <form method="dialog" class="of-dialog-top"><span>OrtoFamily</span><button type="submit" aria-label="Закрыть окно"><OrthofamilyIcon direction="close" /></button></form>
       <p class="of-eyebrow">Знакомство с клиникой</p>
       <h2 id="of-dialog-title">Обсудим ваш визит.</h2>
       <p class="of-dialog-topic" id="of-dialog-topic" hidden></p>
       <p id="of-dialog-description">Это демонстрация. Возможность записи появится после согласования контактов и способа связи с клиникой.</p>
-      <form method="dialog"><button class="of-button" type="submit">Вернуться к просмотру <span aria-hidden="true">↗</span></button></form>
+      <form method="dialog"><button class="of-button" type="submit">Вернуться к просмотру <OrthofamilyIcon /></button></form>
     </dialog>
     <OrthofamilyMotion />
   </body>

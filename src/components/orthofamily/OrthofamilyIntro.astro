@@ -1,6 +1,7 @@
 ---
 import '@/styles/orthofamily-wordmark.css';
 import '@/styles/opening-transition.css';
+import OrthofamilyIcon from './OrthofamilyIcon.astro';
 const base = import.meta.env.BASE_URL;
 ---
 <div class="of-intro of-opening-transition" id="of-top" data-of-intro>
@@ -15,7 +16,7 @@ const base = import.meta.env.BASE_URL;
       <p class="of-brand-descriptor">Стоматология · Ортодонтия</p>
         <div class="of-lead" data-of-lead>
           <p class="of-hero-description">Стоматология<br/>для взрослых и детей.</p>
-          <a class="of-button" href="#of-visit" data-of-visit>Обсудить визит <span aria-hidden="true">↗</span></a>
+          <a class="of-button" href="#of-visit" data-of-visit>Обсудить визит <OrthofamilyIcon /></a>
           <p class="of-hero-note">Иллюстративное изображение</p>
         </div>
       </div>
@@ -23,8 +24,8 @@ const base = import.meta.env.BASE_URL;
   </section>
   <div class="of-scene-world">
     <div class="of-scene-stage" data-of-stage>
-        <figure class="of-photo of-photo-main" data-of-main-photo style={`--of-mirror-mask: url("${base}orthofamily/mirror-object-v1-1200.webp")`}>
-          <img src={`${base}orthofamily/mirror-object-v1-1200.webp`} srcset={`${base}orthofamily/mirror-object-v1-640.webp 640w, ${base}orthofamily/mirror-object-v1-1200.webp 1122w`} sizes="(max-width: 767px) 90vw, 44vw" alt="Иллюстративное изображение: серебристое стоматологическое зеркало без фона." width="1122" height="1402" fetchpriority="high" />
+        <figure class="of-photo of-photo-main" data-of-main-photo style={`--of-object-mask: url("${base}orthofamily/aligner-object-v1-1200.webp")`}>
+          <img src={`${base}orthofamily/aligner-object-v1-1200.webp`} srcset={`${base}orthofamily/aligner-object-v1-640.webp 640w, ${base}orthofamily/aligner-object-v1-1200.webp 1200w`} sizes="(max-width: 767px) 90vw, 44vw" alt="Иллюстративное изображение: прозрачный ортодонтический элайнер с серебристыми отражениями." width="1448" height="1086" fetchpriority="high" />
         </figure>
     </div>
   </div>
@@ -36,7 +37,7 @@ const base = import.meta.env.BASE_URL;
         <h2 id="of-about-title">Внимание<br/>к каждому.</h2>
         <p>Знакомство со стоматологией начинается с разговора. Важно понять ваш запрос, спокойно обсудить возможные шаги и ответить на вопросы.</p>
         <p>Для взрослых и детей — в одной клинике и с вниманием к особенностям каждого.</p>
-        <a class="of-text-link" href="#of-directions">Посмотреть направления <span aria-hidden="true">↘</span></a>
+        <a class="of-text-link" href="#of-directions">Посмотреть направления <OrthofamilyIcon direction="se" /></a>
       </div>
     </div>
   </section>

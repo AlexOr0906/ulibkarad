@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-29",
+  "mode": "built-in ImageGen",
+  "intent": "generate",
+  "transparent_background": true,
+  "prompt": "Use case: product-mockup. Generate one photorealistic premium orthodontic clear aligner, a single empty transparent upper dental tray, no teeth inside, isolated with genuine alpha transparency. Complete U-shaped arch, elegant three-quarter view from above at a mild diagonal; both rear ends and every edge fully inside canvas, centered with 12 percent clear margin all around. Wide sculptural silhouette rather than a long tool. Crystal-clear medical polymer with delicate tooth-shaped scallops, fine realistic thickness, restrained polished silver-white edge reflections and translucent smoky silver details so it remains legible on both paper white and dark graphite backgrounds. Sophisticated studio product photography with broad softbox and small clean specular highlights, anatomically plausible dental arch, no distortion, no aggressive clinical equipment. One object only, no hands, no mirror, no teeth, no gums, no braces, no props, no cast shadow plane, no floor, no background, no text, no brand, no watermark. Transparent areas through the middle of the U arch and around the outside must remain truly transparent. Landscape approximately 4:3 composition.",
+  "source": "aligner-object-v1-source.png",
+  "delivery": [
+    "public/orthofamily/aligner-object-v1-640.webp",
+    "public/orthofamily/aligner-object-v1-1200.webp"
+  ]
+}

@@ -1,4 +1,5 @@
 ---
+import OrthofamilyIcon from './OrthofamilyIcon.astro';
 const base = import.meta.env.BASE_URL;
 const directions = [
   { title: 'Взрослая терапия', text: 'Вопросы здоровья зубов и понятное обсуждение вариантов помощи. Начинаем со знакомства и вашего запроса.', image: 'mirror-hand-640.webp', alt: 'Иллюстративная деталь стоматологического зеркала.', position: '60% 10%' },
@@ -21,7 +22,7 @@ const directions = [
           <div class="of-direction-panel">
             <p>{item.text}</p>
             <img src={`${base}orthofamily/${item.image}`} alt={item.alt} width="400" height="300" loading="lazy" decoding="async" style={`object-position:${item.position}`} />
-            <a class="of-text-link" href="#of-visit" data-of-visit data-of-topic={item.title}>Обсудить направление <span aria-hidden="true">↗</span></a>
+            <a class="of-text-link" href="#of-visit" data-of-visit data-of-topic={item.title}>Обсудить направление <OrthofamilyIcon /></a>
           </div>
         </details>
       ))}

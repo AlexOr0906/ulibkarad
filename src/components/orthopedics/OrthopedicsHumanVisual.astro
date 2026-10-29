@@ -1,0 +1,19 @@
+---
+import '@/styles/orthopedics-human.css';
+interface Props {autoMotion?:boolean;}
+const {autoMotion=true}=Astro.props;
+const base=import.meta.env.BASE_URL;
+---
+<div class="or-visual or-human" data-or-scene data-or-variant="human" data-or-auto-motion={autoMotion?'true':undefined}>
+  <figure class="or-scene-panel">
+    <div class="or-human-stage">
+      <div class="or-human-photo" data-or-human-frame><img data-or-object src={`${base}orthopedics-concepts/human-smile-v1.png`} alt="Демонстрационный AI-портрет улыбающейся женщины. Не реальный пациент или сотрудник клиники и не пример результата лечения." width="1536" height="1024" fetchpriority="high" /></div>
+      <div class="or-human-copy"><p class="or-human-brand">OrthoFamily<span>Стоматология для всей семьи</span></p><h2><span>Ближе</span><span>к человеку.</span></h2><p class="or-human-copy-note">Знакомство начинается<br />с человека.</p></div>
+    </div>
+    <figcaption class="or-human-caption"><span>Демонстрационная AI-фотография.</span><span>Не пациент клиники. Не иллюстрация результата лечения.</span></figcaption>
+  </figure>
+</div>
+<script>
+  import {initOrthopedicsScene} from './orthopedics-motion';
+  document.querySelectorAll<HTMLElement>('[data-or-variant="human"][data-or-auto-motion="true"]').forEach(root=>initOrthopedicsScene(root));
+</script>

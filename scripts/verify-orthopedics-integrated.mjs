@@ -37,7 +37,7 @@ try {
   const range=await page.locator('[data-or-scene]').evaluate(e=>({start:+(e.dataset.orStart||0),span:+(e.dataset.orSpan||1)})),states=[];
   for(const progress of [0,.5,1,.85,.5,0]) {
    await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),range.start+range.span*progress);await page.waitForTimeout(100);
-   const state=await page.locator('[data-or-scene]').evaluate(e=>({scale:+(e.dataset.orScale||1),pose:e.querySelector('[data-or-object]').getAttribute('transform'),progress:+(e.dataset.orProgress||1)}));states.push(state);
+   const state=await page.locator('[data-or-scene]').evaluate(e=>({scale:+(e.dataset.orScale||1),pose:e.dataset.orVariant==='human'?`${getComputedStyle(e.querySelector('[data-or-object]')).transform}|${getComputedStyle(e.querySelector('[data-or-human-frame]')).clipPath}`:e.querySelector('[data-or-object]').getAttribute('transform'),progress:+(e.dataset.orProgress||1)}));states.push(state);
    if(mode==='normal')assert.ok(Math.abs(state.progress-progress)<.012);
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
    if([0,.5,1].includes(progress))await page.screenshot({path:`${out}/${width}-${mode}-scene-${progress}.png`});

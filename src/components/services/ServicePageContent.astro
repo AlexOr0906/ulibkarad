@@ -1,0 +1,35 @@
+---
+import ArrowIcon from '@/components/ArrowIcon.astro';
+import {clinicConfirmed} from '@/data/clinic-confirmed';
+import {hasServiceContent,nonemptyServiceText,isReadyServiceDoctor,isReadyServicePrice,type ServicePageData} from '@/data/service-page';
+import '@/styles/service-page.css';
+interface Props {data:ServicePageData;idPrefix?:string;headingLevel?:'h1'|'h2';}
+const {data,idPrefix=`sv-${data.id}`,headingLevel='h1'}=Astro.props;
+const Heading=headingLevel;
+const base=import.meta.env.BASE_URL;
+const customBody=Astro.slots.has('default');
+const hasDescription=hasServiceContent(data.description,nonemptyServiceText);
+const information=(data.information??[]).filter(item=>item.title.trim()&&hasServiceContent(item.body,nonemptyServiceText));
+const hasDoctors=hasServiceContent(data.relatedDoctors,isReadyServiceDoctor);
+const hasPrices=hasServiceContent(data.pricing,isReadyServicePrice);
+const appointment=data.appointment?.label.trim()&&data.appointment.href.trim()&&data.appointment.href.trim()!=='#'?data.appointment:undefined;
+const hasStandardBody=hasDescription||information.length>0||hasDoctors||hasPrices||Boolean(appointment);
+const money=new Intl.NumberFormat('ru-RU',{style:'currency',currency:'RUB',maximumFractionDigits:2});
+---
+<article class="sv-page" data-service-page data-custom-body={customBody?'true':undefined} aria-labelledby={`${idPrefix}-title`}>
+  <div class="sv-shell">
+    {data.breadcrumbs.length>0&&<nav class="sv-crumbs" aria-label="Хлебные крошки"><ol>{data.breadcrumbs.map(item=><li>{item.href?<a href={item.href}>{item.label}</a>:<span aria-current="page">{item.label}</span>}</li>)}</ol></nav>}
+    <header class="sv-hero">
+      <div class="sv-hero-copy"><Heading id={`${idPrefix}-title`} data-ip-enter data-ip-mask>{data.title}</Heading>{data.lead?.trim()&&<p class="sv-lead" data-ip-enter data-ip-delay="60">{data.lead}</p>}{data.demoNotice?.trim()&&<p class="sv-demo-note">{data.demoNotice}</p>}</div>
+      <aside class="sv-context"><p>OrthoFamily</p><span>Стоматология<br />для всей семьи</span><p>{clinicConfirmed.paymentLabel}</p></aside>
+    </header>
+  </div>
+  {Astro.slots.has('scene')&&<div class="sv-scene" data-service-scene><slot name="scene" /></div>}
+  {customBody?<div class="sv-custom-body" data-service-custom-body><slot /></div>:hasStandardBody&&<div class="sv-shell sv-body" data-service-standard-body>
+    {hasDescription&&data.description&&<section class="sv-section" aria-labelledby={`${idPrefix}-description`}><h2 id={`${idPrefix}-description`} data-ip-enter>О направлении</h2><div>{data.description.state==='placeholder'?<p class="sv-placeholder">{data.description.notice}</p>:data.description.content.filter(nonemptyServiceText).map(text=><p>{text}</p>)}</div></section>}
+    {information.map((block,index)=><section class="sv-section" aria-labelledby={`${idPrefix}-${block.id.trim()||`info-${index}`}`}><h2 id={`${idPrefix}-${block.id.trim()||`info-${index}`}`} data-ip-enter>{block.title}</h2><div>{block.body.state==='placeholder'?<p class="sv-placeholder">{block.body.notice}</p>:block.body.content.filter(nonemptyServiceText).map(text=><p>{text}</p>)}</div></section>)}
+    {hasDoctors&&data.relatedDoctors&&<section class="sv-section" aria-labelledby={`${idPrefix}-doctors`}><h2 id={`${idPrefix}-doctors`} data-ip-enter>Врачи направления</h2><div>{data.relatedDoctors.state==='placeholder'?<p class="sv-placeholder">{data.relatedDoctors.notice}</p>:<div class="sv-doctors">{data.relatedDoctors.content.filter(isReadyServiceDoctor).map(doctor=><article class="sv-doctor"><img src={`${base}${doctor.portrait!.src.replace(/^\/+/, '')}`} alt={doctor.portrait!.alt} width={doctor.portrait!.width??800} height={doctor.portrait!.height??1000} loading="lazy" style={`object-position:${doctor.portrait!.position??'50% 0%'}`} /><h3>{doctor.name}</h3><p>{doctor.specialty}</p>{doctor.profileHref&&<a class="ip-link" href={`${base}${doctor.profileHref.replace(/^\/+/, '')}`}>О враче <ArrowIcon /></a>}</article>)}</div>}</div></section>}
+    {hasPrices&&data.pricing&&<section class="sv-section" aria-labelledby={`${idPrefix}-prices`}><h2 id={`${idPrefix}-prices`} data-ip-enter>Стоимость</h2><div>{data.pricing.state==='placeholder'?<p class="sv-placeholder">{data.pricing.notice}</p>:<dl class="sv-prices">{data.pricing.content.filter(isReadyServicePrice).map(price=><div><dt>{price.label}{price.unit&&<small>{price.unit}</small>}</dt><dd>{money.format(price.amount)}</dd></div>)}</dl>}</div></section>}
+    {appointment&&<section class="sv-section sv-appointment" aria-labelledby={`${idPrefix}-appointment`}><h2 id={`${idPrefix}-appointment`} data-ip-enter>Следующий шаг</h2><div><a class="sv-action" href={appointment.href}>{appointment.label}<ArrowIcon /></a>{appointment.notice?.trim()&&<p class="sv-demo-note">{appointment.notice}</p>}</div></section>}
+  </div>}
+</article>

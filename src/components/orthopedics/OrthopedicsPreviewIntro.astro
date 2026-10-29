@@ -1,0 +1,21 @@
+---
+/** Temporary orthopedics-only intro. B's common service hero replaces it later. */
+import {orthopedics as content} from '@/data/orthopedics';
+import OrthopedicsVisual from './OrthopedicsVisual.astro';
+import ArrowIcon from '@/components/ArrowIcon.astro';
+const base=import.meta.env.BASE_URL;
+---
+<div class="or-preview-intro">
+  <nav class="or-crumb or-shell" aria-label="Хлебные крошки"><a href={base}>Главная</a><span aria-hidden="true">/</span><span aria-current="page">{content.title}</span></nav>
+  <div class="or-hero or-shell">
+    <div class="or-hero-copy">
+      <p class="or-status">{content.status}</p>
+      <h1 id="or-page-title">{content.title}</h1>
+      <p class="or-statement">{content.statement.map(line=><span>{line}</span>)}</p>
+      <p class="or-lead">{content.intro}</p>
+      <div class="or-actions"><a class="or-button" href="#or-overview">О направлении <ArrowIcon /></a><a class="or-link" href={`${base}#contacts`}>Контакты <ArrowIcon /></a></div>
+      <p class="or-note">{content.heroNote}</p>
+    </div>
+    <OrthopedicsVisual />
+  </div>
+</div>

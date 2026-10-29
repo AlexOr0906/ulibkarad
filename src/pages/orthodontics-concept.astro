@@ -1,0 +1,9 @@
+---
+import InternalPageLayout from '@/layouts/InternalPageLayout.astro';
+import OrthodonticsArc from '@/components/orthodontics-concept/OrthodonticsArc.astro';
+import {siteNavigation} from '@/data/site-preview-navigation';
+const nav=siteNavigation(import.meta.env.BASE_URL);
+---
+<InternalPageLayout title="Ортодонтия · Концепция «Дуга»" description="Демонстрационный прототип движения ортодонтической дуги." navigation={nav.navigation} footerNavigation={nav.footerNavigation} homeHref={nav.home} contactHref={nav.contactHref} transitionHrefs={[]}>
+  <OrthodonticsArc contactHref={nav.contactHref} />
+</InternalPageLayout>

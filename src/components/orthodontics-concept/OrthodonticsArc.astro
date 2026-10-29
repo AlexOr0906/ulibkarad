@@ -1,0 +1,57 @@
+---
+import '@/styles/orthodontics-arc.css';
+interface Props {contactHref:string;}
+const {contactHref}=Astro.props;
+const teeth=[{x:234,y:176,r:20,s:.82},{x:344,y:233,r:13,s:.9},{x:468,y:268,r:6,s:.98},{x:600,y:280,r:0,s:1.04},{x:732,y:268,r:-6,s:.98},{x:856,y:233,r:-13,s:.9},{x:966,y:176,r:-20,s:.82}];
+const wire='M -180 130 C -50 -100 80 70 234 176 C 355 244 470 280 600 280 C 730 280 845 244 966 176 C 1120 70 1200 180 1120 320 C 1080 400 1020 440 1020 600';
+---
+<div class="oa" data-oa>
+  <section class="oa-scene" id="arc-start" aria-labelledby="arc-title" data-oa-scene>
+    <div class="oa-stage" data-oa-stage>
+      <header class="oa-heading"><p class="oa-eyebrow">Ортодонтия / исследование движения</p><h1 id="arc-title">Всё связано.</h1><p class="oa-subtitle">Одна линия.<br />Целая система.</p></header>
+      <div class="oa-art" role="img" aria-label="Художественная модель: серебряная дуга соединяет семь брекетов на условном зубном ряду. Не схема лечения.">
+        <svg viewBox="0 0 1200 520" aria-hidden="true" class="oa-svg">
+          <defs>
+            <linearGradient id="oa-enamel" x1="0" y1="0" x2="1" y2=".35"><stop stop-color="#75818b"/><stop offset=".18" stop-color="#d0d9de"/><stop offset=".45" stop-color="#f7f7f2"/><stop offset=".7" stop-color="#e1e5e3"/><stop offset="1" stop-color="#808e96"/></linearGradient>
+            <linearGradient id="oa-metal" x1="0" y1="0" x2=".65" y2="1"><stop stop-color="#f6ffff"/><stop offset=".14" stop-color="#8c9ba4"/><stop offset=".33" stop-color="#f1f7fa"/><stop offset=".44" stop-color="#c6d2d8"/><stop offset=".51" stop-color="#4d606e"/><stop offset=".73" stop-color="#99abb6"/><stop offset=".87" stop-color="#f5fafb"/><stop offset="1" stop-color="#51636e"/></linearGradient>
+            <linearGradient id="oa-edge" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff"/><stop offset=".18" stop-color="#a4b9c6"/><stop offset=".48" stop-color="#304451"/><stop offset=".7" stop-color="#91a8b6"/><stop offset="1" stop-color="#d8e4ea"/></linearGradient>
+            <linearGradient id="oa-wire" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#6e8493"/><stop offset=".42" stop-color="#eefaff"/><stop offset=".58" stop-color="#b3c4cf"/><stop offset="1" stop-color="#607582"/></linearGradient>
+            <radialGradient id="oa-pool"><stop stop-color="#a1b9c6" stop-opacity=".16"/><stop offset="1" stop-color="#a1b9c6" stop-opacity="0"/></radialGradient>
+            <filter id="oa-shadow" x="-70%" y="-70%" width="240%" height="260%"><feDropShadow dx="0" dy="8" stdDeviation="5" flood-color="#071019" flood-opacity=".65"/></filter>
+            <g id="oa-bracket">
+              <rect x="-32" y="-35" width="64" height="72" rx="15" fill="#14252f" opacity=".5" transform="translate(0 5)"/>
+              <rect x="-31" y="-36" width="62" height="69" rx="14" fill="url(#oa-edge)" stroke="#b7c9d2" stroke-width=".6"/>
+              <rect x="-25" y="-30" width="50" height="57" rx="10" fill="url(#oa-metal)"/>
+              <path d="M-23 -23 Q0 -31 23 -23 L21 -9 Q0 -4 -21 -9Z M-21 9 Q0 4 21 9 L23 23 Q0 31 -23 23Z" fill="url(#oa-edge)" stroke="#e0eaf0" stroke-width=".65"/>
+              <rect x="-14" y="-21" width="28" height="42" rx="6" fill="url(#oa-metal)" stroke="#f2f8fa" stroke-width=".5"/>
+              <path d="M-30 -4H30V4H-30Z" fill="#21343f"/>
+              <path d="M-29 -5H29M-11 -18V-9M11 9V18" fill="none" stroke="#fbffff" stroke-width="1.2" opacity=".8"/>
+              <path d="M-28 -23Q-26 -32 -17 -32M-22 28H18" fill="none" stroke="#fff" stroke-width="1" opacity=".7"/>
+            </g>
+          </defs>
+          <ellipse cx="600" cy="290" rx="550" ry="220" fill="url(#oa-pool)"/>
+          <g data-oa-camera>
+            <g data-oa-teeth>{teeth.map(t=><g transform={`translate(${t.x} ${t.y}) rotate(${t.r}) scale(${t.s})`}><path d="M-54 -67 C-57 -110 -31 -116 0 -109 C31 -116 57 -110 54 -67 L48 43 Q46 72 26 78 Q0 83 -26 78 Q-46 72 -48 43Z" fill="url(#oa-enamel)" stroke="#d9e2e5" stroke-opacity=".4"/><path d="M-38 -83 Q-17 -99 3 -94" stroke="#fff" opacity=".6" stroke-width="3" fill="none"/><path d="M-37 56Q0 69 37 56" stroke="#fff" opacity=".35" stroke-width="2" fill="none"/></g>)}</g>
+            {teeth.map((t,i)=><g transform={`translate(${t.x} ${t.y}) rotate(${t.r}) scale(${t.s})`}><g data-oa-bracket data-index={i} filter="url(#oa-shadow)"><use href="#oa-bracket"/></g></g>)}
+            <path d={wire} fill="none" stroke="#101e28" stroke-width="8" opacity=".55" transform="translate(0 4)" data-oa-wire-shadow/>
+            <path d={wire} fill="none" stroke="url(#oa-wire)" stroke-width="4" stroke-linecap="round" data-oa-wire/>
+            <path d={wire} fill="none" stroke="#fff" stroke-opacity=".62" stroke-width=".8" transform="translate(0 -1)" data-oa-wire-highlight/>
+            <path d="M1020 600V5000" fill="none" stroke="#c9dbe5" stroke-width="2" data-oa-tail/>
+          </g>
+        </svg>
+      </div>
+      <div class="oa-stage-bottom"><div><span class="oa-phase" data-oa-phase>Целая система</span><p>Художественный прототип. Не медицинская схема.</p></div><a href="#arc-story" class="oa-skip">Дальше по линии <span aria-hidden="true">↓</span></a></div>
+      <div class="oa-progress" aria-hidden="true"><i data-oa-progress></i></div>
+    </div>
+  </section>
+  <section class="oa-story" id="arc-story" aria-labelledby="arc-story-title" data-oa-story>
+    <svg class="oa-thread" viewBox="0 0 1200 1000" preserveAspectRatio="none" aria-hidden="true"><path d="M1020 -50 C1020 100 1000 180 820 200 S170 190 170 420 S1000 540 1000 720 S650 810 650 1050" fill="none" stroke="#b9c7ce" stroke-opacity=".16" stroke-width="2"/><path data-oa-thread d="M1020 -50 C1020 100 1000 180 820 200 S170 190 170 420 S1000 540 1000 720 S650 810 650 1050" fill="none" stroke="#c9dbe5" stroke-width="2" pathLength="1"/></svg>
+    <div class="oa-story-first"><p class="oa-eyebrow">Концепция «Дуга»</p><h2 id="arc-story-title">Деталь становится<br />целым.</h2><p>Линия соединяет элементы системы.<br />И продолжает путь по странице.</p></div>
+    <div class="oa-story-second"><h2>Продолжим<br />знакомство?</h2><p>Здесь появится согласованная информация об ортодонтии. Пока проверяем образ, движение и ощущение от страницы.</p><div class="oa-actions"><a href={contactHref}>Связаться с клиникой <span aria-hidden="true">↗</span></a><a href="#arc-start">Посмотреть ещё раз <span aria-hidden="true">↑</span></a></div></div>
+    <p class="oa-note">Демонстрационная модель создана для обсуждения анимации. Конструкция условная; не иллюстрирует установку системы или результат лечения.</p>
+  </section>
+</div>
+<script>
+ import {initArc} from './arc-motion';
+ document.querySelectorAll<HTMLElement>('[data-oa]').forEach(initArc);
+</script>

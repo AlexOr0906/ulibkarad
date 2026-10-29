@@ -28,9 +28,11 @@ try{
    if([0,10,20].includes(i))await page.screenshot({path:`${out}/${width}-${mode}-${i}.png`});
   }
   if(width<768&&mode==='normal'){
-   await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),height*.55);await page.waitForTimeout(350);
-   const held=await page.locator('.of-photo-main').evaluate(e=>e.getBoundingClientRect().toJSON());assert.ok(held.top>70&&held.bottom<=height+1);
-   await page.screenshot({path:`${out}/${width}-${mode}-hold.png`});
+   const origin=samples[0].photo.top+samples[0].y;
+   for(const sample of samples)assert.ok(Math.abs(sample.photo.top+sample.y-origin)<1,'Phone object must follow document without pinning or scroll transforms');
+   assert.equal(await page.locator('.of-hero-frame').evaluate(e=>getComputedStyle(e).position),'static');
+   assert.equal(await page.locator('.of-photo-main').evaluate(e=>getComputedStyle(e).transform),'none');
+   assert.equal(await page.locator('[data-of-intro]').getAttribute('data-of-motion'),'phone');
   }
   if(mode!=='nojs'){
    await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await page.waitForTimeout(350);

@@ -8,6 +8,8 @@
     const clamp = (value: number) => Math.max(0, Math.min(1, value));
     function update(now = performance.now()) {
       frame = 0;
+      // Touch scene follows the document. No competing scroll/resize timeline.
+      if (phone.matches) return;
       const target = clamp(-intro.getBoundingClientRect().top / span);
       const dt = Math.min(50, Math.max(1, now - lastTime)); lastTime = now;
       // Damped native-scroll response, with a snap for deliberate big jumps.
@@ -35,9 +37,9 @@
     }
     function queue() { if (!frame) frame = requestAnimationFrame(update); }
     function measure() {
-      intro.dataset.ofMotion = reduced.matches ? 'reduced' : 'full';
+      intro.dataset.ofMotion = reduced.matches ? 'reduced' : phone.matches ? 'phone' : 'full';
       // svh geometry remains stable when a phone browser's address bar changes.
-      const viewport = intro.querySelector<HTMLElement>(phone.matches ? '.of-hero-frame' : '.of-opening')!.offsetHeight;
+      const viewport = intro.querySelector<HTMLElement>(phone.matches ? '.of-hero' : '.of-opening')!.offsetHeight;
       span = Math.max(1, intro.offsetHeight - viewport);
       intro.dataset.ofSpan = String(span);
       if (lastProgress < 0 || reduced.matches) shown = clamp(-intro.getBoundingClientRect().top / span);

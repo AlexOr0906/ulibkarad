@@ -1,0 +1,26 @@
+---
+import '@/styles/global.css';
+import '@/styles/clinic-motion.css';
+import OrthofamilyShell from '@/components/orthofamily/OrthofamilyShell.astro';
+import OrthofamilyIntro from '@/components/orthofamily/OrthofamilyIntro.astro';
+import OrthofamilyDirections from '@/components/orthofamily/OrthofamilyDirections.astro';
+import Doctors from '@/components/Doctors.astro';
+import ContactsSection from '@/components/contacts-footer/ContactsSection.astro';
+import ClinicFooter from '@/components/contacts-footer/ClinicFooter.astro';
+import ClinicHeader from '@/components/header-navigation/ClinicHeader.astro';
+import IntegratedHeaderMetrics from '@/components/orthofamily/IntegratedHeaderMetrics.astro';
+import '@/styles/orthofamily-integration.css';
+import {siteNavigation} from '@/data/site-preview-navigation';
+interface Props { navigation?: ReturnType<typeof siteNavigation>; }
+const {navigation:nav=siteNavigation(import.meta.env.BASE_URL)}=Astro.props;
+const homeNavigation=nav.navigation.map(link => ({...link,href:link.href.startsWith(`${nav.home}#`) ? link.href.slice(nav.home.length) : link.href}));
+---
+<OrthofamilyShell withTeam>
+  <ClinicHeader slot="header" homeHref={nav.home} contactHref="#of-visit" links={homeNavigation} activeHref={nav.home} />
+  <IntegratedHeaderMetrics />
+  <OrthofamilyIntro />
+  <OrthofamilyDirections />
+  <Doctors showDivider={false} generalClinic />
+  <div id="of-visit" tabindex="-1"><ContactsSection /></div>
+  <ClinicFooter slot="closing" homeHref={nav.home} topHref="#of-top" navigation={nav.footerNavigation} activeHref={nav.home} />
+</OrthofamilyShell>

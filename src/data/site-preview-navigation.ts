@@ -1,7 +1,6 @@
 import type { HeaderLink } from './header-navigation';
-/** One isolated preview family. No public home route or approved animation is rewritten. */
-export function sitePreviewNavigation(base: string) {
-  const home = `${base}site-preview/`;
+/** Navigation for independent documents. home includes BASE_URL and a trailing slash. */
+export function siteNavigation(base: string, home = base) {
   const about = `${home}about/`;
   const patients = `${home}patients/`;
   const footerNavigation: HeaderLink[] = [
@@ -15,4 +14,7 @@ export function sitePreviewNavigation(base: string) {
     navigation:footerNavigation.map(link => ({label:link.label,href:`${home}${link.href}`})),
     transitionHrefs:[about,patients],contactHref:`${home}#contacts`,
   };
+}
+export function sitePreviewNavigation(base: string) {
+  return siteNavigation(base, `${base}site-preview/`);
 }

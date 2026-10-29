@@ -16,7 +16,7 @@ try{for(const [width,height,mode]of [[1440,1000,'normal'],[1024,768,'normal'],[7
  async function active(path){for(const selector of ['.hn-desktop','.hn-panel nav','.cf-footer nav'])assert.equal(await p.locator(`${selector} a[aria-current="page"]`).getAttribute('href'),path);}
  async function landmarks(title){assert.equal(await p.title(),title);for(const selector of ['main','h1','.hn-header','.cf-footer'])assert.equal(await p.locator(selector).count(),1);assert.equal(await overflow(),false);}
  await p.goto(base);await p.evaluate(()=>document.fonts.ready);await wait(1300);await landmarks('OrthoFamily — Стоматология для всей семьи · Демо');assert.equal(await p.locator('.hn-brand').getAttribute('aria-current'),'page');await p.screenshot({path:`${out}/${width}-${mode}-home.jpg`,quality:85});
- await nav('О клинике');await p.waitForURL('**/site-preview/about/');await p.evaluate(()=>document.fonts.ready);
+ await nav('О клинике');await p.waitForURL(new URL('about/',base).href);await p.evaluate(()=>document.fonts.ready);
  if(mode==='normal')await p.waitForFunction(()=>document.querySelector('[data-ac-reveal]')?.getAttribute('data-ac-state')==='playing');
  else await wait(200);
  const intermediate=await p.locator('[data-about-page]').evaluate(root=>({state:root.querySelector('[data-ac-reveal]')?.getAttribute('data-ac-state'),running:root.getAnimations({subtree:true}).filter(a=>a.playState==='running').length,auto:root.hasAttribute('data-ac-auto-motion')}));
@@ -28,7 +28,7 @@ try{for(const [width,height,mode]of [[1440,1000,'normal'],[1024,768,'normal'],[7
  await p.screenshot({path:`${out}/${width}-${mode}-about.jpg`,quality:85});
  if(width<1100&&mode!=='nojs'){await p.locator('.hn-toggle').focus();await p.keyboard.press('Enter');await wait(280);await p.keyboard.press('Escape');await wait(200);assert.equal(await p.locator('.hn-disclosure').evaluate(e=>e.open),false);assert.equal(await p.locator('.hn-toggle').evaluate(e=>e===document.activeElement),true);}
  await p.locator('.ac-hero .ac-link').focus();await p.keyboard.press('Enter');await wait(1200);const approachTop=await p.locator('#ac-approach').evaluate(e=>e.getBoundingClientRect().top);assert.ok(approachTop>=aboutGeometry.header-1);const aboutY=await p.evaluate(()=>scrollY);await p.screenshot({path:`${out}/${width}-${mode}-approach.jpg`,quality:85});
- await nav('Пациентам');await p.waitForURL('**/site-preview/patients/');await wait(700);await landmarks('Пациентам · OrthoFamily');await active(new URL('patients/',base).pathname);
+ await nav('Пациентам');await p.waitForURL(new URL('patients/',base).href);await wait(700);await landmarks('Пациентам · OrthoFamily');await active(new URL('patients/',base).pathname);
  const firstTransition=mode!=='nojs'?await p.evaluate(()=>window.__qa.transitions):null;
  await p.screenshot({path:`${out}/${width}-${mode}-patients.jpg`,quality:85});
  await p.goBack();await wait(650);assert.equal(new URL(p.url()).pathname,new URL('about/',base).pathname);assert.equal(new URL(p.url()).hash,'#ac-approach');assert.ok(Math.abs(await p.evaluate(()=>scrollY)-aboutY)<25);await active(new URL('about/',base).pathname);

@@ -40,12 +40,14 @@
 
 Во второй копии сначала сохранить свою работу, затем:
 
+Подготовительный коммит уже создан и push подтверждён: **`b5ae25c528f95e9e0ca27a6da005e5ed6baae725`** в `github/feature/about-clinic`. Он содержит только этот контракт. Последующие коммиты ветки содержат самостоятельный About; их не нужно переносить ради одного соглашения.
+
 ```powershell
 git fetch origin feature/about-clinic
-git show --stat <ПОДГОТОВИТЕЛЬНЫЙ_SHA>
-git merge-base --is-ancestor 87d3e5514c826d368d5720d7f2c42415cee59afb <ПОДГОТОВИТЕЛЬНЫЙ_SHA>
+git show --stat b5ae25c528f95e9e0ca27a6da005e5ed6baae725
+git merge-base --is-ancestor 87d3e5514c826d368d5720d7f2c42415cee59afb b5ae25c528f95e9e0ca27a6da005e5ed6baae725
 # Только если нужен сам контракт в своей ветке, перенести названный подготовительный commit:
-git cherry-pick <ПОДГОТОВИТЕЛЬНЫЙ_SHA>
+git cherry-pick b5ae25c528f95e9e0ca27a6da005e5ed6baae725
 ```
 
 `origin` здесь — имя remote второй копии; у A он называется `github`. Не выполнять reset/checkout поверх несохранённой работы и не переносить поздние About-коммиты ради одного документа. В новой копии: Node24, `npm ci`, `npm run build`. Preview: `npm run dev -- --host 127.0.0.1 --port 4184`, URL `/about-clinic-preview/`. Desktop/mobile320/390px, keyboard, reduced/no-JS и движение проверить в своей копии. Главную сравнивать с базой87d3e55; main/Pages/dispatch не трогать.

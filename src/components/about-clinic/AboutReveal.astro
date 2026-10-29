@@ -1,0 +1,5 @@
+---
+interface Props { kind?: 'type' | 'body' | 'media'; }
+const {kind='body'}=Astro.props;
+---
+<div data-ac-reveal={kind}><div class="ac-reveal-inner"><slot /></div></div>

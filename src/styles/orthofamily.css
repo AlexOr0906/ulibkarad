@@ -41,7 +41,7 @@
 .of-opening > .of-shell { display:flex; flex-direction:column; height:100%; }
 .of-opening-meta { display:flex; flex:none; justify-content:space-between; padding-block:1rem; font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; }
 .of-opening-copy { width:52%; margin-block:auto; padding-block:1rem; }
-.of-intro .of-opening-copy .of-title { position:relative; margin:0; font-size:clamp(64px,10.2vw,150px); line-height:1; white-space:nowrap; }
+.of-intro .of-opening-copy .of-title { position:relative; margin:0; font-size:clamp(64px,9.9vw,150px); line-height:1; white-space:nowrap; }
 .of-title > span { display:block; }
 .of-lead { position:relative; margin-top:2.1rem; max-width:100%; width:20rem; }
 .of-hero-description { font-size:clamp(1.45rem,2vw,2rem); font-weight:350; line-height:1.35; letter-spacing:-.03em; }

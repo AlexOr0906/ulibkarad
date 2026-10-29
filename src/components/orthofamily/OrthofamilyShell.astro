@@ -13,11 +13,11 @@ const { withTeam = false } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="robots" content="noindex, nofollow, noarchive" />
-    <meta name="description" content="OrtoFamily — концепция стоматологии для взрослых и детей в Магнитогорске. Демонстрация нового вступления сайта." />
+    <meta name="description" content="OrthoFamily. Стоматология для всей семьи в Магнитогорске. Демонстрационная версия сайта." />
     <meta name="theme-color" content="#eef1f3" />
     <link rel="icon" type="image/svg+xml" href={`${base}brand/logo-graphite.svg`} />
     <link rel="preload" href={cyrillicFont} as="font" type="font/woff2" crossorigin />
-    <title>OrtoFamily — стоматология для взрослых и детей · Концепция</title>
+    <title>OrthoFamily — Стоматология для всей семьи · Демо</title>
     <script is:inline>if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('of-motion');</script>
     {withTeam && <script is:inline>document.documentElement.classList.add('js');</script>}
   </head>
@@ -25,9 +25,9 @@ const { withTeam = false } = Astro.props;
     <a class="of-skip" href="#of-main">Перейти к содержимому</a>
     {Astro.slots.has('header') ? <slot name="header" /> : <header class="of-header">
       <div class="of-shell of-header-inner">
-        <a class="of-brand" href="#of-top" aria-label="Ортофэмили — в начало">
+        <a class="of-brand" href="#of-top" aria-label="OrthoFamily — в начало">
           <img src={`${base}orthofamily/brand/emblem-silver-original.jpg`} alt="" width="1322" height="1190" />
-          <span>Ортофэмили<small>Стоматология</small></span>
+          <span>OrthoFamily<small>Стоматология для всей семьи</small></span>
         </a>
         <nav class="of-nav" aria-label="Основная навигация">
           <a href="#of-about">Подход</a><a href="#of-directions">Направления</a>
@@ -39,13 +39,13 @@ const { withTeam = false } = Astro.props;
     <main id="of-main" tabindex="-1" data-of-root><slot /></main>
     {Astro.slots.has('closing') ? <slot name="closing" /> : <footer class="of-footer" id="of-visit">
       <div class="of-shell of-footer-inner">
-        <div><p class="of-footer-name">OrtoFamily</p><p>Демо-концепция. Запись не производится.<br/>Контакты и материалы будут согласованы с клиникой.</p></div>
+        <div><p class="of-footer-name">OrthoFamily</p><p>Демо-концепция. Запись не производится.<br/>Контакты и материалы будут согласованы с клиникой.</p></div>
         <a href={withTeam ? `${base}orthofamily-preview/` : `${base}orthofamily-combined/`}>{withTeam ? 'Только вступление' : 'Вступление и команда'} <OrthofamilyIcon /></a>
         <a href="#of-top">В начало <OrthofamilyIcon direction="up" /></a>
       </div>
     </footer>}
     <dialog class="of-dialog" id="of-visit-dialog" aria-labelledby="of-dialog-title" aria-describedby="of-dialog-description">
-      <form method="dialog" class="of-dialog-top"><span>OrtoFamily</span><button type="submit" aria-label="Закрыть окно"><OrthofamilyIcon direction="close" /></button></form>
+      <form method="dialog" class="of-dialog-top"><span>OrthoFamily</span><button type="submit" aria-label="Закрыть окно"><OrthofamilyIcon direction="close" /></button></form>
       <p class="of-eyebrow">Знакомство с клиникой</p>
       <h2 id="of-dialog-title">Обсудим ваш визит.</h2>
       <p class="of-dialog-topic" id="of-dialog-topic" hidden></p>

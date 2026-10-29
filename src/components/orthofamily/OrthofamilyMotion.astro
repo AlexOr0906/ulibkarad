@@ -4,12 +4,24 @@
     const intro = introElement;
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
     const phone = matchMedia('(max-width: 767px)');
-    let frame = 0, span = 1, lastProgress = -1, shown = 0, lastTime = performance.now();
+    let frame = 0, span = 1, phoneSpan = 1, phoneProgress = -1, lastProgress = -1, shown = 0, lastTime = performance.now();
     const clamp = (value: number) => Math.max(0, Math.min(1, value));
     function update(now = performance.now()) {
       frame = 0;
-      // Touch scene follows the document. No competing scroll/resize timeline.
-      if (phone.matches) return;
+      // Direct touch response: one pose for each scroll position, no lerp or pin.
+      if (phone.matches) {
+        const p = reduced.matches ? 0 : clamp(-intro.getBoundingClientRect().top / phoneSpan);
+        if (Math.abs(p - phoneProgress) < .0001) return;
+        phoneProgress = p;
+        const eased = p * p * (3 - 2 * p);
+        intro.style.setProperty('--of-swipe-turn', `${-30 * eased}deg`);
+        intro.style.setProperty('--of-swipe-scale', String(1 - .12 * eased));
+        intro.style.setProperty('--of-swipe-y', `${-6 * eased}px`);
+        intro.style.setProperty('--of-swipe-paper', `${-6 * eased}vw`);
+        intro.style.setProperty('--of-swipe-orbit', String(1 - .14 * eased));
+        intro.dataset.ofSwipe = p.toFixed(4);
+        return;
+      }
       const target = clamp(-intro.getBoundingClientRect().top / span);
       const dt = Math.min(50, Math.max(1, now - lastTime)); lastTime = now;
       // Damped native-scroll response, with a snap for deliberate big jumps.
@@ -40,6 +52,7 @@
       intro.dataset.ofMotion = reduced.matches ? 'reduced' : phone.matches ? 'phone' : 'full';
       // svh geometry remains stable when a phone browser's address bar changes.
       const viewport = intro.querySelector<HTMLElement>(phone.matches ? '.of-hero' : '.of-opening')!.offsetHeight;
+      phoneSpan = Math.max(1, viewport * .65); phoneProgress = -1;
       span = Math.max(1, intro.offsetHeight - viewport);
       intro.dataset.ofSpan = String(span);
       if (lastProgress < 0 || reduced.matches) shown = clamp(-intro.getBoundingClientRect().top / span);
@@ -53,7 +66,7 @@
     document.fonts.ready.then(measure);
     measure();
 
-    // Time-based phone choreography: scrolling never changes the object's pose.
+    // Arrival and ambient motion stay separate from the direct swipe plane.
     const object = intro.querySelector<HTMLElement>('[data-of-main-photo]')!;
     let objectVisible = false, phoneRevealPending = false;
     function revealPhoneObject(visible: boolean) {

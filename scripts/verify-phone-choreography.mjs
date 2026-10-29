@@ -8,6 +8,12 @@ try{for(const [width,height]of [[390,844],[320,568]]){
  const start=await p.locator('.of-photo-main img').evaluate(e=>({transform:getComputedStyle(e).transform,animations:e.getAnimations().map(a=>({name:a.animationName,duration:a.effect.getTiming().duration}))}));assert.ok(start.animations.some(a=>a.name==='of-phone-arrival'&&a.duration===1200));
  await p.waitForTimeout(250);await p.screenshot({path:`${out}/${width}-aligner-enter.png`});await p.waitForTimeout(1600);
  const pose1=await p.locator('.of-object-surface').evaluate(e=>getComputedStyle(e).transform);await p.waitForTimeout(650);const pose2=await p.locator('.of-object-surface').evaluate(e=>getComputedStyle(e).transform);assert.notEqual(pose1,pose2,'Visible ambient movement must actually advance');
+ const swipe=[];for(const fraction of [0,.25,.5,.25,0]){
+  await p.evaluate(f=>scrollTo({top:document.querySelector('.of-hero').offsetHeight*f,behavior:'instant'}),fraction);await p.waitForTimeout(80);
+  swipe.push(await p.locator('.of-swipe-plane').evaluate(e=>({transform:getComputedStyle(e).transform,turn:parseFloat(e.closest('[data-of-intro]').style.getPropertyValue('--of-swipe-turn')),scale:parseFloat(e.closest('[data-of-intro]').style.getPropertyValue('--of-swipe-scale'))})));
+  if([.25,.5].includes(fraction))await p.screenshot({path:`${out}/${width}-swipe-${fraction}.png`});
+ }
+ assert.ok(swipe[2].turn<-24&&swipe[2].scale<.91,'Swipe must visibly turn and recede, not only zoom');assert.equal(swipe[1].transform,swipe[3].transform,'Reverse swipe must restore the same pose');assert.equal(swipe[0].transform,swipe[4].transform);
  const first=p.locator('[data-doctor-card]').nth(0),second=p.locator('[data-doctor-card]').nth(1);
  assert.equal(await first.getAttribute('data-phone-reveal'),'armed');assert.equal(await second.getAttribute('data-phone-reveal'),'armed');
  await first.evaluate(e=>scrollTo({top:e.getBoundingClientRect().top+scrollY-innerHeight*.32,behavior:'instant'}));
@@ -26,7 +32,7 @@ try{for(const [width,height]of [[390,844],[320,568]]){
  await second.evaluate(e=>{scrollTo({top:e.getBoundingClientRect().top+scrollY-innerHeight*.32,behavior:'instant'});const rail=e.closest('[data-team-rail]'),first=rail.querySelector('[data-doctor-card]');rail.scrollTo({left:e.offsetLeft-first.offsetLeft,behavior:'instant'});});
  await p.waitForFunction(()=>document.querySelectorAll('[data-doctor-card]')[1].dataset.phoneReveal==='playing');await p.waitForTimeout(180);await p.screenshot({path:`${out}/${width}-second-portrait-enter.png`});
  await p.waitForFunction(()=>document.querySelectorAll('[data-doctor-card]')[1].dataset.phoneReveal==='complete');assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);assert.deepEqual(errors,[]);
- report.push({width,height,start,pose1,pose2,early,passed:true});console.log('PASS visible phone choreography',width,height);await c.close();
+ report.push({width,height,start,pose1,pose2,swipe,early,passed:true});console.log('PASS visible phone choreography',width,height);await c.close();
 }
  const c=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'}),p=await c.newPage();await p.goto(process.env.PHONE_PREVIEW_URL||'http://localhost:4181/');await p.waitForTimeout(200);assert.equal(await p.locator('.of-object-surface').evaluate(e=>e.getAnimations().length),0);assert.equal(await p.locator('[data-doctor-card][data-phone-reveal="complete"]').count(),4);await c.close();
  await fs.writeFile(`${out}/report.json`,JSON.stringify(report,null,2));

@@ -1,0 +1,30 @@
+/* New internal documents only. The approved home never imports this sheet. */
+.ip-document { --ip-gutter:3.5rem; --ip-width:90rem; }
+.ip-page { padding-top:var(--of-header-height); }
+.ip-page #ip-main { min-height:60svh; outline-offset:-5px; }
+.ip-page :where([id]) { scroll-margin-top:calc(var(--of-header-height) + 24px); }
+.ip-shell { width:min(calc(100% - var(--ip-gutter)*2),var(--ip-width)); margin-inline:auto; }
+.ip-breadcrumbs { padding-block:30px; color:#596770; font-size:.75rem; }
+.ip-breadcrumbs ol { display:flex; flex-wrap:wrap; gap:.7rem; list-style:none; margin:0; padding:0; }
+.ip-breadcrumbs li+li::before { content:'/'; color:#919a9f; margin-right:.7rem; }
+.ip-breadcrumbs a { text-decoration:underline; text-underline-offset:4px; }
+.ip-page .ip-link { display:inline-flex; gap:1.2rem; align-items:center; min-height:44px; text-decoration:underline; text-underline-offset:5px; font-size:.85rem; }
+.ip-link .arrow-icon { transition:translate .2s; }
+.ip-page .ip-link:hover .arrow-icon,.ip-page .ip-link:focus-visible .arrow-icon { translate:3px -2px; }
+.ip-demo-strip { display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px 24px; padding-block:22px; border-top:1px solid #c9cdd1; font-size:.75rem; color:#596770; }
+.ip-page .cf-footer { margin-top:0; }
+.ip-page .hn-desktop a[aria-current='page'] { text-decoration:underline; text-underline-offset:6px; }
+@media (max-width:1100px) and (min-width:768px) { .ip-document { --ip-gutter:2rem; } }
+@media (max-width:767px) { .ip-document { --ip-gutter:1rem; } .ip-breadcrumbs { padding-block:24px; } }
+/* Opt-in is limited to this new layout. Unsupported browsers use normal MPA navigation. */
+@media (prefers-reduced-motion:no-preference) {
+  .ip-document::view-transition-old(root) { animation:ip-document-out 120ms ease-out both; }
+  .ip-document::view-transition-new(root) { animation:ip-document-in 160ms ease-out both; }
+}
+@keyframes ip-document-out { to { opacity:0; } }
+@keyframes ip-document-in { from { opacity:.6; } to { opacity:1; } }
+@media (prefers-reduced-motion:reduce) {
+  @view-transition { navigation:none; }
+  .ip-document { scroll-behavior:auto; }
+  .ip-page :where(*, *::before, *::after) { animation:none !important; transition:none !important; }
+}

@@ -1,0 +1,62 @@
+---
+import ArrowIcon from '@/components/ArrowIcon.astro';
+import {patientTopics,clinicInformation,rulesPlaceholders,patientDocuments} from '@/data/patients';
+import '@/styles/patients.css';
+interface Props { homeHref?: string; contactHref?: string; }
+const base=import.meta.env.BASE_URL;
+const {homeHref=base,contactHref=`${base}#contacts`}=Astro.props;
+---
+<article data-patients-page>
+  <div class="ip-shell">
+    <nav class="ip-breadcrumbs" aria-label="Хлебные крошки"><ol><li><a href={homeHref}>Главная</a></li><li aria-current="page">Пациентам</li></ol></nav>
+    <header class="pa-hero">
+      <div class="pa-hero-copy">
+        <h1 data-ip-enter data-ip-mask>Пациентам</h1>
+        <p class="pa-hero-statement" data-ip-enter data-ip-delay="60">Всё важное<br />перед визитом.</p>
+        <p class="pa-hero-description" data-ip-enter data-ip-delay="120">Сведения о клинике, правила и документы. Спокойно разобраться в организационных вопросах и знать, куда обратиться.</p>
+      </div>
+      <aside class="pa-identity" aria-label="Статус раздела" data-ip-enter data-ip-delay="120">
+        <span class="pa-identity-caption">OrthoFamily<br />Стоматология для всей семьи</span>
+        <img src={`${base}brand/logo-chrome.svg`} alt="" width="921" height="960" />
+        <p>Раздел готовится<br />к наполнению.</p>
+      </aside>
+    </header>
+    <div class="ip-demo-strip"><p>Демонстрационная структура раздела.</p><p>Документы и сведения ожидаются от клиники.</p></div>
+    <div class="pa-reading-grid">
+      <nav class="pa-index" aria-label="Содержание раздела Пациентам">
+        <p>В этом разделе</p>
+        <ul>{patientTopics.map(topic=><li><a href={`#${topic.id}`}>{topic.label}<ArrowIcon /></a></li>)}</ul>
+      </nav>
+      <div class="pa-content">
+        <section class="pa-section" id="pa-clinic" tabindex="-1" aria-labelledby="pa-clinic-title">
+          <h2 id="pa-clinic-title" data-ip-enter>Сведения<br class="pa-wide-break" /> о клинике</h2>
+          <div class="pa-section-body">
+            <p class="pa-intro">Здесь будут собраны основные сведения об OrthoFamily.</p>
+            <dl class="pa-facts">{clinicInformation.map(item=><div><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl>
+            <a class="ip-link" href={`${homeHref}#of-about`}>Познакомиться с клиникой <ArrowIcon /></a>
+          </div>
+        </section>
+        <section class="pa-license" id="pa-license" tabindex="-1" aria-labelledby="pa-license-title">
+          <div><p class="pa-status-light">Сведения не предоставлены</p><h2 id="pa-license-title" data-ip-enter>Лицензия</h2></div>
+          <div><p>Здесь появятся подтверждённые сведения о лицензии и документ для просмотра.</p><p class="pa-license-note">Номер, дата, орган выдачи и файл пока не получены. Ссылка будет доступна после подготовки материалов.</p></div>
+        </section>
+        <section class="pa-section" id="pa-rules" tabindex="-1" aria-labelledby="pa-rules-title">
+          <h2 id="pa-rules-title" data-ip-enter>Правила<br class="pa-wide-break" /> приёма</h2>
+          <div class="pa-section-body"><p class="pa-intro">Этот блок будет наполнен согласованными организационными правилами.</p><ul class="pa-rules-list">{rulesPlaceholders.map(item=><li><h3>{item.title}</h3><p>{item.text}</p></li>)}</ul></div>
+        </section>
+        <section class="pa-section pa-documents-section" id="pa-documents" tabindex="-1" aria-labelledby="pa-documents-title">
+          <h2 id="pa-documents-title" data-ip-enter>Документы</h2>
+          <div class="pa-section-body"><p class="pa-intro">Предварительный перечень. Состав и содержание уточняются с клиникой.</p><ul class="pa-documents">{patientDocuments.map(item=><li><span>{item.title}</span><small>{item.status}</small></li>)}</ul><p class="pa-note">Файлы пока не предоставлены. В этом прототипе нет ссылок скачивания.</p></div>
+        </section>
+        <section class="pa-section" id="pa-prices" tabindex="-1" aria-labelledby="pa-prices-title">
+          <h2 id="pa-prices-title" data-ip-enter>Стоимость</h2>
+          <div class="pa-section-body"><p class="pa-intro">Утверждённый прейскурант будет размещён после получения от клиники.</p><div class="pa-price-placeholder"><span>Прейскурант</span><span>Материал ожидается</span></div><p class="pa-note">Цены, условия оплаты и перечень услуг пока не опубликованы.</p></div>
+        </section>
+        <section class="pa-section pa-appeals" id="pa-appeals" tabindex="-1" aria-labelledby="pa-appeals-title">
+          <h2 id="pa-appeals-title" data-ip-enter>Есть вопрос?</h2>
+          <div class="pa-section-body"><p class="pa-intro">Здесь появится информация о способах связи и порядке обращений.</p><p class="pa-note">Контакты уточняются. Прототип не принимает и не отправляет обращения.</p><a class="pa-contact-link" href={contactHref}>Перейти к контактам <ArrowIcon /></a></div>
+        </section>
+      </div>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,24 @@
+---
+import InternalPageLayout from '@/layouts/InternalPageLayout.astro';
+import ArrowIcon from '@/components/ArrowIcon.astro';
+const base=import.meta.env.BASE_URL;
+---
+<InternalPageLayout title="Предпросмотр внутренних страниц" description="Изолированный предпросмотр общего шаблона внутренних страниц OrthoFamily.">
+  <article class="ip-shell il-preview">
+    <nav class="ip-breadcrumbs" aria-label="Хлебные крошки"><ol><li><a href={base}>Главная</a></li><li aria-current="page">Предпросмотр шаблона</li></ol></nav>
+    <header><p class="il-status">Изолированный предпросмотр</p><h1 data-ip-enter data-ip-mask>Внутри<br />OrthoFamily.</h1><p class="il-lead" data-ip-enter data-ip-delay="60">Одно пространство.<br />Разные поводы познакомиться.</p><p class="il-copy" data-ip-enter data-ip-delay="120">Общая оболочка для будущих внутренних страниц. Подтверждённые материалы клиники появятся на следующем этапе.</p><a class="ip-link" href={`${base}patients-preview/`}>Открыть раздел «Пациентам» <ArrowIcon /></a></header>
+    <section class="il-surface" aria-labelledby="il-content-title"><div><p>Демонстрация шаблона</p><h2 id="il-content-title" data-ip-enter>Место<br />для содержания.</h2></div><p>Этот маршрут предназначен для проверки навигации, общей композиции и межстраничного перехода. Он не заменяет страницу «О клинике».</p></section>
+  </article>
+</InternalPageLayout>
+<style>
+ .il-preview { padding-bottom:88px; }
+ .il-preview header { padding:40px 0 72px; max-width:60rem; }
+ .il-status { font-size:.8rem; color:#596770; margin-bottom:24px; }
+ .il-preview h1 { font-size:clamp(3rem,8vw,8rem); font-weight:300; line-height:1.05; letter-spacing:-.06em; }
+ .il-lead { margin-top:32px; font-size:clamp(1.7rem,3vw,3rem); line-height:1.25; font-weight:300; letter-spacing:-.04em; }
+ .il-copy { margin:24px 0; max-width:35rem; color:#596770; font-size:.95rem; line-height:1.9; }
+ .il-surface { padding:48px; background:#dfe4e8; display:grid; grid-template-columns:1fr 1fr; gap:56px; }
+ .il-surface h2 { font-size:clamp(2rem,4vw,4rem); line-height:1.1; font-weight:300; letter-spacing:-.04em; margin-top:20px; }
+ .il-surface p { font-size:.9rem; line-height:1.9; }
+ @media(max-width:767px) { .il-preview header { padding:24px 0 48px; } .il-surface { padding:28px; display:block; } .il-surface>p { margin-top:24px; } .il-preview { padding-bottom:56px; } }
+</style>

@@ -1,0 +1,77 @@
+---
+import '@/styles/global.css';
+import '@/styles/orthofamily.css';
+import '@/styles/orthofamily-wordmark.css';
+import '@/styles/orthofamily-integration.css';
+import '@/styles/internal-pages.css';
+import ClinicHeader from '@/components/header-navigation/ClinicHeader.astro';
+import ClinicFooter from '@/components/contacts-footer/ClinicFooter.astro';
+import IntegratedHeaderMetrics from '@/components/orthofamily/IntegratedHeaderMetrics.astro';
+import type { HeaderLink } from '@/data/header-navigation';
+interface Props {
+  title: string;
+  description: string;
+  navigation?: HeaderLink[];
+  footerNavigation?: HeaderLink[];
+  contactHref?: string;
+  transitionHrefs?: string[];
+}
+const base = import.meta.env.BASE_URL;
+const homeHref = base;
+const { title, description, contactHref = `${base}#contacts`,
+  navigation = [
+    {label:'О клинике',href:`${base}#of-about`},
+    {label:'Направления',href:`${base}#of-directions`},
+    {label:'Врачи',href:`${base}#doctors`},
+    {label:'Пациентам',href:`${base}patients-preview/`},
+  ],
+  transitionHrefs = [`${base}patients-preview/`, `${base}internal-layout-preview/`],
+  footerNavigation = [
+    {label:'О клинике',href:'#of-about'},
+    {label:'Направления',href:'#of-directions'},
+    {label:'Врачи',href:'#doctors'},
+    {label:'Пациентам',href:'patients-preview/'},
+    {label:'Контакты',href:'#contacts'},
+  ],
+} = Astro.props;
+const transitionPaths = transitionHrefs.map(href => new URL(href, Astro.url).pathname);
+---
+<!doctype html>
+<html lang="ru" class="of-document of-complete ip-document">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#eef1f3" />
+    <link rel="icon" type="image/svg+xml" href={`${base}brand/logo-graphite.svg`} />
+    <title>{title} · OrthoFamily</title>
+    <script is:inline data-transition-paths={JSON.stringify(transitionPaths)}>
+      // Opt in before first render. No JS means ordinary document navigation.
+      const transitionPaths = JSON.parse(document.currentScript?.getAttribute('data-transition-paths') || '[]');
+      const optIn = document.createElement('style');
+      optIn.textContent = '@media(prefers-reduced-motion:no-preference){@view-transition{navigation:auto;}}';
+      document.head.append(optIn);
+      window.addEventListener('pageswap', event => {
+        const transition = event.viewTransition;
+        if (!transition) return;
+        transition.ready.catch(() => {}); // The outgoing document is intentionally skipped when hidden.
+        const destination = event.activation?.entry?.url;
+        if (!destination || !transitionPaths.includes(new URL(destination).pathname)) transition.skipTransition();
+      });
+    </script>
+    <slot name="head" />
+  </head>
+  <body class="of-page ip-page" id="ip-top">
+    <a class="of-skip" href="#ip-main">Перейти к содержимому</a>
+    <ClinicHeader homeHref={homeHref} contactHref={contactHref} links={navigation} instanceId="internal-header" />
+    <IntegratedHeaderMetrics />
+    <main id="ip-main" tabindex="-1" data-internal-main><slot /></main>
+    <ClinicFooter homeHref={homeHref} topHref="#ip-top" navigation={footerNavigation} />
+    <script>
+      import { initInternalMotion } from '@/components/internal-pages/internal-motion';
+      const root = document.querySelector<HTMLElement>('[data-internal-main]');
+      if (root) initInternalMotion(root);
+    </script>
+  </body>
+</html>

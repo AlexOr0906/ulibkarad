@@ -1,0 +1,29 @@
+---
+// Isolated composition of existing shell only. The shared internal layout is B's task.
+import '@/styles/global.css';
+import '@/styles/orthofamily-integration.css';
+import OrthofamilyShell from '@/components/orthofamily/OrthofamilyShell.astro';
+import ClinicHeader from '@/components/header-navigation/ClinicHeader.astro';
+import ClinicFooter from '@/components/contacts-footer/ClinicFooter.astro';
+import IntegratedHeaderMetrics from '@/components/orthofamily/IntegratedHeaderMetrics.astro';
+import AboutPageContent from '@/components/about-clinic/AboutPageContent.astro';
+const base=import.meta.env.BASE_URL;
+const headerLinks=[
+  {label:'О клинике',href:'#ac-top'},
+  {label:'Направления',href:`${base}#of-directions`},
+  {label:'Врачи',href:`${base}#doctors`},
+  {label:'Контакты',href:`${base}#contacts`},
+];
+const footerLinks=[
+  {label:'О клинике',href:'about-clinic-preview/#ac-top'},
+  {label:'Направления',href:'#of-directions'},
+  {label:'Врачи',href:'#doctors'},
+  {label:'Контакты',href:'#contacts'},
+];
+---
+<OrthofamilyShell>
+  <ClinicHeader slot="header" homeHref={base} contactHref={`${base}#contacts`} links={headerLinks} />
+  <IntegratedHeaderMetrics />
+  <AboutPageContent />
+  <ClinicFooter slot="closing" homeHref={base} topHref="#ac-top" navigation={footerLinks} />
+</OrthofamilyShell>

@@ -1,0 +1,46 @@
+---
+import {aboutClinic as content} from '@/data/about-clinic';
+import AboutMedia from './AboutMedia.astro';
+import AboutReveal from './AboutReveal.astro';
+import ArrowIcon from '../ArrowIcon.astro';
+import '@/styles/orthofamily-wordmark.css';
+import '@/styles/about-clinic.css';
+interface Props { homeHref?:string; doctorsHref?:string; contactHref?:string; }
+const base=import.meta.env.BASE_URL;
+const {homeHref=base,doctorsHref=`${base}#doctors`,contactHref=`${base}#contacts`}=Astro.props;
+---
+<article class="ac-page" id="ac-top" data-about-page aria-labelledby="ac-title">
+  <nav class="ac-crumb ac-shell" aria-label="Хлебные крошки"><a href={homeHref}>Главная</a><span aria-hidden="true">/</span><span aria-current="page">{content.breadcrumb}</span></nav>
+  <div class="ac-hero ac-shell">
+    <div class="ac-hero-copy">
+      <AboutReveal kind="type"><h1 id="ac-title">{content.title.map(line=><span>{line}</span>)}</h1></AboutReveal>
+      <AboutReveal>
+        <p class="ac-brand"><span>{content.brand}</span><small>{content.descriptor}</small></p>
+        <p class="ac-introduction">{content.introduction}</p>
+        <div class="ac-actions"><a class="ac-button" href={doctorsHref}>Познакомиться с командой <ArrowIcon /></a><a class="ac-link" href="#ac-approach">О подходе <ArrowIcon class="ac-arrow-down" /></a></div>
+      </AboutReveal>
+      <p class="ac-demo-note">{content.demoNotice}</p>
+    </div>
+    <AboutMedia photo={content.photo} />
+  </div>
+  <section class="ac-story" id="ac-approach" aria-labelledby="ac-approach-title">
+    <div class="ac-shell ac-story-grid">
+      <AboutReveal kind="type"><h2 id="ac-approach-title">{content.approach.title.map(line=><span>{line}</span>)}</h2></AboutReveal>
+      <AboutReveal><div class="ac-story-copy">{content.approach.paragraphs.map(text=><p>{text}</p>)}<p class="ac-story-note">{content.approach.note}</p></div></AboutReveal>
+    </div>
+  </section>
+  <section class="ac-facts ac-shell" aria-labelledby="ac-facts-title">
+    <AboutReveal kind="type"><h2 id="ac-facts-title">{content.factsTitle}</h2></AboutReveal>
+    <dl class="ac-facts-grid">{content.facts.map(fact=><div class="ac-fact"><dt>{fact.label}</dt><dd>{fact.value}{fact.note&&<small>{fact.note}</small>}</dd></div>)}</dl>
+  </section>
+  <section class="ac-next" aria-labelledby="ac-next-title">
+    <div class="ac-shell ac-next-grid">
+      <AboutReveal kind="type"><h2 id="ac-next-title">{content.closing.title.map(line=><span>{line}</span>)}</h2></AboutReveal>
+      <AboutReveal><div class="ac-next-copy"><p>{content.closing.text}</p><div class="ac-actions"><a class="ac-button" href={doctorsHref}>К разделу врачей <ArrowIcon /></a><a class="ac-link" href={contactHref}>Контакты <ArrowIcon /></a></div><p class="ac-demo-note">{content.closing.note}</p></div></AboutReveal>
+    </div>
+  </section>
+</article>
+<script>
+  import {initAboutMotion} from './about-motion';
+  document.querySelectorAll<HTMLElement>('[data-about-page]').forEach(root=>initAboutMotion(root));
+</script>

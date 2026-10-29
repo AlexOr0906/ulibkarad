@@ -12,30 +12,49 @@ const wire='M -180 130 C -50 -100 80 70 234 176 C 355 244 470 280 600 280 C 730 
       <div class="oa-art" role="img" aria-label="Художественная модель: серебряная дуга соединяет семь брекетов на условном зубном ряду. Не схема лечения.">
         <svg viewBox="0 0 1200 520" aria-hidden="true" class="oa-svg">
           <defs>
-            <linearGradient id="oa-enamel" x1="0" y1="0" x2="1" y2=".35"><stop stop-color="#75818b"/><stop offset=".18" stop-color="#d0d9de"/><stop offset=".45" stop-color="#f7f7f2"/><stop offset=".7" stop-color="#e1e5e3"/><stop offset="1" stop-color="#808e96"/></linearGradient>
+            <radialGradient id="oa-enamel" cx=".36" cy=".27" r=".8" gradientTransform="translate(0 -.12) scale(1 1.25)"><stop stop-color="#fffef5"/><stop offset=".34" stop-color="#eeeee3"/><stop offset=".7" stop-color="#c9d0cd"/><stop offset=".9" stop-color="#899a9e"/><stop offset="1" stop-color="#576b74"/></radialGradient>
+            <linearGradient id="oa-enamel-edge" x1="0" y1="0" x2="0" y2="1"><stop offset=".62" stop-color="#d6e6e8" stop-opacity="0"/><stop offset=".93" stop-color="#e5f3f4" stop-opacity=".2"/><stop offset="1" stop-color="#9eb9c2" stop-opacity=".6"/></linearGradient>
+            <radialGradient id="oa-enamel-light" cx=".3" cy=".2" r=".7"><stop stop-color="#fff" stop-opacity=".7"/><stop offset=".45" stop-color="#fff" stop-opacity=".12"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+            <linearGradient id="oa-steel-face" x1="0" y1="0" x2=".28" y2="1"><stop stop-color="#d1dadf"/><stop offset=".12" stop-color="#f8fbfc"/><stop offset=".2" stop-color="#a9b5bd"/><stop offset=".55" stop-color="#6b7b86"/><stop offset=".79" stop-color="#bdc9cf"/><stop offset="1" stop-color="#e7eef1"/></linearGradient>
+            <linearGradient id="oa-steel-side" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#172631"/><stop offset=".28" stop-color="#70838f"/><stop offset=".6" stop-color="#b9c8d0"/><stop offset="1" stop-color="#3b4b56"/></linearGradient>
+            <linearGradient id="oa-steel-bevel" x1="0" y1="0" x2=".1" y2="1"><stop stop-color="#f6fcff"/><stop offset=".35" stop-color="#dae6ed"/><stop offset=".47" stop-color="#738994"/><stop offset="1" stop-color="#283d49"/></linearGradient>
+            <pattern id="oa-machining" width="1.8" height="1.8" patternUnits="userSpaceOnUse"><path d="M0 .3H1.8" stroke="#fff" stroke-opacity=".09" stroke-width=".14"/><path d="M0 1.1H1.8" stroke="#0d1b24" stroke-opacity=".1" stroke-width=".12"/></pattern>
             <linearGradient id="oa-metal" x1="0" y1="0" x2=".65" y2="1"><stop stop-color="#f6ffff"/><stop offset=".14" stop-color="#8c9ba4"/><stop offset=".33" stop-color="#f1f7fa"/><stop offset=".44" stop-color="#c6d2d8"/><stop offset=".51" stop-color="#4d606e"/><stop offset=".73" stop-color="#99abb6"/><stop offset=".87" stop-color="#f5fafb"/><stop offset="1" stop-color="#51636e"/></linearGradient>
             <linearGradient id="oa-edge" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff"/><stop offset=".18" stop-color="#a4b9c6"/><stop offset=".48" stop-color="#304451"/><stop offset=".7" stop-color="#91a8b6"/><stop offset="1" stop-color="#d8e4ea"/></linearGradient>
             <linearGradient id="oa-wire" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#6e8493"/><stop offset=".42" stop-color="#eefaff"/><stop offset=".58" stop-color="#b3c4cf"/><stop offset="1" stop-color="#607582"/></linearGradient>
             <radialGradient id="oa-pool"><stop stop-color="#a1b9c6" stop-opacity=".16"/><stop offset="1" stop-color="#a1b9c6" stop-opacity="0"/></radialGradient>
-            <filter id="oa-shadow" x="-70%" y="-70%" width="240%" height="260%"><feDropShadow dx="0" dy="8" stdDeviation="5" flood-color="#071019" flood-opacity=".65"/></filter>
+            <filter id="oa-shadow" x="-70%" y="-70%" width="240%" height="260%"><feDropShadow dx="0" dy="3" stdDeviation="1.7" flood-color="#071019" flood-opacity=".6"/></filter>
             <g id="oa-bracket">
-              <rect x="-32" y="-35" width="64" height="72" rx="15" fill="#14252f" opacity=".5" transform="translate(0 5)"/>
-              <rect x="-31" y="-36" width="62" height="69" rx="14" fill="url(#oa-edge)" stroke="#b7c9d2" stroke-width=".6"/>
-              <rect x="-25" y="-30" width="50" height="57" rx="10" fill="url(#oa-metal)"/>
-              <path d="M-23 -23 Q0 -31 23 -23 L21 -9 Q0 -4 -21 -9Z M-21 9 Q0 4 21 9 L23 23 Q0 31 -23 23Z" fill="url(#oa-edge)" stroke="#e0eaf0" stroke-width=".65"/>
-              <rect x="-14" y="-21" width="28" height="42" rx="6" fill="url(#oa-metal)" stroke="#f2f8fa" stroke-width=".5"/>
-              <path d="M-30 -4H30V4H-30Z" fill="#21343f"/>
-              <path d="M-29 -5H29M-11 -18V-9M11 9V18" fill="none" stroke="#fbffff" stroke-width="1.2" opacity=".8"/>
-              <path d="M-28 -23Q-26 -32 -17 -32M-22 28H18" fill="none" stroke="#fff" stroke-width="1" opacity=".7"/>
+              <path d="M-31 -28Q0 -36 31 -28L33 25Q0 35 -33 25Z" fill="url(#oa-steel-side)" stroke="#99aab5" stroke-width=".65"/>
+              <path d="M-29 -27Q0 -33 29 -27L30 23Q0 31 -30 23Z" fill="url(#oa-steel-face)"/>
+              <path d="M-28 -26Q0 -32 28 -26L29 22Q0 30 -29 22Z" fill="url(#oa-machining)"/>
+              <path d="M-24 -22H-5V23H-24Z M5 -22H24V23H5Z" fill="#344652"/>
+              <path d="M-20 -25H-9V26H-20Z M9 -25H20V26H9Z" fill="url(#oa-steel-side)"/>
+              {/* Four separate tie wings with undercuts, bevels and a recessed transverse slot. */}
+              {[-1,1].map(x=>[-1,1].map(y=><g transform={`scale(${x} ${y})`}>
+                <path d="M7 8H27L29 25L24 31H10L6 26Z" fill="#253844"/>
+                <path d="M7 6L11 3H25L29 7V24L24 28H10L7 24Z" fill="url(#oa-steel-side)" stroke="#8598a4" stroke-width=".35"/>
+                <path d="M9 7L12 4H24L27 7V22L24 25H12L9 22Z" fill="url(#oa-steel-face)"/>
+                <path d="M9 7L12 4H24L27 7L24 9H12Z" fill="url(#oa-steel-bevel)"/>
+                <path d="M9 7V22L12 25V9Z" fill="#d9e4ea" opacity=".75"/>
+                <path d="M12 9H24V23H12Z" fill="url(#oa-machining)"/>
+                <path d="M12 25H24L27 22" fill="none" stroke="#1c303d" stroke-width=".8"/>
+                <path d="M10 7L12 5H24" fill="none" stroke="#fff" stroke-width=".55" opacity=".9"/>
+              </g>))}
+              <path d="M-30 -3.3H30V3.3H-30Z" fill="#13232e"/>
+              <path d="M-29 -3.6H29" stroke="#f5fbff" stroke-width=".7"/>
+              <path d="M-29 4H29" stroke="#607782" stroke-width=".7"/>
+              <path d="M-4 -24V-7M4 8V24" stroke="#1e323f" stroke-width=".8"/>
+              <circle cx="-3" cy="19" r="1" fill="#334b59"/><circle cx="-3.2" cy="18.8" r=".4" fill="#b0c1cb"/>
             </g>
           </defs>
           <ellipse cx="600" cy="290" rx="550" ry="220" fill="url(#oa-pool)"/>
           <g data-oa-camera>
-            <g data-oa-teeth>{teeth.map(t=><g transform={`translate(${t.x} ${t.y}) rotate(${t.r}) scale(${t.s})`}><path d="M-54 -67 C-57 -110 -31 -116 0 -109 C31 -116 57 -110 54 -67 L48 43 Q46 72 26 78 Q0 83 -26 78 Q-46 72 -48 43Z" fill="url(#oa-enamel)" stroke="#d9e2e5" stroke-opacity=".4"/><path d="M-38 -83 Q-17 -99 3 -94" stroke="#fff" opacity=".6" stroke-width="3" fill="none"/><path d="M-37 56Q0 69 37 56" stroke="#fff" opacity=".35" stroke-width="2" fill="none"/></g>)}</g>
+            <g data-oa-teeth>{teeth.map((t,i)=>{const contour=Math.abs(i-3)>1?'M-46 -66C-47 -91 -28 -106 -5 -108C21 -109 44 -90 48 -65L50 37Q49 63 28 73Q5 81 -22 74Q-47 68 -49 44Z':'M-49 -65C-47 -102 -25 -109 0 -106C29 -111 48 -96 50 -65L51 43Q52 68 35 74Q9 79 -31 75Q-51 72 -52 49Z';return <g transform={`translate(${t.x} ${t.y}) rotate(${t.r}) scale(${t.s})`}><path d={contour} fill="url(#oa-enamel)" stroke="#dce3dd" stroke-opacity=".22" stroke-width=".65"/><path d={contour} fill="url(#oa-enamel-edge)"/><path d="M-36 -66Q-38 -87 -21 -91Q-9 -90 -15 -68L-20 17Q-25 37 -34 22Z" fill="url(#oa-enamel-light)"/><path d="M-43 59Q-12 71 36 65" fill="none" stroke="#eff5ed" opacity=".18" stroke-width=".7"/></g>})}</g>
             {teeth.map((t,i)=><g transform={`translate(${t.x} ${t.y}) rotate(${t.r}) scale(${t.s})`}><g data-oa-bracket data-index={i} filter="url(#oa-shadow)"><use href="#oa-bracket"/></g></g>)}
-            <path d={wire} fill="none" stroke="#101e28" stroke-width="8" opacity=".55" transform="translate(0 4)" data-oa-wire-shadow/>
-            <path d={wire} fill="none" stroke="url(#oa-wire)" stroke-width="4" stroke-linecap="round" data-oa-wire/>
-            <path d={wire} fill="none" stroke="#fff" stroke-opacity=".62" stroke-width=".8" transform="translate(0 -1)" data-oa-wire-highlight/>
+            <path d={wire} fill="none" stroke="#101e28" stroke-width="4" opacity=".45" transform="translate(0 1.8)" data-oa-wire-shadow/>
+            <path d={wire} fill="none" stroke="url(#oa-wire)" stroke-width="2.6" stroke-linecap="round" data-oa-wire/>
+            <path d={wire} fill="none" stroke="#fff" stroke-opacity=".75" stroke-width=".55" transform="translate(0 -.65)" data-oa-wire-highlight/>
             <path d="M1020 600V5000" fill="none" stroke="#c9dbe5" stroke-width="2" data-oa-tail/>
           </g>
         </svg>

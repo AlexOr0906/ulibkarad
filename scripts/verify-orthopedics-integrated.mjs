@@ -28,6 +28,12 @@ try {
   assert.ok((await page.locator('.or-facts').innerText()).includes('Сведения будут добавлены после получения от клиники'));
   if(mode!=='nojs'){assert.equal(await page.locator('[data-or-scene]').getAttribute('data-or-ready'),'true');assert.equal(await page.evaluate(()=>new Set(window.__sceneSubscriptions).size===window.__sceneSubscriptions.length),true);}
   await page.screenshot({path:`${out}/${width}-${mode}-opening.png`});
+  if(mode==='normal'){
+   await page.emulateMedia({reducedMotion:'reduce'});await page.waitForTimeout(100);
+   await page.emulateMedia({reducedMotion:'no-preference'});await page.waitForTimeout(100);
+   const geometry=await page.locator('[data-or-scene]').evaluate(e=>({span:+e.dataset.orSpan,actual:e.offsetHeight-e.querySelector('.or-scene-panel').offsetHeight}));
+   assert.ok(geometry.span>=400&&Math.abs(geometry.span-geometry.actual)<2,JSON.stringify(geometry));
+  }
   const range=await page.locator('[data-or-scene]').evaluate(e=>({start:+(e.dataset.orStart||0),span:+(e.dataset.orSpan||1)})),states=[];
   for(const progress of [0,.5,1,.85,.5,0]) {
    await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),range.start+range.span*progress);await page.waitForTimeout(100);

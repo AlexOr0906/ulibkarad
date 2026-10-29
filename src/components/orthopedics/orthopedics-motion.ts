@@ -19,10 +19,12 @@ export function initOrthopedicsScene(root:HTMLElement):()=>void {
   function update(){frame=0;const p=reduced.matches?1:clamp((scrollY-start)/span);if(Math.abs(p-last)<.0001)return;last=p;render(p);}
   function queue(){if(!frame)frame=requestAnimationFrame(update);}
   function measure(){
+    // Apply the mode before reading geometry: reduced mode has no scroll spacer.
+    root.dataset.orMotion=reduced.matches?'reduced':'scroll';
     const header=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--of-header-height'))||89;
     start=Math.max(0,root.getBoundingClientRect().top+scrollY-header-20);
     span=Math.max(1,root.offsetHeight-panel.offsetHeight);
-    root.dataset.orMotion=reduced.matches?'reduced':'scroll';root.dataset.orStart=String(start);root.dataset.orSpan=String(span);last=-1;queue();
+    root.dataset.orStart=String(start);root.dataset.orSpan=String(span);last=-1;queue();
   }
   addEventListener('scroll',queue,{passive:true,signal:abort.signal});addEventListener('resize',measure,{passive:true,signal:abort.signal});addEventListener('of-header-resize',measure,{signal:abort.signal});
   addEventListener('pageshow',measure,{signal:abort.signal});reduced.addEventListener('change',measure,{signal:abort.signal});document.fonts.ready.then(()=>{if(!abort.signal.aborted)measure();});measure();

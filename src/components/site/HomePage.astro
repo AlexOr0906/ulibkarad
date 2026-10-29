@@ -19,7 +19,7 @@ const homeNavigation=nav.navigation.map(link => ({...link,href:link.href.startsW
   <ClinicHeader slot="header" homeHref={nav.home} contactHref="#of-visit" links={homeNavigation} activeHref={nav.home} />
   <IntegratedHeaderMetrics />
   <OrthofamilyIntro />
-  <OrthofamilyDirections />
+  <OrthofamilyDirections orthopedicsHref={nav.orthopedics} />
   <Doctors showDivider={false} generalClinic />
   <div id="of-visit" tabindex="-1"><ContactsSection /></div>
   <ClinicFooter slot="closing" homeHref={nav.home} topHref="#of-top" navigation={nav.footerNavigation} activeHref={nav.home} />

@@ -1,4 +1,5 @@
 import { initInternalMotion } from './internal-motion';
+import {initOrthopedicsScene,initOrthopedicsContent} from '../orthopedics/orthopedics-motion';
 import { initAboutMotion } from '../about-clinic/about-motion';
 
 const pages = new WeakMap<HTMLElement, () => void>();
@@ -10,6 +11,8 @@ export function initInternalPage(root: HTMLElement): () => void {
   root.querySelectorAll<HTMLElement>('[data-about-page]:not([data-ac-auto-motion])').forEach(about => {
     disposers.push(initAboutMotion(about));
   });
+  root.querySelectorAll<HTMLElement>('[data-or-scene]:not([data-or-auto-motion])').forEach(scene => disposers.push(initOrthopedicsScene(scene)));
+  root.querySelectorAll<HTMLElement>('[data-or-content]:not([data-or-auto-motion])').forEach(content => disposers.push(initOrthopedicsContent(content)));
   const controller = new AbortController();
   const cleanup = () => {
     if (pages.get(root) !== cleanup) return;

@@ -33,7 +33,7 @@ const {homeHref=base,contactHref=`${base}#contacts`}=Astro.props;
           <div class="pa-section-body">
             <p class="pa-intro">Здесь будут собраны основные сведения об OrthoFamily.</p>
             <dl class="pa-facts">{clinicInformation.map(item=><div><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl>
-            <a class="ip-link" href={`${homeHref}#of-about`}>Познакомиться с клиникой <ArrowIcon /></a>
+            <a class="ip-link" href={`${homeHref}about/`}>Познакомиться с клиникой <ArrowIcon /></a>
           </div>
         </section>
         <section class="pa-license" id="pa-license" tabindex="-1" aria-labelledby="pa-license-title">

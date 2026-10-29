@@ -10,7 +10,7 @@ export const contactDetails: ClinicContacts = {
   city: 'Магнитогорск', address: null, phone: null, hours: null, email: null,
 };
 export const informationDocuments: { title: string; href: string | null }[] = [
-  { title: 'Информация для пациентов', href: null },
+  { title: 'Информация для пациентов', href: 'patients/' },
   { title: 'Политика обработки персональных данных', href: null },
   { title: 'Лицензия и сведения о клинике', href: null },
 ];

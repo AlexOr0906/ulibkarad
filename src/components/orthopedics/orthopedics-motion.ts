@@ -47,10 +47,10 @@ function initHumanScene(root:HTMLElement):()=>void {
     root.style.setProperty('--or-human-bottom',`${crop.bottom*closed}%`);
     root.style.setProperty('--or-human-left',`${crop.left*closed}%`);
     root.style.setProperty('--or-human-radius',`${28*closed}px`);
-    root.style.setProperty('--or-human-scale',String(1+.025*closed));
+    root.style.setProperty('--or-human-scale',String(1+.35*closed));
     root.style.setProperty('--or-human-copy-y',`${(phone.matches?6:18)*closed}px`);
     root.style.setProperty('--or-human-copy-opacity',String(.85+.15*reveal));
-    root.dataset.orProgress=p.toFixed(4);root.dataset.orScale=(1+.025*closed).toFixed(4);root.dataset.orHumanReveal=reveal.toFixed(4);
+    root.dataset.orProgress=p.toFixed(4);root.dataset.orScale=(1+.35*closed).toFixed(4);root.dataset.orHumanReveal=reveal.toFixed(4);
   }
   function update(){frame=0;const p=reduced.matches?1:clamp((scrollY-start)/span);if(Math.abs(p-last)<.0001)return;last=p;render(p);}
   function queue(){if(!frame)frame=requestAnimationFrame(update);}
@@ -60,8 +60,10 @@ function initHumanScene(root:HTMLElement):()=>void {
     // Map the smile's focal point through object-fit:cover instead of assuming one viewport ratio.
     const w=photo.clientWidth,h=photo.clientHeight,nw=image.naturalWidth||1536,nh=image.naturalHeight||1024;
     const fit=Math.max(w/nw,h/nh),position=getComputedStyle(image).objectPosition.split(' ').map(v=>parseFloat(v)/100);
-    const cx=(nw*.72*fit+(w-nw*fit)*(position[0]||0))/Math.max(1,w),cy=(nh*.54*fit+(h-nh*fit)*(position[1]||0))/Math.max(1,h);
-    const halfWidth=phone.matches?.23:.145,halfHeight=phone.matches?.12:.11;
+    const cx=(nw*.68*fit+(w-nw*fit)*(position[0]||0))/Math.max(1,w),cy=(nh*.495*fit+(h-nh*fit)*(position[1]||0))/Math.max(1,h);
+    // Zoom around the teeth themselves, so the smile stays centred inside the aperture.
+    root.style.setProperty('--or-human-origin',`${cx*100}% ${cy*100}%`);
+    const halfWidth=Math.min(.42,nw*.105*fit/Math.max(1,w)),halfHeight=Math.min(.3,nh*.075*fit/Math.max(1,h));
     crop={top:clamp(cy-halfHeight)*100,right:clamp(1-cx-halfWidth)*100,bottom:clamp(1-cy-halfHeight)*100,left:clamp(cx-halfWidth)*100};
     const header=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--of-header-height'))||89;
     start=Math.max(0,root.getBoundingClientRect().top+scrollY-header-(phone.matches?12:20));

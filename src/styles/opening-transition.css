@@ -1,5 +1,6 @@
 /* Opening only: three photographic/material planes on native scroll. */
 .of-opening-transition { overflow-x:clip; }
+.of-object-surface { width:100%; height:100%; }
 .of-opening-transition .of-scene-ground { background:var(--of-dark); overflow:hidden; }
 .of-opening-transition .of-scene-ground::before { content:''; position:absolute; top:0; left:-2vw; width:104vw; height:calc(var(--of-hero-height) + var(--of-transition)); background:linear-gradient(130deg,#fff 0%,#eef1f3 60%,#dce1e5 100%); border-radius:0 0 48% 0; transform:translate3d(var(--of-paper-x,0vw),var(--of-paper-y,0px),0); will-change:transform; }
 .of-opening-transition .of-scene-stage::before { content:''; position:absolute; width:42%; height:66%; right:0; top:17%; border-radius:50%; background:radial-gradient(ellipse at 35% 26%,#fff 0%,#e5e9ec 60%,#bbc4cb 100%); box-shadow:inset -1px -1px 0 rgb(255 255 255 / .5); transform:translateY(var(--of-orbit-y,0px)) scale(var(--of-orbit-scale,1)); }
@@ -11,12 +12,15 @@
  .of-opening-transition .of-scene-stage::before { width:86%; height:80%; right:7%; top:10%; transform:none; }
  .of-opening-transition .of-photo-main { inset:24px 16px auto; width:calc(100% - 32px); height:calc(100% - 48px); max-height:none; aspect-ratio:auto; --of-center-y:0%; transform:none; will-change:auto; }
  .of-opening-transition .of-photo-main::after { display:none; }
- .of-opening-transition[data-of-motion='phone'] .of-photo-main img { animation:of-phone-arrival 650ms cubic-bezier(.2,.7,.2,1) both; }
+ .of-opening-transition[data-of-motion='phone'][data-of-phone-reveal='entered'] .of-photo-main img { animation:of-phone-arrival 1200ms cubic-bezier(.2,.7,.2,1) both; }
+ .of-opening-transition[data-of-motion='phone'][data-of-phone-reveal='entered'] .of-object-surface { animation:of-phone-float 6s ease-in-out 1200ms infinite; animation-play-state:var(--of-phone-play,running); transform-origin:50% 60%; }
 }
-@keyframes of-phone-arrival { from { opacity:.65; transform:translateY(8px); } to { opacity:1; transform:none; } }
+@keyframes of-phone-arrival { from { opacity:.3; transform:translateY(30px) scale(.84) rotate(-7deg); } to { opacity:1; transform:none; } }
+@keyframes of-phone-float { 0%,100% { transform:translateY(0) rotate(0deg); } 35% { transform:translateY(-10px) rotate(2deg); } 70% { transform:translateY(3px) rotate(-1.5deg); } }
 @media (prefers-reduced-motion:reduce) {
  .of-opening-transition .of-scene-ground::before,.of-opening-transition .of-scene-stage::before { transform:none; will-change:auto; }
  .of-opening-transition .of-photo-main { will-change:auto; }
  .of-opening-transition .of-photo-main::after { display:none; }
  .of-opening-transition .of-photo-main img { animation:none !important; }
+ .of-opening-transition .of-object-surface { animation:none !important; }
 }

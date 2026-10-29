@@ -83,6 +83,7 @@ html[data-team-transition]::view-transition-old(root) { animation: none; opacity
 html[data-team-transition]::view-transition-new(root) { animation: none; }
 
 /* Scroll Craft flow/in entrance. Only this section owns these masks. */
+.doctors-entrance [data-phone-reveal='armed'] .doctor-portrait { clip-path:inset(0 0 100% 0); transform:translateY(26px) scale(.96); opacity:.25; }
 .doctors-entrance [data-team-heading] .heading-word { transform: none; transition: none; }
 .doctors-entrance [data-team-heading].team-entry-armed h2 { clip-path: inset(0 0 100% 0); transform: translateY(14px); }
 .doctors-entrance [data-team-rail].team-entry-armed .doctor-portrait { clip-path: inset(0 0 100% 0); transform: translateY(14px); }

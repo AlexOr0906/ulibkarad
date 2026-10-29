@@ -53,6 +53,29 @@
     document.fonts.ready.then(measure);
     measure();
 
+    // Time-based phone choreography: scrolling never changes the object's pose.
+    const object = intro.querySelector<HTMLElement>('[data-of-main-photo]')!;
+    let objectVisible = false, phoneRevealPending = false;
+    function revealPhoneObject(visible: boolean) {
+      objectVisible = visible;
+      if (phone.matches && !reduced.matches && visible && !intro.dataset.ofPhoneReveal && !phoneRevealPending) {
+        phoneRevealPending = true;
+        object.querySelector<HTMLImageElement>('img')!.decode().catch(() => {}).then(() => {
+          phoneRevealPending = false;
+          if (phone.matches && !reduced.matches && objectVisible) intro.dataset.ofPhoneReveal = 'entered';
+        });
+      }
+      intro.style.setProperty('--of-phone-play', visible && !document.hidden ? 'running' : 'paused');
+    }
+    if ('IntersectionObserver' in window) {
+      const objectObserver = new IntersectionObserver(entries => entries.forEach(entry => revealPhoneObject(entry.isIntersecting && entry.intersectionRatio >= .2)), {threshold:.2});
+      objectObserver.observe(object);
+    } else revealPhoneObject(true);
+    document.addEventListener('visibilitychange', () => {
+      const rect = object.getBoundingClientRect();
+      revealPhoneObject(rect.bottom > 0 && rect.top < innerHeight);
+    });
+
     const cards = [...document.querySelectorAll<HTMLDetailsElement>('[data-of-direction]')];
     const animations = new Map<HTMLDetailsElement, Animation>();
     const targets = new Map<HTMLDetailsElement, boolean>();

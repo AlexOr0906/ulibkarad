@@ -4,6 +4,7 @@ export function initDoctorsEntrance() {
   if (!section) return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const phone = matchMedia('(max-width: 767px)');
+  if (phone.matches) { initPhoneDoctorsEntrance(section, reduced); return; }
   const heading = section.querySelector<HTMLElement>('[data-team-heading]')!;
   const rail = section.querySelector<HTMLElement>('[data-team-rail]')!;
   const runs = new Map<HTMLElement, Animation[]>();
@@ -82,4 +83,46 @@ export function initDoctorsEntrance() {
     });
   }
   document.addEventListener('visibilitychange', () => { if (document.hidden) targets.forEach(settle); });
+}
+
+/** Each phone card enters when its unclipped wrapper becomes visible. */
+function initPhoneDoctorsEntrance(section: HTMLElement, reduced: MediaQueryList) {
+  const cards = [...section.querySelectorAll<HTMLElement>('[data-doctor-card]')];
+  const runs = new Map<HTMLElement, Animation>();
+  function portrait(card: HTMLElement) { return card.querySelector<HTMLElement>('.doctor-portrait')!; }
+  function finish(card: HTMLElement) {
+    card.dataset.phoneReveal = 'complete';
+    runs.get(card)?.cancel(); runs.delete(card);
+  }
+  async function enter(card: HTMLElement) {
+    if (card.dataset.phoneReveal !== 'armed') return;
+    if (reduced.matches) { finish(card); return; }
+    await portrait(card).querySelector<HTMLImageElement>('img')!.decode().catch(() => {});
+    if (card.dataset.phoneReveal !== 'armed') return;
+    card.dataset.phoneReveal = 'playing';
+    const animation = portrait(card).animate([
+      {clipPath:'inset(0 0 100% 0)',transform:'translateY(26px) scale(.96)',opacity:.25},
+      {clipPath:'inset(0 0 0% 0)',transform:'translateY(0) scale(1)',opacity:1},
+    ], {duration:1100,easing:'cubic-bezier(.2,.65,.25,1)',fill:'both'});
+    runs.set(card, animation);
+    animation.finished.then(() => { if (runs.get(card) === animation) finish(card); }).catch(() => {});
+  }
+  if (reduced.matches || !('IntersectionObserver' in window) || !('animate' in Element.prototype)) { cards.forEach(finish); return; }
+  cards.forEach(card => { card.dataset.phoneReveal = 'armed'; });
+  const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+    if (entry.isIntersecting && entry.intersectionRatio >= .15) { void enter(entry.target as HTMLElement); observer.unobserve(entry.target); }
+  }), {threshold:.15,rootMargin:'0px 0px -24px 0px'});
+  cards.forEach(card => observer.observe(card));
+  // A swipe over the section is not an instruction to cancel its entrance.
+  section.addEventListener('click', event => {
+    if (!(event.target instanceof Element) || !event.target.closest('a,button')) return;
+    const card = event.target.closest<HTMLElement>('[data-doctor-card]');
+    if (card) finish(card);
+  }, {capture:true});
+  section.addEventListener('focusin', event => {
+    const card = event.target instanceof Element ? event.target.closest<HTMLElement>('[data-doctor-card]') : null;
+    if (card && event.target instanceof Element && event.target.matches(':focus-visible')) finish(card);
+  });
+  reduced.addEventListener('change', () => { if (reduced.matches) cards.forEach(finish); });
+  window.addEventListener('pageshow', event => { if (event.persisted) cards.forEach(finish); });
 }

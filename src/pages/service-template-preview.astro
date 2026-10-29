@@ -1,0 +1,40 @@
+---
+import InternalPageLayout from '@/layouts/InternalPageLayout.astro';
+import ServicePageContent from '@/components/services/ServicePageContent.astro';
+import {serviceTemplateDemo,minimalServiceDemo,overrideServiceDemo} from '@/data/service-template-demo';
+import {clinicConfirmed} from '@/data/clinic-confirmed';
+import {siteNavigation} from '@/data/site-preview-navigation';
+const nav=siteNavigation(import.meta.env.BASE_URL);
+---
+<InternalPageLayout title="Шаблон страницы услуги" description="Изолированный прототип общего шаблона услуг OrthoFamily. Медицинские материалы ожидаются." navigation={nav.navigation} footerNavigation={nav.footerNavigation}>
+  <ServicePageContent data={serviceTemplateDemo} idPrefix="sv-demo">
+    <div slot="scene" class="st-scene-placeholder"><div class="st-shell"><span>Отдельный визуальный слот</span><p>Место индивидуальной сцены.</p><span>Нейтральная заготовка. Сцена ортопедии сюда не перенесена.</span></div></div>
+  </ServicePageContent>
+  <aside class="st-checks st-shell" aria-label="Проверочные варианты шаблона">
+    <p class="st-note">Проверочные варианты общего шаблона</p>
+    <details id="st-minimal"><summary>Без необязательных материалов</summary><div class="st-fixture"><ServicePageContent data={minimalServiceDemo} idPrefix="sv-minimal" headingLevel="h2" /></div></details>
+    <details id="st-override"><summary>С автономным телом услуги</summary><div class="st-fixture"><ServicePageContent data={overrideServiceDemo} idPrefix="sv-custom" headingLevel="h2"><section class="st-custom-content" data-test-custom-body><h3>Содержимое отдельного компонента</h3><p>Этот демонстрационный блок заменяет стандартное тело. Описание, врачи, стоимость и CTA из данных повторно не выводятся.</p></section></ServicePageContent></div></details>
+    <div class="st-confirmed"><p>{clinicConfirmed.legalName}</p><p>{clinicConfirmed.paymentLabel}</p><p>Лицензия: {clinicConfirmed.licence.label.toLowerCase()}.</p></div>
+  </aside>
+</InternalPageLayout>
+<style>
+ .st-shell { width:min(calc(100% - 7rem),90rem); margin-inline:auto; }
+ .st-scene-placeholder { background:linear-gradient(125deg,#e0e5e9,#f5f6f6); color:#596770; padding:40px 0; }
+ .st-scene-placeholder .st-shell { min-height:180px; display:flex; flex-direction:column; justify-content:space-between; gap:24px; }
+ .st-scene-placeholder span { font-size:.75rem; line-height:1.8; }
+ .st-scene-placeholder p { font-size:clamp(1.7rem,3.5vw,3.6rem); line-height:1.2; letter-spacing:-.04em; font-weight:300; color:#596770; max-width:20ch; }
+ .st-checks { padding-bottom:64px; }
+ .st-note { font-size:.8rem; color:#596770; margin-bottom:24px; }
+ .st-checks details { border-top:1px solid #c9cdd1; }
+ .st-checks summary { min-height:56px; padding:16px 0; cursor:pointer; font-size:.9rem; }
+ .st-fixture { border:1px solid #c9cdd1; margin:0 0 24px; }
+ .st-fixture :global(.sv-shell) { width:calc(100% - 48px); }
+ .st-fixture :global(.sv-hero) { padding-top:32px; }
+ .st-fixture :global(.sv-hero h2) { font-size:clamp(2rem,4vw,4rem); }
+ .st-custom-content { padding:24px; background:#e2e7ea; }
+ .st-custom-content h3 { font-size:1.4rem; margin-bottom:16px; }
+ .st-custom-content p { max-width:60ch; font-size:.9rem; line-height:1.9; }
+ .st-confirmed { border-top:1px solid #c9cdd1; margin-top:32px; padding-top:24px; color:#596770; font-size:.75rem; line-height:1.9; }
+ @media(max-width:1100px) and (min-width:768px) { .st-shell { width:calc(100% - 4rem); } }
+ @media(max-width:767px) { .st-shell { width:calc(100% - 2rem); } .st-fixture :global(.sv-shell) { width:calc(100% - 32px); } .st-scene-placeholder { padding:28px 0; } }
+</style>

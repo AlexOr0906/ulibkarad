@@ -4,6 +4,6 @@ import '@/styles/reading-mode.css';
 ---
 <script is:inline>
 document.documentElement.dataset.siteJs='true';
-function restoreReading(){try{const r=JSON.parse(localStorage.getItem('of-reading')||'null');document.documentElement.dataset.reading=r?.enabled?'on':'off';if(r?.enabled){document.documentElement.dataset.textSize=['normal','large','largest'].includes(r.size)?r.size:'large';document.documentElement.dataset.contrast=['light','dark','cream'].includes(r.contrast)?r.contrast:'light';}}catch{}}
+function restoreReading(){try{const r=JSON.parse(localStorage.getItem('of-reading')||'null');document.documentElement.dataset.reading=r?.enabled?'on':'off';document.documentElement.dataset.textSize=['normal','large','largest'].includes(r?.size)?r.size:'normal';document.documentElement.dataset.contrast=['light','dark','cream'].includes(r?.contrast)?r.contrast:'light';}catch{}}
 restoreReading();window.addEventListener('pageshow',restoreReading);window.addEventListener('storage',restoreReading);
 </script>

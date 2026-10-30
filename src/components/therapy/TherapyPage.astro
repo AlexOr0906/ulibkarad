@@ -2,6 +2,7 @@
 import InternalPageLayout from '@/layouts/InternalPageLayout.astro';
 import ServicePageContent from '@/components/services/ServicePageContent.astro';
 import ArrowIcon from '@/components/ArrowIcon.astro';
+import TherapyStoryboard from '@/components/therapy-scenes/TherapyStoryboard.astro';
 import ServiceEditorial from '@/components/services/ServiceEditorial.astro';
 import {therapyPage,type TherapyAudience} from '@/data/therapy';
 import {siteNavigation} from '@/data/site-preview-navigation';
@@ -9,22 +10,11 @@ import '@/styles/therapy.css';
 interface Props {audience:TherapyAudience;}
 const base=import.meta.env.BASE_URL;
 const data=therapyPage(Astro.props.audience,base),nav=siteNavigation(base);
-const id=`sv-${data.service.id}`;
 ---
 <InternalPageLayout title={data.service.title} description={data.service.lead!} homeHref={nav.home} contactHref={nav.contactHref} navigation={nav.navigation} footerNavigation={nav.footerNavigation} transitionHrefs={nav.transitionHrefs}>
   <div class:list={['th-page',`th-${data.audience}`]}>
     <ServicePageContent data={data.service} showContext={false}>
-      <section slot="scene" class="th-introduction" aria-labelledby={`${id}-introduction`}>
-        <div class="th-introduction-copy">
-          <h2 id={`${id}-introduction`} data-ip-enter data-ip-mask>{data.visual.title.map(line=><span>{line}</span>)}</h2>
-          <p data-ip-enter data-ip-delay="60">{data.visual.text}</p>
-          <a class="th-link" href={`#${id}-description`}>О направлении <ArrowIcon /></a>
-        </div>
-        <figure class="th-media" data-ip-enter data-ip-mask data-ip-delay="100">
-          {data.visual.image?<img src={`${base}${data.visual.image.src}`} alt={data.visual.image.alt} width="640" height="800" decoding="async" />:<div class="th-family-visual" aria-hidden="true"><span class="th-family-orbit th-family-orbit-one"></span><span class="th-family-orbit th-family-orbit-two"></span><div class="th-family-disc"><img src={`${base}brand/logo-chrome.svg`} alt="" width="921" height="960" /></div><span class="th-family-light"></span></div>}
-          {data.visual.image&&<figcaption>AI-иллюстрация.</figcaption>}
-        </figure>
-      </section>
+      <TherapyStoryboard slot="scene" audience={data.audience} />
       {data.audience==='children'&&<nav class="th-family-paths" aria-label="Продолжить знакомство"><a href={`${base}#doctors`}><span>Команда</span><ArrowIcon /></a><a href={`${base}#contacts`}><span>Контакты</span><ArrowIcon /></a></nav>}
       <ServiceEditorial service={data.audience==='adult'?'adult-therapy':'children-therapy'} />
     </ServicePageContent>

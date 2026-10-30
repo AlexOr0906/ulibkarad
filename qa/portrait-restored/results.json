@@ -1,0 +1,65 @@
+{
+  "originalReference": "17cda01",
+  "cases": [
+    {
+      "width": 320,
+      "mode": "normal",
+      "passed": true
+    },
+    {
+      "width": 320,
+      "mode": "reduced",
+      "passed": true
+    },
+    {
+      "width": 320,
+      "mode": "nojs",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "mode": "normal",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "mode": "reduced",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "mode": "nojs",
+      "passed": true
+    },
+    {
+      "width": 768,
+      "mode": "normal",
+      "passed": true
+    },
+    {
+      "width": 768,
+      "mode": "reduced",
+      "passed": true
+    },
+    {
+      "width": 768,
+      "mode": "nojs",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "mode": "normal",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "mode": "reduced",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "mode": "nojs",
+      "passed": true
+    }
+  ]
+}

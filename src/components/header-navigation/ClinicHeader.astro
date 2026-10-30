@@ -5,18 +5,19 @@ import '../../styles/header-navigation.css';
 interface Props { theme?: 'light' | 'dark'; links?: HeaderLink[]; instanceId?: string; homeHref?: string; contactHref?: string; activeHref?: string; }
 const { theme = 'light', links = headerLinks, instanceId = 'orthofamily-header', homeHref = '#top', contactHref = '#contacts', activeHref } = Astro.props;
 const base = import.meta.env.BASE_URL;
+const fullLinks=[...links,{label:'Поиск',href:`${base}search/`},{label:'Чтение',href:`${base}accessibility/`}];
 ---
 <header class="hn-header" data-hn-header data-theme={theme}>
   <div class="hn-wrap">
     <div class="hn-bar">
       <a class="hn-brand" href={homeHref} aria-current={homeHref === activeHref ? 'page' : undefined} aria-label="OrthoFamily: в начало страницы"><img src={`${base}brand/logo-chrome.svg`} alt="" width="921" height="960" /><span>OrthoFamily<small>Стоматология для всей семьи</small></span></a>
-      <nav class="hn-desktop" aria-label="Основная навигация"><ul>{links.map(link => <li><a href={link.href} aria-current={link.href === activeHref ? 'page' : undefined}>{link.label}</a></li>)}</ul></nav>
+      <nav class="hn-desktop" aria-label="Основная навигация"><ul>{fullLinks.map(link => <li><a href={link.href} aria-current={link.href === activeHref ? 'page' : undefined}>{link.label}</a></li>)}</ul></nav>
       <a class="hn-cta" href={contactHref} aria-label="Обсудить визит: перейти к контактам"><span class="hn-cta-full">Обсудить визит</span><span class="hn-cta-short" aria-hidden="true">Связаться</span><ArrowIcon /></a>
     </div>
     <details class="hn-disclosure" data-hn-disclosure>
       <summary class="hn-toggle" aria-controls={`${instanceId}-panel`}><span class="hn-toggle-label">Меню</span><span class="hn-toggle-lines" aria-hidden="true"></span></summary>
       <div class="hn-panel" id={`${instanceId}-panel`}>
-        <nav aria-label="Мобильная навигация"><ul>{links.map(link => <li><a href={link.href} aria-current={link.href === activeHref ? 'page' : undefined}>{link.label}<ArrowIcon /></a></li>)}</ul></nav>
+        <nav aria-label="Мобильная навигация"><ul>{fullLinks.map(link => <li><a href={link.href} aria-current={link.href === activeHref ? 'page' : undefined}>{link.label}<ArrowIcon /></a></li>)}</ul></nav>
         <div class="hn-panel-bottom"><p class="hn-panel-brand">OrthoFamily<br /><span>Магнитогорск</span></p><a class="hn-panel-contact" href={contactHref}>Обсудить визит <ArrowIcon /></a></div>
         <p class="hn-panel-note">Контакты уточняются. Запись через сайт пока недоступна.</p>
       </div>

@@ -96,3 +96,4 @@ html[data-team-transition]::view-transition-new(root) { animation: none; }
 }
 
 .doctors-section .team-entrance-replay { min-height: 44px; padding: .5rem 1rem; border: 1px solid #8f989f; font-size: .75rem; cursor: pointer; }
+.doctor-information:not(:empty){margin-top:24px}.doctor-information>div{border-top:1px solid #aab5bb;padding:12px 0;font-size:.8rem;line-height:1.8}.doctor-information dt{font-weight:600}.doctor-information dd{margin:4px 0 0;overflow-wrap:anywhere}

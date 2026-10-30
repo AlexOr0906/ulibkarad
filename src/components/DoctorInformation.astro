@@ -1,0 +1,7 @@
+---
+import {doctorInformationRows,type DoctorInformation} from '@/data/doctor-information';
+interface Props {information?:DoctorInformation|null;}
+const rows=doctorInformationRows(Astro.props.information);
+---
+{rows.length>0&&<dl class="doctor-information">{rows.map(row=><div><dt>{row.label}</dt><dd>{row.value}</dd></div>)}</dl>}
+<style>.doctor-information{margin-top:24px}.doctor-information>div{border-top:1px solid #aab5bb;padding:12px 0;font-size:.8rem;line-height:1.8}.doctor-information dt{font-weight:600}.doctor-information dd{margin:4px 0 0;overflow-wrap:anywhere}</style>

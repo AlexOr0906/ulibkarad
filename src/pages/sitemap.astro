@@ -1,0 +1,9 @@
+---
+import InternalPageLayout from '@/layouts/InternalPageLayout.astro';
+import {siteNavigation} from '@/data/site-preview-navigation';
+import {sitePages} from '@/data/site-pages';
+const base=import.meta.env.BASE_URL,nav=siteNavigation(base);
+---
+<InternalPageLayout title="Карта сайта" description="Семь основных страниц OrthoFamily." homeHref={nav.home} contactHref={nav.contactHref} navigation={nav.navigation} footerNavigation={nav.footerNavigation} transitionHrefs={nav.transitionHrefs}>
+ <div class="sf-shell"><nav class="sf-crumbs" aria-label="Хлебные крошки"><a href={base}>Главная</a> / Карта сайта</nav><h1>Карта сайта</h1><p class="sf-lead">Все основные страницы — в одном месте.</p><nav aria-label="Карта сайта"><ul class="sf-page-list">{sitePages.map(page=><li><a href={`${base}${page.path}`}>{page.title}</a><p>{page.description}</p></li>)}</ul></nav><p><a href={`${base}#doctors`}>Команда</a> и <a href={`${base}#contacts`}>контакты</a> находятся на главной странице.</p></div>
+</InternalPageLayout>

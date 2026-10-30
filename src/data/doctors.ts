@@ -1,8 +1,10 @@
+import type {DoctorInformation} from './doctor-information';
 export interface DoctorProfile {
   id: string;
   name: string | null;
   specialty: string | null;
   summary: string | null;
+  professionalInformation?: DoctorInformation | null;
   portrait: { src: string; alt: string; position?: string; srcSet?: string; width?: number; height?: number } | null;
   /** Optional approved, silent video portrait; paths relative to public/. */
   video?: { src: string; type?: string };

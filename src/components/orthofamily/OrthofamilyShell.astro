@@ -1,6 +1,7 @@
 ---
 import '@/styles/orthofamily.css';
 import OrthofamilyMotion from './OrthofamilyMotion.astro';
+import ReadingHead from '@/components/site-functions/ReadingHead.astro';
 import OrthofamilyIcon from './OrthofamilyIcon.astro';
 import cyrillicFont from '@fontsource-variable/manrope/files/manrope-cyrillic-wght-normal.woff2?url';
 const base = import.meta.env.BASE_URL;
@@ -11,6 +12,7 @@ const { withTeam = false } = Astro.props;
 <html lang="ru" class:list={['of-document', {'of-complete': Astro.slots.has('header') }]}>
   <head>
     <meta charset="UTF-8" />
+    <ReadingHead />
     <meta name="viewport" content="width=device-width" />
     <meta name="robots" content="noindex, nofollow, noarchive" />
     <meta name="description" content="OrthoFamily. Стоматология для всей семьи в Магнитогорске." />

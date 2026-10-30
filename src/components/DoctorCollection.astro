@@ -34,6 +34,7 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
       <h2 id="doctor-demo-title" class="text-3xl font-light tracking-[-.03em]">Имя и фамилия</h2>
       <p class="mt-3 text-sm text-graphite" data-doctor-dialog-specialty>Специальность врача</p>
       <p class="mt-6 text-sm leading-relaxed text-graphite" data-doctor-dialog-summary></p>
+      <dl class="doctor-information" data-doctor-information></dl>
       <p id="doctor-demo-note" class="mt-7 border-t border-graphite/25 pt-5 text-xs leading-relaxed text-graphite">Демонстрационный портрет, не сотрудник клиники. ФИО, специальность и сведения о враче будут добавлены после согласования.</p>
       <form method="dialog"><button class="action-link mt-7 bg-ink px-6 py-4 text-xs font-semibold uppercase tracking-[.08em] text-white" type="submit">Закрыть просмотр</button></form>
     </div>
@@ -164,6 +165,10 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
       dialog.querySelector<HTMLElement>('#doctor-demo-title')!.textContent = button.dataset.name ?? '';
       dialog.querySelector<HTMLElement>('[data-doctor-dialog-specialty]')!.textContent = button.dataset.specialty ?? '';
       dialog.querySelector<HTMLElement>('[data-doctor-dialog-summary]')!.textContent = button.dataset.summary ?? '';
+      const information = dialog.querySelector('[data-doctor-information]')!;
+      information.replaceChildren();
+      const rows: {label:string;value:string}[] = JSON.parse(button.dataset.information || '[]');
+      for (const row of rows) { const div=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=row.label;dd.textContent=row.value;div.append(dt,dd);information.append(div); }
       const image = dialog.querySelector<HTMLImageElement>('[data-doctor-dialog-image]')!;
       const source = button.closest('[data-doctor-card]')?.querySelector<HTMLImageElement>('img');
       image.loading = 'eager';

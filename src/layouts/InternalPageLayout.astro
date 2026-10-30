@@ -5,6 +5,7 @@ import '@/styles/orthofamily-wordmark.css';
 import '@/styles/orthofamily-integration.css';
 import '@/styles/internal-pages.css';
 import ClinicHeader from '@/components/header-navigation/ClinicHeader.astro';
+import ReadingHead from '@/components/site-functions/ReadingHead.astro';
 import ClinicFooter from '@/components/contacts-footer/ClinicFooter.astro';
 import IntegratedHeaderMetrics from '@/components/orthofamily/IntegratedHeaderMetrics.astro';
 import type { HeaderLink } from '@/data/header-navigation';
@@ -42,6 +43,7 @@ const transitionPaths = transitionHrefs.map(href => new URL(href, Astro.url).pat
 <html lang="ru" class="of-document of-complete ip-document">
   <head>
     <meta charset="UTF-8" />
+    <ReadingHead />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow, noarchive" />
     <meta name="description" content={description} />

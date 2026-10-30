@@ -1,6 +1,7 @@
 ---
 import type { DoctorProfile } from '@/data/doctors';
 import ArrowIcon from './ArrowIcon.astro';
+import {doctorInformationRows} from '@/data/doctor-information';
 interface Props { doctor: DoctorProfile; preview?: boolean; index?: number; }
 const { doctor, preview = false, index = 0 } = Astro.props;
 const base = import.meta.env.BASE_URL;
@@ -21,7 +22,7 @@ const srcSet = doctor.portrait?.srcSet?.split(',').map(candidate => `${base}${ca
     {!demo && doctor.profileHref ? (
       <a class="nav-link mt-5 inline-flex items-center gap-5 text-xs font-medium" href={`${base}${doctor.profileHref.replace(/^\/+/, '')}`}>Подробнее о враче <ArrowIcon /></a>
     ) : (
-      <button type="button" class="doctor-open mt-5 inline-flex items-center gap-5 py-2 text-xs font-medium" data-doctor-open data-preview={demo ? 'true' : undefined} data-name={doctor.name ?? 'Имя и фамилия'} data-specialty={doctor.specialty ?? 'Специальность врача'} data-summary={doctor.summary ?? 'Краткое представление врача будет добавлено после согласования с клиникой.'} data-portrait={image} aria-haspopup="dialog" aria-controls="doctor-demo" aria-label={demo ? `Открыть карточку ${index + 1}` : `О враче: ${doctor.name}`}>Открыть карточку <ArrowIcon /></button>
+      <button type="button" class="doctor-open mt-5 inline-flex items-center gap-5 py-2 text-xs font-medium" data-doctor-open data-information={JSON.stringify(doctorInformationRows(doctor.professionalInformation))} data-preview={demo ? 'true' : undefined} data-name={doctor.name ?? 'Имя и фамилия'} data-specialty={doctor.specialty ?? 'Специальность врача'} data-summary={doctor.summary ?? 'Краткое представление врача будет добавлено после согласования с клиникой.'} data-portrait={image} aria-haspopup="dialog" aria-controls="doctor-demo" aria-label={demo ? `Открыть карточку ${index + 1}` : `О враче: ${doctor.name}`}>Открыть карточку <ArrowIcon /></button>
     )}
     {demo && <noscript><p class="mt-4 text-xs text-graphite">Сведения о враче готовятся к публикации.</p></noscript>}
   </div>

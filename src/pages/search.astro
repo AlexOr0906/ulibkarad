@@ -1,0 +1,15 @@
+---
+import InternalPageLayout from '@/layouts/InternalPageLayout.astro';
+import {siteNavigation} from '@/data/site-preview-navigation';
+const base=import.meta.env.BASE_URL,nav=siteNavigation(base);
+---
+<InternalPageLayout title="Поиск" description="Поиск по семи основным страницам OrthoFamily." homeHref={nav.home} contactHref={nav.contactHref} navigation={nav.navigation} footerNavigation={nav.footerNavigation} transitionHrefs={nav.transitionHrefs}>
+ <div class="sf-shell" data-site-search data-index={`${base}search-index.json`}><nav class="sf-crumbs" aria-label="Хлебные крошки"><a href={base}>Главная</a> / Поиск</nav><h1>Найти на сайте.</h1><p class="sf-lead">Поиск по доступным текстам семи страниц. Временное наполнение также учитывается.</p>
+ <form role="search" action={`${base}search/`} method="get"><label for="site-query">Что вы ищете?</label><div class="sf-query"><input id="site-query" name="q" type="search" maxlength="160" autocomplete="off" /><button type="submit">Найти</button></div></form>
+ <p role="status" aria-live="polite" data-search-status>Введите название направления или слово из текста.</p><ul class="sf-page-list" data-search-results></ul><p><a href={`${base}sitemap/`}>Открыть карту сайта</a></p>
+ <noscript><p>Для поиска по текстам нужен JavaScript. Все семь страниц доступны в <a href={`${base}sitemap/`}>карте сайта</a>.</p></noscript>
+ </div>
+</InternalPageLayout>
+<script>
+ import {initSearch} from '@/components/site-functions/search';initSearch();
+</script>

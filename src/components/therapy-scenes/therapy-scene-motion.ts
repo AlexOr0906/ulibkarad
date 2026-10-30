@@ -14,15 +14,17 @@ export function initTherapyScene(root:HTMLElement):()=>void {
  function render(p:number){
   const u=smooth(p/.78);
   if(camera&&windowRect){
-   const scale=1.25-.25*u;
-   camera.setAttribute('transform',`translate(${-82*(1-u)} ${-75*(1-u)}) scale(${scale})`);
-   windowRect.setAttribute('x',String(140*(1-u)));windowRect.setAttribute('width',String(1536-280*(1-u)));windowRect.setAttribute('rx',String(24*(1-u)));
+   const scale=1.5-.5*u;
+   camera.setAttribute('transform',`translate(${-252*(1-u)} ${-155*(1-u)}) scale(${scale})`);
+   windowRect.setAttribute('x',String(350*(1-u)));windowRect.setAttribute('width',String(1536-700*(1-u)));windowRect.setAttribute('rx',String(64*(1-u)));
   }
   if(family){
-   family.style.transform=`translateY(${10*(1-u)}px) scale(${1+.035*(1-u)})`;
-   family.parentElement!.style.clipPath=`inset(${4*(1-u)}% ${5*(1-u)}% round ${10*(1-u)}px)`;
+   // A single image: reveal the parent first, then the clinician. No independent face planes.
+   const parent=smooth((p-.04)/.34),clinician=smooth((p-.36)/.4);
+   family.style.transform=`scale(${1+.18*(1-u)})`;
+   family.parentElement!.style.clipPath=`inset(${3*(1-u)}% ${32*(1-clinician)}% ${3*(1-u)}% ${32*(1-parent)}% round ${18*(1-u)}px)`;
   }
-  const label=p<.2?phases[0]:p<.78?phases[1]:phases[2];if(phase.textContent!==label)phase.textContent=label;
+  const label=p<.24?phases[0]:p<.55?phases[1]:phases[2];if(phase.textContent!==label)phase.textContent=label;
   root.dataset.tsProgress=p.toFixed(4);root.style.setProperty('--ts-unfold',u.toFixed(4));
  }
  function update(){frame=0;if(!ready)return;const p=root.dataset.tsMode==='static'?1:clamp((scrollY-start)/span);if(Math.abs(p-last)<.0001)return;last=p;render(p);}

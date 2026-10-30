@@ -23,12 +23,12 @@ try{for(const audience of (process.env.SCENE_AUDIENCES||'adult,children').split(
  const samples=[];
  for(const p of [0,.25,.5,.8,1,.5,0]){
   await page.evaluate(y=>scrollTo({top:y,behavior:'instant'}),range.start+range.span*p);await page.waitForTimeout(75);
-  const state=await page.locator('[data-ts-track]').evaluate(e=>({p:+(e.dataset.tsProgress||1),camera:e.querySelector('[data-ts-camera]')?.getAttribute('transform'),window:e.querySelector('[data-ts-window]')?.getAttribute('width'),family:e.querySelector('[data-ts-family]')?.getAttribute('style')}));samples.push(state);
+  const state=await page.locator('[data-ts-track]').evaluate(e=>({p:+(e.dataset.tsProgress||1),camera:e.querySelector('[data-ts-camera]')?.getAttribute('transform'),window:e.querySelector('[data-ts-window]')?.getAttribute('width'),family:e.querySelector('[data-ts-family]')?.getAttribute('style'),aperture:e.querySelector('.ts-child-stage')?.getAttribute('style')}));samples.push(state);
   assert.ok(await fit());if(mode==='normal')assert.ok(Math.abs(state.p-p)<.015,JSON.stringify({audience,width,p,state,range}));
   if([0,.5,1].includes(p))await page.screenshot({path:`${out}/${audience}-${width}-${mode}-scene-${p}.png`});
  }
  if(mode==='normal'){
-  assert.ok(range.span>200);assert.deepEqual(samples[2],samples[5]);
+  assert.ok(range.span>200);if(audience==='children'){assert.equal(await page.locator('[data-ts-family]').count(),1);assert.equal(await page.locator('[data-ts-leaf]').count(),0);assert.notEqual(samples[0].aperture,samples[4].aperture);assert.equal(samples[3].aperture,samples[4].aperture);}assert.deepEqual(samples[2],samples[5]);
   assert.notEqual(audience==='adult'?samples[0].camera:samples[0].family,audience==='adult'?samples[4].camera:samples[4].family);
   assert.equal(audience==='adult'?samples[3].camera:samples[3].family,audience==='adult'?samples[4].camera:samples[4].family);
   if(width===390){await page.evaluate(y=>scrollTo(0,y),range.start+range.span*.5);await page.waitForTimeout(70);const before=await page.locator('[data-ts-track]').getAttribute('data-ts-progress');await page.setViewportSize({width,height:height-70});await page.waitForTimeout(70);assert.equal(await page.locator('[data-ts-track]').getAttribute('data-ts-progress'),before);await page.setViewportSize({width,height});}

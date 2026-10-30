@@ -9,7 +9,7 @@
 .ts-link{display:inline-flex;align-items:center;gap:24px;min-height:44px;text-decoration:none;border-bottom:1px solid currentColor;font-size:.85rem}.ts-link svg{width:20px;height:20px;flex:none}
 .ts-scene a:focus-visible{outline:2px solid currentColor;outline-offset:5px}
 .ts-track{min-width:0;position:relative}
-.ts-track[data-ts-mode=scroll]{min-height:900px}
+.ts-track[data-ts-mode=scroll]{min-height:1100px}
 .ts-panel{margin:0;position:sticky;top:calc(var(--of-header-height,89px) + 20px);min-width:0}
 .ts-image-motion{width:100%;aspect-ratio:3/2;overflow:hidden}
 .ts-track[data-ts-boot=true]:not([data-ts-ready]) .ts-image-motion{visibility:hidden}
@@ -21,11 +21,11 @@
 .ts-track:not([data-ts-mode=scroll]) .ts-panel{position:relative;top:auto}
 .ts-preview-links{display:flex;flex-wrap:wrap;gap:12px 28px;width:min(calc(100% - 7rem),90rem);margin:0 auto 32px;padding-block:20px;font-size:.8rem}
 .ts-preview-links a{min-height:44px;display:inline-flex;align-items:center;text-underline-offset:5px}
-@media(max-width:1100px) and (min-width:768px){.ts-shell,.ts-preview-links{width:calc(100% - 4rem)}.ts-story{grid-template-columns:.8fr 1.2fr;gap:28px}.ts-story-copy h2{font-size:2.4rem}.ts-track[data-ts-mode=scroll]{min-height:760px}}
+@media(max-width:1100px) and (min-width:768px){.ts-shell,.ts-preview-links{width:calc(100% - 4rem)}.ts-story{grid-template-columns:.8fr 1.2fr;gap:28px}.ts-story-copy h2{font-size:2.4rem}.ts-track[data-ts-mode=scroll]{min-height:920px}}
 @media(max-width:767px){
  .ts-shell,.ts-preview-links{width:calc(100% - 2rem)}.ts-story{display:flex;flex-direction:column;gap:12px}
  .ts-story-copy{position:static;padding-block:16px;width:100%}.ts-story-copy h2{font-size:clamp(1.8rem,8vw,2.5rem);margin-bottom:18px}.ts-story-copy p{max-width:40ch;font-size:.9rem;margin-bottom:14px}
- .ts-track{width:100%}.ts-track[data-ts-mode=scroll]{min-height:610px}.ts-panel figcaption{padding-bottom:16px}
+ .ts-track{width:100%}.ts-track[data-ts-mode=scroll]{min-height:800px}.ts-panel figcaption{padding-bottom:16px}
  .ts-scene{padding-bottom:24px}
 }
 @media(max-height:600px) and (min-width:768px){.ts-story-copy{position:static}.ts-panel{max-width:500px;margin-inline:auto}.ts-track[data-ts-mode=scroll]{min-height:800px}}

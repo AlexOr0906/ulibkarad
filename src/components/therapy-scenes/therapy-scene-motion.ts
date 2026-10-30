@@ -7,22 +7,20 @@ export function initTherapyScene(root:HTMLElement):()=>void {
  root.dataset.tsInitializing='true';
  const abort=new AbortController(),reduced=matchMedia('(prefers-reduced-motion: reduce)');
  const panel=root.querySelector<HTMLElement>('.ts-panel')!,camera=root.querySelector<SVGGElement>('[data-ts-camera]'),windowRect=root.querySelector<SVGRectElement>('[data-ts-window]');
- const leaves=[...root.querySelectorAll<HTMLElement>('[data-ts-leaf]')],phase=root.querySelector<HTMLElement>('[data-ts-phase]')!;
+ const family=root.querySelector<HTMLElement>('[data-ts-family]'),phase=root.querySelector<HTMLElement>('[data-ts-phase]')!;
  const phases=JSON.parse(root.dataset.tsPhases||'[]') as string[];
  let frame=0,start=0,span=1,last=-1,ready=false,failed=false;
  const reading=()=>document.documentElement.dataset.reading==='on';
  function render(p:number){
   const u=smooth(p/.78);
   if(camera&&windowRect){
-   const scale=1.62-.62*u;
-   camera.setAttribute('transform',`translate(${(768-680*scale)*(1-u)} ${(512-420*scale)*(1-u)}) scale(${scale})`);
-   windowRect.setAttribute('x',String(355*(1-u)));windowRect.setAttribute('width',String(1536-710*(1-u)));windowRect.setAttribute('rx',String(80*(1-u)));
+   const scale=1.25-.25*u;
+   camera.setAttribute('transform',`translate(${-82*(1-u)} ${-75*(1-u)}) scale(${scale})`);
+   windowRect.setAttribute('x',String(140*(1-u)));windowRect.setAttribute('width',String(1536-280*(1-u)));windowRect.setAttribute('rx',String(24*(1-u)));
   }
-  const mobile=innerWidth<768;
-  for(const [i,leaf]of leaves.entries()){
-   const side=i===0?-1:i===2?1:0;
-   leaf.style.transform=mobile?`translateX(${side*32*(1-u)}%) scaleX(${1-.42*(1-u)*Math.abs(side)})`:`perspective(1100px) rotateY(${-side*58*(1-u)}deg) translateZ(${-35*(1-u)*Math.abs(side)}px)`;
-   leaf.style.filter=`brightness(${1-.24*(1-u)*Math.abs(side)})`;
+  if(family){
+   family.style.transform=`translateY(${10*(1-u)}px) scale(${1+.035*(1-u)})`;
+   family.parentElement!.style.clipPath=`inset(${4*(1-u)}% ${5*(1-u)}% round ${10*(1-u)}px)`;
   }
   const label=p<.2?phases[0]:p<.78?phases[1]:phases[2];if(phase.textContent!==label)phase.textContent=label;
   root.dataset.tsProgress=p.toFixed(4);root.style.setProperty('--ts-unfold',u.toFixed(4));

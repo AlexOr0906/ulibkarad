@@ -25,9 +25,7 @@ const image=`${base}therapy-scenes/${data.image}-1536.webp`,small=`${base}therap
       <g clip-path="url(#ts-adult-window)"><g data-ts-camera><image href={image} x="0" y="0" width="1536" height="1024" /></g></g>
      </svg>
     </div>:<div class="ts-child-stage ts-image-motion" role="img" aria-label={data.alt}>
-     <div class="ts-fold" aria-hidden="true">
-      {[0,1,2].map(index=><div class:list={['ts-leaf',`ts-leaf-${index}`]} data-ts-leaf={index} style={`--ts-leaf:${index}`}><img src={image} srcset={`${small} 768w, ${image} 1536w`} sizes="(max-width:767px) 100vw, 65vw" alt="" width="1536" height="1024" decoding="async" fetchpriority="high" /></div>)}
-     </div>
+     <img class="ts-family-photo" data-ts-family src={image} srcset={`${small} 768w, ${image} 1536w`} sizes="(max-width:767px) 100vw, 65vw" alt="" width="1536" height="1024" decoding="async" fetchpriority="high" />
     </div>}
     <figcaption><span data-ts-phase>{data.phases[2]}</span><small>{data.caption}</small></figcaption>
    </figure>

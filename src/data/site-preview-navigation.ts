@@ -4,6 +4,7 @@ export function siteNavigation(base: string, home = base) {
   const about = `${home}about/`;
   const patients = `${home}patients/`;
   const orthopedics = `${base}orthopedics/`;
+  const orthodontics = `${base}orthodontics-concept/`;
   const footerNavigation: HeaderLink[] = [
     {label:'О клинике',href:'about/'},
     {label:'Направления',href:'#of-directions'},
@@ -11,9 +12,9 @@ export function siteNavigation(base: string, home = base) {
     {label:'Пациентам',href:'patients/'},
     {label:'Контакты',href:'#contacts'},
   ];
-  return {home,about,patients,orthopedics,footerNavigation,
+  return {home,about,patients,orthopedics,orthodontics,footerNavigation,
     navigation:footerNavigation.map(link => ({label:link.label,href:`${home}${link.href}`})),
-    transitionHrefs:[about,patients,orthopedics],contactHref:`${home}#contacts`,
+    transitionHrefs:[about,patients,orthopedics,orthodontics],contactHref:`${home}#contacts`,
   };
 }
 export function sitePreviewNavigation(base: string) {

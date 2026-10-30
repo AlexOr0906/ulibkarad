@@ -21,7 +21,6 @@ const {homeHref=base,contactHref=`${base}#contacts`}=Astro.props;
         <p>Раздел готовится<br />к наполнению.</p>
       </aside>
     </header>
-    <div class="ip-demo-strip"><p>Демонстрационная структура раздела.</p><p>Документы и сведения ожидаются от клиники.</p></div>
     <div class="pa-reading-grid">
       <nav class="pa-index" aria-label="Содержание раздела Пациентам">
         <p>В этом разделе</p>
@@ -46,7 +45,7 @@ const {homeHref=base,contactHref=`${base}#contacts`}=Astro.props;
         </section>
         <section class="pa-section pa-documents-section" id="pa-documents" tabindex="-1" aria-labelledby="pa-documents-title">
           <h2 id="pa-documents-title" data-ip-enter>Документы</h2>
-          <div class="pa-section-body"><p class="pa-intro">Предварительный перечень. Состав и содержание уточняются с клиникой.</p><ul class="pa-documents">{patientDocuments.map(item=><li><span>{item.title}</span><small>{item.status}</small></li>)}</ul><p class="pa-note">Файлы пока не предоставлены. В этом прототипе нет ссылок скачивания.</p></div>
+          <div class="pa-section-body"><p class="pa-intro">Перечень документов уточняется с клиникой.</p><ul class="pa-documents">{patientDocuments.map(item=><li><span>{item.title}</span><small>{item.status}</small></li>)}</ul><p class="pa-note">Файлы будут доступны после получения и проверки.</p></div>
         </section>
         <section class="pa-section" id="pa-prices" tabindex="-1" aria-labelledby="pa-prices-title">
           <h2 id="pa-prices-title" data-ip-enter>Стоимость</h2>
@@ -54,7 +53,7 @@ const {homeHref=base,contactHref=`${base}#contacts`}=Astro.props;
         </section>
         <section class="pa-section pa-appeals" id="pa-appeals" tabindex="-1" aria-labelledby="pa-appeals-title">
           <h2 id="pa-appeals-title" data-ip-enter>Есть вопрос?</h2>
-          <div class="pa-section-body"><p class="pa-intro">Здесь появится информация о способах связи и порядке обращений.</p><p class="pa-note">Контакты уточняются. Прототип не принимает и не отправляет обращения.</p><a class="pa-contact-link" href={contactHref}>Перейти к контактам <ArrowIcon /></a></div>
+          <div class="pa-section-body"><p class="pa-intro">Здесь появится информация о способах связи и порядке обращений.</p><p class="pa-note">Контакты и способ обращения уточняются.</p><a class="pa-contact-link" href={contactHref}>Перейти к контактам <ArrowIcon /></a></div>
         </section>
       </div>
     </div>

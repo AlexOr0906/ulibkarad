@@ -19,7 +19,7 @@ const {homeHref=base,doctorsHref=`${base}#doctors`,contactHref=`${base}#contacts
         <p class="ac-introduction">{content.introduction}</p>
         <div class="ac-actions"><a class="ac-button" href={doctorsHref}>Познакомиться с командой <ArrowIcon /></a><a class="ac-link" href="#ac-approach">О подходе <ArrowIcon class="ac-arrow-down" /></a></div>
       </AboutReveal>
-      <p class="ac-demo-note">{content.demoNotice}</p>
+      {content.demoNotice && <p class="ac-demo-note">{content.demoNotice}</p>}
     </div>
     <AboutMedia photo={content.photo} />
   </div>

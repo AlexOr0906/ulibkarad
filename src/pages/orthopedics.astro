@@ -10,10 +10,9 @@ const nav=siteNavigation(import.meta.env.BASE_URL);
 const hero:ServicePageData={
   id:'prosthodontics',title:orthopedics.title,
   breadcrumbs:[{label:'Главная',href:nav.home},{label:orthopedics.title}],
-  demoNotice:'Прототип направления к открытию. Медицинское наполнение будет добавлено после согласования с клиникой.',
 };
 ---
-<InternalPageLayout title="Ортопедия · Прототип" description={orthopedics.description} homeHref={nav.home} contactHref={nav.contactHref} navigation={nav.navigation} footerNavigation={nav.footerNavigation} transitionHrefs={nav.transitionHrefs} activeHref={nav.orthopedics}>
+<InternalPageLayout title="Ортопедия" description={orthopedics.description} homeHref={nav.home} contactHref={nav.contactHref} navigation={nav.navigation} footerNavigation={nav.footerNavigation} transitionHrefs={nav.transitionHrefs} activeHref={nav.orthopedics}>
   <ServicePageContent data={hero}>
     <div class="or-shell" slot="scene"><OrthopedicsHumanVisual autoMotion={false} /></div>
     <OrthopedicsPageContent autoMotion={false} doctorsHref={`${nav.home}#doctors`} contactHref={nav.contactHref} />

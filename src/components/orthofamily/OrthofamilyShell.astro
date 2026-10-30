@@ -13,11 +13,11 @@ const { withTeam = false } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="robots" content="noindex, nofollow, noarchive" />
-    <meta name="description" content="OrthoFamily. Стоматология для всей семьи в Магнитогорске. Демонстрационная версия сайта." />
+    <meta name="description" content="OrthoFamily. Стоматология для всей семьи в Магнитогорске." />
     <meta name="theme-color" content="#eef1f3" />
     <link rel="icon" type="image/svg+xml" href={`${base}brand/logo-graphite.svg`} />
     <link rel="preload" href={cyrillicFont} as="font" type="font/woff2" crossorigin />
-    <title>OrthoFamily — Стоматология для всей семьи · Демо</title>
+    <title>OrthoFamily — Стоматология для всей семьи</title>
     <script is:inline>if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('of-motion');</script>
     {withTeam && <script is:inline>document.documentElement.classList.add('js');</script>}
   </head>
@@ -49,7 +49,7 @@ const { withTeam = false } = Astro.props;
       <p class="of-eyebrow">Знакомство с клиникой</p>
       <h2 id="of-dialog-title">Обсудим ваш визит.</h2>
       <p class="of-dialog-topic" id="of-dialog-topic" hidden></p>
-      <p id="of-dialog-description">Это демонстрация. Возможность записи появится после согласования контактов и способа связи с клиникой.</p>
+      <p id="of-dialog-description">Возможность записи появится после подтверждения контактов и способа связи с клиникой.</p>
       <form method="dialog"><button class="of-button" type="submit">Вернуться к просмотру <OrthofamilyIcon /></button></form>
     </dialog>
     <OrthofamilyMotion />

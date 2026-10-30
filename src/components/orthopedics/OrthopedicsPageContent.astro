@@ -6,7 +6,7 @@ interface Props { doctorsHref?:string; contactHref?:string; autoMotion?:boolean;
 const base=import.meta.env.BASE_URL;
 const {doctorsHref=`${base}#doctors`,contactHref=`${base}#contacts`,autoMotion=true}=Astro.props;
 ---
-<article class="or-content" data-or-content data-or-auto-motion={autoMotion?'true':undefined} aria-label="Ортопедическое направление: прототип содержания">
+<article class="or-content" data-or-content data-or-auto-motion={autoMotion?'true':undefined} aria-label="Ортопедическое направление">
   <section class="or-overview" id="or-overview" aria-labelledby="or-overview-title">
     <div class="or-shell or-overview-grid">
       <div data-or-enter><h2 id="or-overview-title">{content.overview.title}</h2><p>{content.overview.text}</p></div>
@@ -14,7 +14,7 @@ const {doctorsHref=`${base}#doctors`,contactHref=`${base}#contacts`,autoMotion=t
     </div>
   </section>
   <section class="or-detail or-shell" aria-labelledby="or-detail-title"><div data-or-enter><h2 id="or-detail-title">{content.details.title}</h2><p>{content.details.text}</p></div></section>
-  <section class="or-team" aria-labelledby="or-team-title"><div class="or-shell or-team-grid"><div data-or-enter><h2 id="or-team-title">{content.team.title.map(line=><span>{line}</span>)}</h2></div><div data-or-enter><p>{content.team.text}</p><a class="or-link" href={doctorsHref}>К разделу команды <ArrowIcon /></a><p class="or-note">{content.team.note}</p></div></div></section>
+  <section class="or-team" aria-labelledby="or-team-title"><div class="or-shell or-team-grid"><div data-or-enter><h2 id="or-team-title">{content.team.title.map(line=><span>{line}</span>)}</h2></div><div data-or-enter><p>{content.team.text}</p><a class="or-link" href={doctorsHref}>К разделу команды <ArrowIcon /></a>{content.team.note && <p class="or-note">{content.team.note}</p>}</div></div></section>
   <section class="or-price or-shell" aria-labelledby="or-price-title"><h2 id="or-price-title">{content.prices.title}</h2><div><p class="or-price-state">{content.prices.value}</p><p>{content.prices.text}</p></div></section>
   <section class="or-contact" aria-labelledby="or-contact-title"><div class="or-shell or-contact-grid"><h2 id="or-contact-title">{content.contact.title.map(line=><span>{line}</span>)}</h2><div><p>{content.contact.text}</p><a class="or-button" href={contactHref}>Перейти к контактам <ArrowIcon /></a></div></div></section>
 </article>

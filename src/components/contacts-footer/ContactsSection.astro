@@ -14,7 +14,6 @@ const { contacts = contactDetails } = Astro.props;
     </div>
     <div class="cf-contact-grid">
       <div class="cf-contact-copy">
-        <p class="cf-demo-note">Демонстрационный блок. Контакты уточняются.</p>
         <dl class="cf-details">
           <div class="cf-address"><dt>Адрес клиники</dt><dd data-cf-contact="address">{contacts.address ?? 'Точный адрес скоро появится'}</dd></div>
           <div><dt>Телефон</dt><dd data-cf-contact="phone">{contacts.phone ? <a href={contacts.phone.href}>{contacts.phone.label}</a> : 'Номер будет добавлен'}</dd></div>
@@ -23,7 +22,7 @@ const { contacts = contactDetails } = Astro.props;
         </dl>
         <details class="cf-visit">
           <summary>Обсудить визит <ArrowIcon /></summary>
-          <div class="cf-visit-note"><p>Запись пока недоступна.</p><p>Здесь появятся подтверждённые способы связи с клиникой. Этот макет не принимает и не отправляет обращения.</p></div>
+          <div class="cf-visit-note"><p>Запись пока недоступна.</p><p>Способы связи появятся после подтверждения клиникой.</p></div>
         </details>
         <p class="cf-action-caption">Способы связи появятся после подтверждения клиникой.</p>
       </div>

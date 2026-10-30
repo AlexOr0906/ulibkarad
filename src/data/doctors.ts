@@ -21,7 +21,7 @@ export const doctorCardExamples: DoctorProfile[] = [1, 2, 3, 4].map(index => ({
   portrait: {
     src: `team/portrait-demo-${index}-800.webp`,
     srcSet: `team/portrait-demo-${index}-480.webp 480w, team/portrait-demo-${index}-800.webp 800w`,
-    alt: `Демонстрационный AI-портрет ${index}. Не фотография сотрудника клиники.`,
+    alt: `Портрет для оформления карточки ${index}.`,
     position: '50% 0%', width: 800, height: 1000,
   },
   profileHref: null,

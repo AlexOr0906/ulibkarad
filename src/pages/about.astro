@@ -4,6 +4,6 @@ import AboutPageContent from '@/components/about-clinic/AboutPageContent.astro';
 import {siteNavigation} from '@/data/site-preview-navigation';
 const nav=siteNavigation(import.meta.env.BASE_URL);
 ---
-<InternalPageLayout title="О клинике" description="Знакомство с OrthoFamily. Стоматология для всей семьи в Магнитогорске. Демонстрационные материалы." homeHref={nav.home} contactHref={nav.contactHref} navigation={nav.navigation} footerNavigation={nav.footerNavigation} transitionHrefs={nav.transitionHrefs} contentOwnsHeaderOffset>
+<InternalPageLayout title="О клинике" description="Знакомство с OrthoFamily. Стоматология для всей семьи в Магнитогорске." homeHref={nav.home} contactHref={nav.contactHref} navigation={nav.navigation} footerNavigation={nav.footerNavigation} transitionHrefs={nav.transitionHrefs} contentOwnsHeaderOffset>
   <AboutPageContent homeHref={nav.home} doctorsHref={`${nav.home}#doctors`} contactHref={nav.contactHref} autoMotion={false} />
 </InternalPageLayout>

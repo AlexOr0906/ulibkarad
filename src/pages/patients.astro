@@ -4,6 +4,6 @@ import PatientsPageContent from '@/components/patients/PatientsPageContent.astro
 import {siteNavigation} from '@/data/site-preview-navigation';
 const nav=siteNavigation(import.meta.env.BASE_URL);
 ---
-<InternalPageLayout title="Пациентам" description="Информация для пациентов OrthoFamily. Прототип раздела: сведения и документы ожидаются от клиники." homeHref={nav.home} contactHref={nav.contactHref} navigation={nav.navigation} footerNavigation={nav.footerNavigation} transitionHrefs={nav.transitionHrefs}>
+<InternalPageLayout title="Пациентам" description="Информация для пациентов OrthoFamily. Сведения и документы готовятся к публикации." homeHref={nav.home} contactHref={nav.contactHref} navigation={nav.navigation} footerNavigation={nav.footerNavigation} transitionHrefs={nav.transitionHrefs}>
   <PatientsPageContent homeHref={nav.home} contactHref={nav.contactHref} />
 </InternalPageLayout>

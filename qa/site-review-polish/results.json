@@ -1,0 +1,79 @@
+{
+  "matrix": [
+    {
+      "width": 320,
+      "mode": "normal",
+      "passed": true
+    },
+    {
+      "width": 320,
+      "mode": "reduced",
+      "passed": true
+    },
+    {
+      "width": 320,
+      "mode": "nojs",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "mode": "normal",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "mode": "reduced",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "mode": "nojs",
+      "passed": true
+    },
+    {
+      "width": 768,
+      "mode": "normal",
+      "passed": true
+    },
+    {
+      "width": 768,
+      "mode": "reduced",
+      "passed": true
+    },
+    {
+      "width": 768,
+      "mode": "nojs",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "mode": "normal",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "mode": "reduced",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "mode": "nojs",
+      "passed": true
+    }
+  ],
+  "coldSlowPortrait": [
+    390,
+    1440
+  ],
+  "bracketPhases": [
+    0,
+    0.3,
+    0.65,
+    1
+  ],
+  "portraitPhases": [
+    0,
+    0.5,
+    1
+  ]
+}

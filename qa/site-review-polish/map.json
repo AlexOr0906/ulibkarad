@@ -1,0 +1,7 @@
+{
+  "src": "https://www.openstreetmap.org/export/embed.html?bbox=58.78%2C53.26%2C59.18%2C53.56&layer=mapnik",
+  "markers": 0,
+  "tiles": 1,
+  "error": null,
+  "renderer": "canvas or tiles"
+}

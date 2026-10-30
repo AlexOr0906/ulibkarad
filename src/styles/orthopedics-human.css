@@ -1,7 +1,8 @@
 /* Human direction, isolated from the preserved material study and home animation. */
 .or-human { --or-human-top:0%; --or-human-right:0%; --or-human-bottom:0%; --or-human-left:0%; --or-human-radius:0px; --or-human-scale:1; --or-human-copy-y:0px; --or-human-copy-opacity:1; }
-.or-visual.or-human[data-or-motion='scroll'] { min-height:0;padding-bottom:620px; }
-@media(prefers-reduced-motion:no-preference){html[data-site-js] .or-visual.or-human{padding-bottom:620px}}
+.or-visual.or-human[data-or-motion='scroll'] { min-height:0;padding-bottom:0; }
+.or-human-scroll-space{display:none}
+@media(prefers-reduced-motion:no-preference){html[data-site-js] .or-human-scroll-space{display:block;height:620px}}
 .or-human-loading{display:none;position:absolute;right:8%;bottom:20%;font-size:.75rem;color:#596770}
 html[data-site-js] .or-human:not([data-or-image-ready=true]) .or-human-photo{opacity:0}
 html[data-site-js] .or-human:not([data-or-image-ready=true]) .or-human-loading{display:block}
@@ -18,8 +19,7 @@ html[data-site-js] .or-human:not([data-or-image-ready=true]) .or-human-loading{d
 .or-human-copy-note { margin-top:26px; font-size:.85rem; line-height:1.8; }
 @media(max-width:1100px) and (min-width:768px) { .or-human-copy { padding:32px; } .or-human-copy h2 { font-size:clamp(2.8rem,6.4vw,5rem); } }
 @media(max-width:767px) {
- .or-visual.or-human[data-or-motion='scroll'] { min-height:0;padding-bottom:360px; }
- @media(prefers-reduced-motion:no-preference){html[data-site-js] .or-visual.or-human{padding-bottom:360px}}
+ @media(prefers-reduced-motion:no-preference){html[data-site-js] .or-human-scroll-space{height:360px}}
  .or-human .or-scene-panel { top:calc(var(--of-header-height,73px) + 12px); }
  .or-human-stage { display:flex; flex-direction:column; height:auto; }
  .or-human-copy { order:0; width:100%; padding:20px 22px 14px; }
@@ -37,3 +37,4 @@ html[data-site-js] .or-human:not([data-or-image-ready=true]) .or-human-loading{d
 }
 @media(prefers-reduced-motion:reduce) { .or-human .or-human-photo { clip-path:none!important; will-change:auto; } .or-human-photo img,.or-human-copy { transform:none!important; opacity:1!important; } }
 html[data-reading=on] .or-human{padding-bottom:0!important}html[data-reading=on] .or-human .or-human-photo{opacity:1!important}html[data-reading=on] .or-human-loading{display:none!important}
+html[data-reading=on] .or-human-scroll-space{display:none!important}

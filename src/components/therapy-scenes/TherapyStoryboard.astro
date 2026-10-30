@@ -1,0 +1,32 @@
+---
+import '@/styles/therapy-storyboard.css';
+interface Props {audience:'adult'|'children'}
+const {audience}=Astro.props,child=audience==='children';
+const source=`${import.meta.env.BASE_URL}therapy-storyboards/${audience}.webp`;
+const shots=child?[
+ {title:'Знакомство с врачом',description:'Внимание начинается с разговора.',alt:'Вымышленный врач разговаривает с ребёнком на уровне глаз.',y:2,h:503},
+ {title:'Рядом с семьёй',description:'Ребёнок, родитель и врач за одним столом.',alt:'Врач знакомится с ребёнком и родителем.',y:517,h:478},
+ {title:'Объяснить и показать',description:'Наглядное знакомство на учебной модели.',alt:'Врач показывает ребёнку и родителю учебную модель зубов.',y:1007,h:527}
+]:[
+ {title:'Внимание к детали',description:'Материал. Свет. Движение рук.',alt:'Крупный план рук в перчатках и инструмента над лотком.',y:2,h:484},
+ {title:'За каждой деталью — человек',description:'От крупного плана к работе врача.',alt:'Вымышленный врач подготавливает инструменты у рабочего столика.',y:497,h:527},
+ {title:'Пространство работы',description:'Общий взгляд на кабинет.',alt:'Общий вид вымышленного светлого стоматологического кабинета.',y:1036,h:498}
+];
+---
+<section class:list={['sb-story',`sb-${audience}`]} data-sb-story aria-label={child?'Знакомство с врачом':'От детали к кабинету'}>
+ <img class="sb-loader" src={source} alt="" aria-hidden="true" width="1024" height="1536" decoding="async" fetchpriority="high" />
+ <div class="sb-pin">
+  <div class="sb-heading"><h2>{child?'Начинаем со знакомства.':'От детали к целому.'}</h2><p>{child?'Разговор. Внимание. Объяснение.':'Взгляд на работу и пространство.'}</p></div>
+  <div class="sb-sequence">
+   {shots.map((shot,i)=><figure class="sb-shot" data-sb-shot={i}>
+    <div class="sb-viewport"><div class="sb-photo" role="img" aria-label={shot.alt} style={`background-image:url('${source}');background-size:auto ${1536/shot.h*100}%;background-position:50% ${shot.y/(1536-shot.h)*100}%`} /></div>
+    <figcaption><h3>{shot.title}</h3><p>{shot.description}</p></figcaption>
+   </figure>)}
+  </div>
+  <p class="sb-disclosure">AI-иллюстрации для обсуждения. Не врачи, пациенты и интерьер клиники.</p>
+ </div>
+</section>
+<script>
+ import {initStoryboard} from './therapy-storyboard';
+ document.querySelectorAll<HTMLElement>('[data-sb-story]').forEach(initStoryboard);
+</script>

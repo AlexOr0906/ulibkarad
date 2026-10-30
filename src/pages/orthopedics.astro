@@ -2,7 +2,7 @@
 import InternalPageLayout from '@/layouts/InternalPageLayout.astro';
 import ServicePageContent from '@/components/services/ServicePageContent.astro';
 import OrthopedicsHumanVisual from '@/components/orthopedics/OrthopedicsHumanVisual.astro';
-import OrthopedicsPageContent from '@/components/orthopedics/OrthopedicsPageContent.astro';
+import ServiceEditorial from '@/components/services/ServiceEditorial.astro';
 import {orthopedics} from '@/data/orthopedics';
 import type {ServicePageData} from '@/data/service-page';
 import {siteNavigation} from '@/data/site-preview-navigation';
@@ -15,6 +15,6 @@ const hero:ServicePageData={
 <InternalPageLayout title="Ортопедия" description={orthopedics.description} homeHref={nav.home} contactHref={nav.contactHref} navigation={nav.navigation} footerNavigation={nav.footerNavigation} transitionHrefs={nav.transitionHrefs} activeHref={nav.orthopedics}>
   <ServicePageContent data={hero}>
     <div class="or-shell" slot="scene"><OrthopedicsHumanVisual autoMotion={false} /></div>
-    <OrthopedicsPageContent autoMotion={false} doctorsHref={`${nav.home}#doctors`} contactHref={nav.contactHref} />
+    <ServiceEditorial service="orthopedics" />
   </ServicePageContent>
 </InternalPageLayout>

@@ -1,4 +1,5 @@
 ---
+import '@/styles/orthopedics.css';
 import '@/styles/orthopedics-human.css';
 interface Props {autoMotion?:boolean;}
 const {autoMotion=true}=Astro.props;
@@ -10,6 +11,7 @@ const base=import.meta.env.BASE_URL;
       <div class="or-human-photo" data-or-human-frame><img data-or-object src={`${base}orthopedics-concepts/human-smile-v1.png`} alt="Улыбающаяся женщина" width="1536" height="1024" fetchpriority="high" /></div>
       <div class="or-human-copy"><h2><span>Ближе</span><span>к человеку.</span></h2><p class="or-human-copy-note">Знакомство начинается<br />с улыбки.</p></div>
     </div>
+    <figcaption>Демонстрационный портрет. Не пациент или сотрудник клиники.</figcaption>
   </figure>
 </div>
 <script>

@@ -16,7 +16,7 @@ export function siteNavigation(base: string, home = base) {
   ];
   return {home,about,patients,orthopedics,orthodontics,adultTherapy,childrenTherapy,footerNavigation,
     navigation:footerNavigation.map(link => ({label:link.label,href:`${home}${link.href}`})),
-    transitionHrefs:[about,patients,orthopedics,orthodontics,adultTherapy,childrenTherapy],contactHref:`${home}#contacts`,
+    transitionHrefs:[home,about,patients,orthopedics,orthodontics,adultTherapy,childrenTherapy],contactHref:`${home}#contacts`,
   };
 }
 export function sitePreviewNavigation(base: string) {

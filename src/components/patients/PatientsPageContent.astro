@@ -21,6 +21,7 @@ const {homeHref=base,contactHref=`${base}#contacts`}=Astro.props;
         <p>Раздел готовится<br />к наполнению.</p>
       </aside>
     </header>
+    <div class="ip-demo-strip"><p>Временное наполнение раздела.</p><p>Ниже — места для подтверждённых сведений и документов.</p></div>
     <div class="pa-reading-grid">
       <nav class="pa-index" aria-label="Содержание раздела Пациентам">
         <p>В этом разделе</p>
@@ -45,7 +46,7 @@ const {homeHref=base,contactHref=`${base}#contacts`}=Astro.props;
         </section>
         <section class="pa-section pa-documents-section" id="pa-documents" tabindex="-1" aria-labelledby="pa-documents-title">
           <h2 id="pa-documents-title" data-ip-enter>Документы</h2>
-          <div class="pa-section-body"><p class="pa-intro">Перечень документов уточняется с клиникой.</p><ul class="pa-documents">{patientDocuments.map(item=><li><span>{item.title}</span><small>{item.status}</small></li>)}</ul><p class="pa-note">Файлы будут доступны после получения и проверки.</p></div>
+          <div class="pa-section-body"><p class="pa-intro">Документы для ознакомления перед визитом.</p><ul class="pa-documents">{patientDocuments.map(item=><li>{item.href?<a class="ip-link" href={`${base}${item.href.replace(/^\/+/, '')}`}>{item.title}<ArrowIcon /></a>:<span>{item.title}</span>}<small>{item.status}</small></li>)}</ul><p class="pa-note">Пока файлы не предоставлены, названия остаются текстом и не имитируют скачивание.</p></div>
         </section>
         <section class="pa-section" id="pa-prices" tabindex="-1" aria-labelledby="pa-prices-title">
           <h2 id="pa-prices-title" data-ip-enter>Стоимость</h2>

@@ -1,0 +1,27 @@
+---
+import {serviceEditorial,servicePreparation as preparation,serviceRoutes,type ServiceKey} from '@/data/service-editorial';
+import ArrowIcon from '@/components/ArrowIcon.astro';
+import '@/styles/service-editorial.css';
+interface Props {service:ServiceKey;}
+const {service}=Astro.props,content=serviceEditorial[service],base=import.meta.env.BASE_URL;
+const overview=service==='orthopedics'?'or-overview':`sv-${service}-description`;
+---
+<div class:list={['se-content',`se-${content.layout}`]} id={`${service}-editorial`}>
+ <div class="se-wrap">{content.status!=='approved'&&<p class="se-status">{preparation.notice}</p>}
+ <nav class="se-index" aria-label="Содержание направления"><a href={`#${overview}`}>О направлении</a><a href={`#${service}-help`}>Помощь и вопросы</a><a href={`#${service}-team`}>Врачи и стоимость</a></nav>
+ <section class="se-overview" id={overview} aria-labelledby={`${overview}-title`}>
+  <div><p class="se-kicker">{content.title}</p><h2 id={`${overview}-title`} data-ip-enter data-ip-mask>{content.intro.title}</h2></div>
+  <div class="se-editorial-copy">{content.intro.size&&<span class="se-size">{content.intro.size}</span>}<p>{content.intro.brief}</p><span class="se-rule" aria-hidden="true"></span></div>
+ </section>
+ {content.image&&<figure class="se-detail" data-ip-enter data-ip-mask><img src={`${base}${content.image.src}`} alt={content.image.alt} width="640" height="480" loading="lazy" /><figcaption>{content.image.caption}</figcaption></figure>}
+ <section class="se-help" id={`${service}-help`} aria-labelledby={`${service}-help-title`}><h2 id={`${service}-help-title`} data-ip-enter>{content.layout==='questions'?'Вопросы родителей.':'Разобраться в деталях.'}</h2>
+  <div class="se-topics">{content.topics.map(topic=>content.layout==='questions'?<details class="se-question"><summary>{topic.title}<span aria-hidden="true">+</span></summary><div><small>{topic.size}</small><p>{topic.brief}</p></div></details>:<article class="se-topic"><small>{topic.size}</small><h3>{topic.title}</h3><p>{topic.brief}</p></article>)}</div>
+ </section>
+ <section class="se-team-price" id={`${service}-team`} aria-label="Врачи и стоимость">
+  <div><h2 data-ip-enter>Кто будет рядом.</h2><p>{preparation.team}</p><small>{preparation.teamSize}</small><a class="se-link" href={`${base}#doctors`}>Познакомиться с командой <ArrowIcon /></a></div>
+  <div><h2 data-ip-enter>Стоимость.</h2><p>{preparation.price}</p><small>{preparation.priceStatus}</small><p class="se-payment">Только платный приём</p></div>
+ </section>
+ <section class="se-next" aria-labelledby={`${service}-next-title`}><div><h2 id={`${service}-next-title`} data-ip-enter>Начать знакомство.</h2><p>{preparation.contact}</p></div><a class="se-action" href={`${base}#contacts`}>К способам связи <ArrowIcon /></a></section>
+ <nav class="se-directions" aria-label="Другие направления"><p>Другие направления</p><ul>{serviceRoutes.filter(route=>route.key!==service).map(route=><li><a href={`${base}${route.path}`}>{route.title}<ArrowIcon /></a></li>)}</ul></nav>
+ </div>
+</div>

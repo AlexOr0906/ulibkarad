@@ -9,7 +9,7 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
 <div class="team-collection doctors-section mt-10 md:mt-14" data-team-carousel>
   <div class="team-introduction"><p>Познакомиться до первой встречи.</p><span>Здесь появятся проверенные сведения<br />о врачах OrthoFamily.</span></div>
   <div class="team-toolbar">
-    <p class="team-demo-note max-w-xl text-xs leading-relaxed text-graphite">{preview ? 'Портреты и сведения о врачах готовятся к публикации.' : 'Знакомство с врачом до первого визита.'}</p>
+    <p class="team-demo-note max-w-xl text-xs leading-relaxed text-graphite">{preview ? 'Демонстрационные портреты. Это не сотрудники клиники; количество карточек не отражает состав команды.' : 'Знакомство с врачом до первого визита.'}</p>
     <div class="team-navigation" data-team-control>
       <button class="team-motion-toggle" type="button" data-team-motion aria-pressed="false" aria-label="Остановить движение портретов">Пауза</button>
       <span class="mr-3 text-xs text-graphite" data-team-position aria-live="polite">Карточки</span>
@@ -34,7 +34,7 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
       <h2 id="doctor-demo-title" class="text-3xl font-light tracking-[-.03em]">Имя и фамилия</h2>
       <p class="mt-3 text-sm text-graphite" data-doctor-dialog-specialty>Специальность врача</p>
       <p class="mt-6 text-sm leading-relaxed text-graphite" data-doctor-dialog-summary></p>
-      <p id="doctor-demo-note" class="mt-7 border-t border-graphite/25 pt-5 text-xs leading-relaxed text-graphite">ФИО, специальность и сведения о враче будут добавлены после согласования.</p>
+      <p id="doctor-demo-note" class="mt-7 border-t border-graphite/25 pt-5 text-xs leading-relaxed text-graphite">Демонстрационный портрет, не сотрудник клиники. ФИО, специальность и сведения о враче будут добавлены после согласования.</p>
       <form method="dialog"><button class="action-link mt-7 bg-ink px-6 py-4 text-xs font-semibold uppercase tracking-[.08em] text-white" type="submit">Закрыть просмотр</button></form>
     </div>
   </div>

@@ -2,7 +2,6 @@
 import '@/styles/orthodontics-arc.css';
 const base=import.meta.env.BASE_URL;
 interface Props {contactHref:string;}
-const {contactHref}=Astro.props;
 const anchors=[{x:416.60,y:215.59,s:0.24,sx:0.62},{x:440.62,y:223.20,s:0.27,sx:0.72},{x:472.27,y:228.48,s:0.34,sx:0.85},{x:511.52,y:233.75,s:0.4,sx:0.96},{x:566.60,y:240.20,s:0.46,sx:1},{x:631.64,y:240.20,s:0.46,sx:1},{x:689.06,y:233.16,s:0.4,sx:0.96},{x:730.08,y:226.72,s:0.34,sx:0.85},{x:762.30,y:218.52,s:0.27,sx:0.72},{x:787.50,y:210.90,s:0.24,sx:0.62}];
 const teeth=anchors.map((p,i)=>{const before=anchors[Math.max(0,i-1)],after=anchors[Math.min(anchors.length-1,i+1)];return {...p,r:Math.atan2(after.y-before.y,after.x-before.x)*180/Math.PI};});
 const first=teeth[0],second=teeth[1];
@@ -40,14 +39,14 @@ const wire=teeth.reduce((path,p,i)=>{if(!i)return `M-180 130 C80 110 ${first.x-4
           </g>
         </svg>
       </div>
-      <div class="oa-stage-bottom"><div><span class="oa-phase" data-oa-phase>Целая система</span></div><a href="#arc-story" class="oa-skip">Дальше по линии <span aria-hidden="true">↓</span></a></div>
+      <div class="oa-stage-bottom"><div><span class="oa-phase" data-oa-phase>Целая система</span><p>Демонстрационная улыбка. Не пациент клиники.</p></div><a href="#arc-story" class="oa-skip">Дальше по линии <span aria-hidden="true">↓</span></a></div>
       <div class="oa-progress" aria-hidden="true"><i data-oa-progress></i></div>
     </div>
   </section>
   <section class="oa-story" id="arc-story" aria-labelledby="arc-story-title" data-oa-story>
     <svg class="oa-thread" viewBox="0 0 1200 1000" preserveAspectRatio="none" aria-hidden="true"><path d="M1020 -50 C1020 100 1000 180 820 200 S170 190 170 420 S1000 540 1000 720 S650 810 650 1050" fill="none" stroke="#b9c7ce" stroke-opacity=".16" stroke-width="2"/><path data-oa-thread d="M1020 -50 C1020 100 1000 180 820 200 S170 190 170 420 S1000 540 1000 720 S650 810 650 1050" fill="none" stroke="#c9dbe5" stroke-width="2" pathLength="1"/></svg>
     <div class="oa-story-first"><p class="oa-eyebrow">Продолжение линии</p><h2 id="arc-story-title">Деталь становится<br />целым.</h2><p>Линия соединяет элементы системы.<br />И продолжает путь по странице.</p></div>
-    <div class="oa-story-second"><h2>Продолжим<br />знакомство?</h2><p>Информация об ортодонтическом направлении будет добавлена после согласования с клиникой.</p><div class="oa-actions"><a href={contactHref}>Связаться с клиникой <span aria-hidden="true">↗</span></a><a href="#arc-start">Посмотреть ещё раз <span aria-hidden="true">↑</span></a></div></div>
+    <div class="oa-story-second"><h2>Продолжим<br />знакомство?</h2><p>Описание направления, вопросы к врачу и способы связи — дальше по странице.</p><div class="oa-actions"><a href="#orthodontics-editorial">О направлении <span aria-hidden="true">↓</span></a><a href="#arc-start">Посмотреть ещё раз <span aria-hidden="true">↑</span></a></div></div>
   </section>
 </div>
 <script>

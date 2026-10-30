@@ -1,4 +1,5 @@
-/** Prototype content only. Replace with clinic-approved materials, never invented documents. */
+import {clinicConfirmed} from './clinic-confirmed';
+/** Editorial inventory, not a claim of regulatory compliance. */
 export interface PatientTopic { id: string; label: string; }
 export const patientTopics: PatientTopic[] = [
   {id:'pa-clinic',label:'Сведения о клинике'},
@@ -10,7 +11,8 @@ export const patientTopics: PatientTopic[] = [
 ];
 export const clinicInformation = [
   {label:'Город',value:'Магнитогорск'},
-  {label:'Юридическое наименование',value:'Ожидается подтверждение'},
+  {label:'Юридическое наименование',value:clinicConfirmed.legalName},
+  {label:'Формат приёма',value:clinicConfirmed.paymentLabel},
   {label:'Реквизиты',value:'Сведения будут добавлены'},
   {label:'Адрес клиники',value:'Точный адрес уточняется'},
 ];
@@ -21,8 +23,10 @@ export const rulesPlaceholders = [
 ];
 // A preliminary content inventory, not existing or legally validated documents.
 // These rows deliberately have no href/download property until actual files are received.
-export const patientDocuments = [
-  {title:'Информация для пациентов',status:'Материал ожидается'},
-  {title:'Правила предоставления услуг',status:'Материал ожидается'},
-  {title:'Политика обработки персональных данных',status:'Материал ожидается'},
+export interface PatientDocument {title:string;status:string;href:string|null;}
+export const patientDocuments:PatientDocument[] = [
+  {title:'Информация для пациентов',status:'Не предоставлено',href:null},
+  {title:'Правила предоставления услуг',status:'Не предоставлено',href:null},
+  {title:'Политика обработки персональных данных',status:'Не предоставлено',href:null},
+  {title:'Прейскурант платных услуг',status:'Не предоставлено',href:null},
 ];

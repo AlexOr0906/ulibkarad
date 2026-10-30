@@ -57,7 +57,7 @@ const transitionPaths = transitionHrefs.map(href => new URL(href, Astro.url).pat
       window.addEventListener('pageswap', event => {
         const transition = event.viewTransition;
         if (!transition) return;
-        transition.ready.catch(() => {}); // The outgoing document is intentionally skipped when hidden.
+        transition.finished.catch(() => {}); transition.ready.catch(() => {}); // The outgoing document is intentionally skipped when hidden.
         const destination = event.activation?.entry?.url;
         if (!destination || !transitionPaths.includes(new URL(destination).pathname)) transition.skipTransition();
       });

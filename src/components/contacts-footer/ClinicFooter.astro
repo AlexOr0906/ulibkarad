@@ -1,5 +1,6 @@
 ---
 import ArrowIcon from '../ArrowIcon.astro';
+import {clinicConfirmed} from '@/data/clinic-confirmed';
 import { navigation as defaultNavigation } from '../../data/site';
 import { informationDocuments } from '../../data/contacts-footer';
 import '../../styles/contacts-footer.css';
@@ -21,7 +22,7 @@ const { homeHref = base, topHref = '#top', navigation = defaultNavigation, activ
     <div class="cf-footer-grid">
       <nav aria-label="Навигация в футере"><h2>Знакомство с клиникой</h2><ul>{navigation.map(item => <li><a href={`${homeHref}${item.href}`} aria-current={`${homeHref}${item.href}` === activeHref ? 'page' : undefined}>{item.label}<ArrowIcon /></a></li>)}</ul></nav>
       <div class="cf-documents"><h2>Информация для пациентов</h2><ul>{informationDocuments.map(document => <li>{document.href ? <a href={`${base}${document.href.replace(/^\/+/, '')}`}>{document.title}<ArrowIcon /></a> : <span>{document.title}<small>Готовится</small></span>}</li>)}</ul></div>
-      <div class="cf-legal"><h2>О клинике</h2><details><summary>Реквизиты клиники <span aria-hidden="true">+</span></summary><dl><div><dt>Юридическое лицо</dt><dd>Сведения будут добавлены</dd></div><div><dt>ИНН и ОГРН</dt><dd>Сведения будут добавлены</dd></div><div><dt>Лицензия</dt><dd>Реквизиты и документ ожидаются</dd></div></dl></details><p>Юридическая информация и документы будут размещены после подтверждения клиникой.</p></div>
+      <div class="cf-legal"><h2>О клинике</h2><details><summary>Реквизиты клиники <span aria-hidden="true">+</span></summary><dl><div><dt>Юридическое лицо</dt><dd>{clinicConfirmed.legalName}</dd></div><div><dt>ИНН и ОГРН</dt><dd>Сведения будут добавлены</dd></div><div><dt>Лицензия</dt><dd>Реквизиты и документ ожидаются</dd></div></dl></details><p>Юридическая информация и документы будут размещены после подтверждения клиникой.</p></div>
     </div>
     <div class="cf-footer-bottom"><p>© {new Date().getFullYear()} OrthoFamily</p></div>
   </div>

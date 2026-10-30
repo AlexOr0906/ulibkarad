@@ -11,6 +11,6 @@ export const contactDetails: ClinicContacts = {
 };
 export const informationDocuments: { title: string; href: string | null }[] = [
   { title: 'Информация для пациентов', href: 'patients/' },
-  { title: 'Политика обработки персональных данных', href: null },
-  { title: 'Лицензия и сведения о клинике', href: null },
+  { title: 'Документы для пациентов', href: 'patients/#pa-documents' },
+  { title: 'Лицензия и сведения о клинике', href: 'patients/#pa-license' },
 ];

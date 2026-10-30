@@ -10,6 +10,10 @@
 - Общий `TherapyPage.astro` использует InternalPageLayout и ServicePageContent: одна шапка, h1 и футер, стандартные секции услуг. Его visual передаётся в готовый slot `scene`.
 - Движение — существующий `initInternalMotion`, через `data-ip-enter` / `data-ip-mask`. Новый initializer не добавлен. Без JavaScript и с reduced motion содержание видно сразу.
 
+## Обновление при завершении сайта
+
+Содержательная часть перенесена в src/data/service-editorial.ts и ServiceEditorial.astro; типизированные данные therapy.ts теперь отвечают только за вводный экран. Актуальная общая инструкция — CONTENT-REPLACEMENT.md. Ниже сохранён исходный контракт первого прохода; описание стандартного тела ready/placeholder относится к ServicePageContent, но не к новому custom body.
+
 ## Замена материалов
 
 Типизированные данные обеих страниц — `src/data/therapy.ts`, функция `therapyPage`. Название и вводная фраза — редакционная рамка; медицинского описания пока нет.

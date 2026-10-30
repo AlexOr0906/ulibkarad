@@ -2,6 +2,7 @@
 import InternalPageLayout from '@/layouts/InternalPageLayout.astro';
 import ServicePageContent from '@/components/services/ServicePageContent.astro';
 import ArrowIcon from '@/components/ArrowIcon.astro';
+import ServiceEditorial from '@/components/services/ServiceEditorial.astro';
 import {therapyPage,type TherapyAudience} from '@/data/therapy';
 import {siteNavigation} from '@/data/site-preview-navigation';
 import '@/styles/therapy.css';
@@ -21,9 +22,10 @@ const id=`sv-${data.service.id}`;
         </div>
         <figure class="th-media" data-ip-enter data-ip-mask data-ip-delay="100">
           {data.visual.image?<img src={`${base}${data.visual.image.src}`} alt={data.visual.image.alt} width="640" height="800" decoding="async" />:<div class="th-photo-placeholder"><span class="th-photo-window" aria-hidden="true"></span><p>Здесь будет<br />фотография клиники.</p></div>}
-          {!data.visual.image&&<figcaption>Фотография ожидается от клиники.</figcaption>}
+          <figcaption>{data.visual.image?'Демонстрационная иллюстрация. Не фотография клиники.':'Место для фотографии клиники: ребёнок с родителем или светлый интерьер.'}</figcaption>
         </figure>
       </section>
+      <ServiceEditorial service={data.audience==='adult'?'adult-therapy':'children-therapy'} />
     </ServicePageContent>
   </div>
 </InternalPageLayout>

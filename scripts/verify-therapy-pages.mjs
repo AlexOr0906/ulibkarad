@@ -13,7 +13,7 @@ try{
    const entry=direction.locator(`a[href="/${route}/"]`);await entry.focus();await Promise.all([p.waitForURL(`**/${route}/`),p.keyboard.press('Enter')]);await p.evaluate(()=>document.fonts.ready);
    assert.equal(await p.locator('h1').innerText(),label);assert.ok((await p.title()).includes(label));
    for(const selector of ['main','.hn-header','.cf-footer','[data-service-page]'])assert.equal(await p.locator(selector).count(),1);
-   assert.equal(await p.locator('.sv-section').count(),5);assert.equal(await p.locator('.sv-doctors,.sv-prices').count(),0);
+   assert.equal(await p.locator('.se-help').count(),1);assert.equal(await p.locator('.sv-doctors,.sv-prices').count(),0);
    for(const img of await p.locator('img').all()){await img.scrollIntoViewIfNeeded();await img.evaluate(e=>e.decode());assert.ok(await img.evaluate(e=>e.naturalWidth>0));}
    await p.evaluate(()=>scrollTo({top:0,behavior:'instant'}));
    await p.waitForTimeout(600);
@@ -26,7 +26,7 @@ try{
    if(mode==='normal')await p.screenshot({path:`${out}/${route}-${width}-scene.png`});
    if(mode==='reduced')assert.equal(await p.locator('main').evaluate(e=>e.getAnimations({subtree:true}).length),0);
    if(width<768&&mode!=='nojs'){await p.locator('.hn-toggle').click();await p.keyboard.press('Escape');await p.waitForFunction(()=>!document.querySelector('[data-hn-disclosure]').open);assert.equal(await p.locator('[data-hn-disclosure]').getAttribute('open'),null);}
-   await p.locator('.sv-action').focus();await Promise.all([p.waitForURL('**/#contacts'),p.keyboard.press('Enter')]);
+   await p.locator('.se-action').focus();await Promise.all([p.waitForURL('**/#contacts'),p.keyboard.press('Enter')]);
    await p.goBack();await p.waitForURL(`**/${route}/**`);await p.goForward();await p.waitForURL('**/#contacts');
    await p.goto(`${base}/${route}/`);await p.locator('.sv-crumbs a').focus();await Promise.all([p.waitForURL(base+'/'),p.keyboard.press('Enter')]);
   }

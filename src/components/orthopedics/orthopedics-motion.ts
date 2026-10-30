@@ -64,7 +64,7 @@ function initHumanScene(root:HTMLElement):()=>void {
     const cx=(nw*.68*fit+(w-nw*fit)*(position[0]||0))/Math.max(1,w),cy=(nh*.495*fit+(h-nh*fit)*(position[1]||0))/Math.max(1,h);
     // Zoom around the teeth themselves, so the smile stays centred inside the aperture.
     root.style.setProperty('--or-human-origin',`${cx*100}% ${cy*100}%`);
-    const halfWidth=Math.min(.46,nw*(opening==='smile'?.24:phone.matches?.18:.105)*fit/Math.max(1,w)),halfHeight=Math.min(.38,nh*(opening==='smile'?.2:phone.matches?.13:.075)*fit/Math.max(1,h));
+    const halfWidth=Math.min(.42,nw*.105*fit/Math.max(1,w)),halfHeight=Math.min(.3,nh*.075*fit/Math.max(1,h));
     crop={top:clamp(cy-halfHeight)*100,right:clamp(1-cx-halfWidth)*100,bottom:clamp(1-cy-halfHeight)*100,left:clamp(cx-halfWidth)*100};
     if(opening==='smile')crop=phone.matches?{top:0,right:0,bottom:0,left:0}:{top:8,right:2,bottom:4,left:40};
     if(opening==='portrait')crop=phone.matches?{top:3,right:3,bottom:3,left:3}:{top:5,right:3,bottom:5,left:36};

@@ -1,0 +1,45 @@
+/* Controls remain legible both inside the dialog and on the dedicated page. */
+.hn-bar{flex-wrap:wrap;column-gap:24px;row-gap:0}
+.rc-entry{flex:1 0 100%;display:flex;justify-content:flex-end;border-top:1px solid var(--hn-line);margin-top:10px}
+.rc-entry a{display:flex;align-items:center;gap:10px;min-height:44px;color:inherit;font:500 13px/1.4 Arial,sans-serif;text-decoration:underline;text-underline-offset:4px}
+.rc-entry a>span:first-child{font-size:20px;font-weight:700;text-decoration:none}
+.rc-dialog{position:fixed;inset:0;margin:auto;width:min(720px,calc(100% - 24px));max-height:calc(100dvh - 24px);padding:24px;border:1px solid #89949b;background:#fff;color:#20282e;overflow:auto;overscroll-behavior:contain;font:18px/1.5 Arial,sans-serif;box-sizing:border-box}
+.rc-dialog::backdrop{background:rgb(15 22 28 / .65)}
+.rc-heading{display:flex;justify-content:space-between;gap:16px;align-items:start;margin-bottom:24px}
+.rc-heading h2{font-size:26px;line-height:1.2;margin:0;font-weight:600}
+.rc-form{max-width:720px;font:18px/1.5 Arial,sans-serif}
+.rc-form fieldset{border:0;padding:0;margin:24px 0}
+.rc-form legend{font-size:20px;font-weight:700;margin-bottom:12px}
+.rc-options{display:flex;gap:8px;flex-wrap:wrap}
+.rc-options label{flex:1 1 140px;display:flex;gap:10px;align-items:center;border:1px solid #87929a;padding:12px;cursor:pointer;margin:0!important;box-sizing:border-box}
+.rc-options label:has(input:checked){outline:2px solid currentColor;outline-offset:-3px;font-weight:bold}
+.rc-form input{width:22px;height:22px;min-height:22px!important;flex:none;accent-color:#273037;margin:0}
+.rc-enable,.rc-images{display:flex!important;align-items:center;gap:12px;flex-wrap:wrap;cursor:pointer}
+.rc-enable{font-size:20px;font-weight:bold}
+.rc-enable strong{font-size:16px;border-bottom:2px solid currentColor}
+.rc-help{margin:16px 0;font-size:16px;line-height:1.6}
+.rc-sample{padding:18px 0;border-block:1px solid currentColor;margin:24px 0;font-size:1.1em;line-height:1.7}
+.rc-form [role=status]{font-size:16px;min-height:24px;margin:12px 0}
+.rc-dialog button,.rc-form button{border:1px solid currentColor;background:transparent;color:inherit;min-height:48px;padding:10px 14px;font:inherit;cursor:pointer}
+.rc-continue{width:100%;font-weight:bold!important;margin-top:12px}
+:is(.rc-dialog,.rc-form,.rc-entry) :is(a,button,input):focus-visible{outline:3px solid currentColor!important;outline-offset:4px!important}
+html[data-reading=on] .rc-dialog{background:var(--read-bg)!important;color:var(--read-ink)!important}
+html[data-reading=on] .rc-options{display:flex!important;gap:8px!important}
+html[data-reading=on] .rc-form fieldset{margin-block:24px!important}
+html[data-reading=on] .rc-form input{min-height:22px!important}
+html[data-reading=on] main .rc-options label{padding:12px!important}
+html[data-reading=on] .rc-form .rc-sample{padding-block:18px!important}
+html[data-reading=on] main .ts-optic{display:block!important;width:100%!important;height:auto!important}
+html[data-reading=on][data-hide-images=true] main :is(img,svg,video,iframe,[role=img]){display:none!important}
+html[data-reading=on] .rc-entry{flex:1 1 100%!important}
+@media(max-width:480px){.rc-entry{margin-right:-52px}.rc-entry a{font-size:12px}.rc-dialog{padding:16px}.rc-heading{flex-direction:column;gap:12px}.rc-options label{flex-basis:100%}}
+html[data-reading=on] .rc-entry{margin-right:0}
+html:not([data-site-js]) [data-reading-form]{display:none}
+.rc-heading{position:sticky;top:-24px;z-index:2;background:#fff;padding-block:12px}
+html[data-reading=on] .rc-heading{background:var(--read-bg)!important}
+@media(max-width:480px){.rc-heading{top:-16px}.rc-heading h2{font-size:22px!important}.rc-heading button{font-size:18px!important}}
+.rc-heading-actions{display:flex;flex-wrap:wrap;gap:8px;flex:none}
+html[data-reading=on] .rc-heading h2{font-size:22px!important;line-height:1.25!important;margin:0!important}
+html[data-reading=on] .rc-heading button{font-size:16px!important;line-height:1.4!important}
+html[data-reading=on] main{width:100%!important;max-width:76ch!important;margin-inline:auto!important;box-sizing:border-box!important}
+@media(max-width:767px){.rc-heading{flex-direction:column}.rc-heading-actions{width:100%}.rc-heading-actions button{flex:1}}

@@ -1,12 +1,12 @@
 ---
 import InternalPageLayout from '@/layouts/InternalPageLayout.astro';
+import ReadingControls from '@/components/site-functions/ReadingControls.astro';
 import {siteNavigation} from '@/data/site-preview-navigation';
 const base=import.meta.env.BASE_URL,nav=siteNavigation(base);
 ---
-<InternalPageLayout title="Настройки чтения" description="Размер текста, контраст и упрощённое чтение страниц OrthoFamily." homeHref={nav.home} contactHref={nav.contactHref} navigation={nav.navigation} footerNavigation={nav.footerNavigation} transitionHrefs={nav.transitionHrefs}>
- <div class="sf-shell"><nav class="sf-crumbs" aria-label="Хлебные крошки"><a href={base}>Главная</a> / Настройки чтения</nav><h1>Удобно читать.</h1><p class="sf-lead">Режим для слабовидящих увеличивает текст, меняет контраст и перестраивает страницы в простой поток без сложных сцен и анимации. Настройки сохраняются в этом браузере.</p>
- <form class="sf-settings" data-reading-form><label><input type="checkbox" name="enabled" /> Включить режим чтения</label><fieldset><legend>Размер текста</legend><label><input type="radio" name="size" value="normal" checked /> Обычный</label><label><input type="radio" name="size" value="large" /> Крупный</label><label><input type="radio" name="size" value="largest" /> Очень крупный</label></fieldset><fieldset><legend>Контраст</legend><label><input type="radio" name="contrast" value="light" checked /> Чёрный на белом</label><label><input type="radio" name="contrast" value="dark" /> Белый на чёрном</label><label><input type="radio" name="contrast" value="cream" /> Тёмный на светло-жёлтом</label></fieldset><button type="submit">Применить</button><button type="button" data-reading-reset>Вернуть обычный вид</button><p role="status" data-reading-status aria-live="polite"></p></form>
- <p>Это пользовательские настройки отображения. Соответствие стандартам доступности отдельно не подтверждено.</p><noscript><p>Для изменения и сохранения настроек нужен JavaScript. Содержание сайта и <a href={`${base}sitemap/`}>карта страниц</a> доступны без него.</p></noscript>
+<InternalPageLayout title="Версия для слабовидящих" description="Настройте размер текста, цвета и изображения на всех страницах OrthoFamily." homeHref={nav.home} contactHref={nav.contactHref} navigation={nav.navigation} footerNavigation={nav.footerNavigation} transitionHrefs={nav.transitionHrefs}>
+ <div class="sf-shell"><nav class="sf-crumbs" aria-label="Хлебные крошки"><a href={base}>Главная</a> / Версия для слабовидящих</nav><h1>Читать так,<br />как удобно вам.</h1><p class="sf-lead">Включите версию для слабовидящих или выберите подходящий размер текста и цвет страницы. Настройки действуют на всём сайте. Открыть их можно в любой момент кнопкой в шапке.</p>
+ <ReadingControls />
+ <noscript><p>Для изменения и сохранения настроек нужен JavaScript. Вы можете увеличить страницу средствами браузера. <a href={`${base}sitemap/`}>Карта сайта</a> доступна без JavaScript.</p></noscript>
  </div>
 </InternalPageLayout>
-<script>import {initReadingSettings} from '@/components/site-functions/reading';initReadingSettings();</script>

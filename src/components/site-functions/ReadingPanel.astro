@@ -1,0 +1,10 @@
+---
+import ReadingControls from './ReadingControls.astro';
+import '@/styles/reading-controls.css';
+---
+<dialog class="rc-dialog" data-reading-dialog aria-labelledby="rc-title">
+  <div class="rc-heading"><h2 id="rc-title">Настройки отображения</h2><div class="rc-heading-actions"><button type="button" data-reading-off>Обычный вид</button><button type="button" data-reading-close aria-label="Закрыть настройки">Закрыть ×</button></div></div>
+  <ReadingControls />
+  <button class="rc-continue" type="button" data-reading-close>Продолжить чтение</button>
+</dialog>
+<script>import {initReadingSettings} from './reading';initReadingSettings();</script>

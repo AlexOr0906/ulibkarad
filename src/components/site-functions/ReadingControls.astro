@@ -1,0 +1,19 @@
+<form class="rc-form" data-reading-form>
+  <label class="rc-enable"><input type="checkbox" name="enabled" /> Версия для слабовидящих <strong data-reading-state>выключена</strong></label>
+  <p class="rc-help">Крупный текст, контрастные цвета, спокойная страница без анимации. Изменения применяются сразу.</p>
+  <fieldset><legend>Размер текста</legend><div class="rc-options">
+    <label><input type="radio" name="size" value="normal" checked /><span>Стандартный<br /><small>18 px</small></span></label>
+    <label><input type="radio" name="size" value="large" /><span>Крупный<br /><small>22 px</small></span></label>
+    <label><input type="radio" name="size" value="largest" /><span>Очень крупный<br /><small>26 px</small></span></label>
+  </div></fieldset>
+  <fieldset><legend>Цвет страницы</legend><div class="rc-options">
+    <label><input type="radio" name="contrast" value="light" checked /><span>Чёрный на белом</span></label>
+    <label><input type="radio" name="contrast" value="dark" /><span>Белый на чёрном</span></label>
+    <label><input type="radio" name="contrast" value="cream" /><span>Тёмный на кремовом</span></label>
+  </div></fieldset>
+  <label class="rc-images"><input type="checkbox" name="hideImages" /> Скрыть изображения для удобства чтения</label>
+  <p class="rc-sample">OrthoFamily. Стоматология для всей семьи.</p>
+  <p class="rc-help">Настройки сохраняются для всех страниц в этом браузере.</p>
+  <button type="button" data-reading-reset>Вернуть обычный вид</button>
+  <p role="status" data-reading-status aria-live="polite"></p>
+</form>

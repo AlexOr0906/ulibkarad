@@ -24,7 +24,7 @@ const { homeHref = base, topHref = '#top', navigation = defaultNavigation, activ
       <div class="cf-documents"><h2>Информация для пациентов</h2><ul>{informationDocuments.map(document => <li>{document.href ? <a href={`${base}${document.href.replace(/^\/+/, '')}`}>{document.title}<ArrowIcon /></a> : <span>{document.title}<small>Готовится</small></span>}</li>)}</ul></div>
       <div class="cf-legal"><h2>О клинике</h2><details><summary>Реквизиты клиники <span aria-hidden="true">+</span></summary><dl><div><dt>Юридическое лицо</dt><dd>{clinicConfirmed.legalName}</dd></div><div><dt>ИНН и ОГРН</dt><dd>Сведения будут добавлены</dd></div><div><dt>Лицензия</dt><dd>Реквизиты и документ ожидаются</dd></div></dl></details><p>Юридическая информация и документы будут размещены после подтверждения клиникой.</p></div>
     </div>
-    <nav class="sf-footer-tools" aria-label="Функции сайта"><a href={`${base}search/`}>Поиск</a><a href={`${base}sitemap/`}>Карта сайта</a><a href={`${base}accessibility/`}>Настройки чтения</a></nav>
+    <nav class="sf-footer-tools" aria-label="Функции сайта"><a href={`${base}search/`}>Поиск</a><a href={`${base}sitemap/`}>Карта сайта</a><a href={`${base}accessibility/`} data-reading-open aria-haspopup="dialog">Версия для слабовидящих</a></nav>
     <div class="cf-footer-bottom"><p>© {new Date().getFullYear()} OrthoFamily</p></div>
   </div>
 </footer>

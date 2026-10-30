@@ -1,5 +1,6 @@
 ---
 import '@/styles/orthodontics-arc.css';
+import UpperArch from './UpperArch.astro';
 interface Props {contactHref:string;}
 const {contactHref}=Astro.props;
 const teeth=[{x:234,y:176,r:20,s:.82},{x:344,y:233,r:13,s:.9},{x:468,y:268,r:6,s:.98},{x:600,y:280,r:0,s:1.04},{x:732,y:268,r:-6,s:.98},{x:856,y:233,r:-13,s:.9},{x:966,y:176,r:-20,s:.82}];
@@ -9,7 +10,7 @@ const wire='M -180 130 C -50 -100 80 70 234 176 C 355 244 470 280 600 280 C 730 
   <section class="oa-scene" id="arc-start" aria-labelledby="arc-title" data-oa-scene>
     <div class="oa-stage" data-oa-stage>
       <header class="oa-heading"><p class="oa-eyebrow">Ортодонтия / исследование движения</p><h1 id="arc-title">Всё связано.</h1><p class="oa-subtitle">Одна линия.<br />Целая система.</p></header>
-      <div class="oa-art" role="img" aria-label="Художественная модель: серебряная дуга соединяет семь брекетов на условном зубном ряду. Не схема лечения.">
+      <div class="oa-art" role="img" aria-label="Художественная модель верхней зубной дуги с десной и брекетной системой. Не схема лечения.">
         <svg viewBox="0 0 1200 520" aria-hidden="true" class="oa-svg">
           <defs>
             <radialGradient id="oa-enamel" cx=".36" cy=".27" r=".8" gradientTransform="translate(0 -.12) scale(1 1.25)"><stop stop-color="#fffef5"/><stop offset=".34" stop-color="#eeeee3"/><stop offset=".7" stop-color="#c9d0cd"/><stop offset=".9" stop-color="#899a9e"/><stop offset="1" stop-color="#576b74"/></radialGradient>
@@ -50,7 +51,7 @@ const wire='M -180 130 C -50 -100 80 70 234 176 C 355 244 470 280 600 280 C 730 
           </defs>
           <ellipse cx="600" cy="290" rx="550" ry="220" fill="url(#oa-pool)"/>
           <g data-oa-camera>
-            <g data-oa-teeth>{teeth.map((t,i)=>{const contour=Math.abs(i-3)>1?'M-46 -66C-47 -91 -28 -106 -5 -108C21 -109 44 -90 48 -65L50 37Q49 63 28 73Q5 81 -22 74Q-47 68 -49 44Z':'M-49 -65C-47 -102 -25 -109 0 -106C29 -111 48 -96 50 -65L51 43Q52 68 35 74Q9 79 -31 75Q-51 72 -52 49Z';return <g transform={`translate(${t.x} ${t.y}) rotate(${t.r}) scale(${t.s})`}><path d={contour} fill="url(#oa-enamel)" stroke="#dce3dd" stroke-opacity=".22" stroke-width=".65"/><path d={contour} fill="url(#oa-enamel-edge)"/><path d="M-36 -66Q-38 -87 -21 -91Q-9 -90 -15 -68L-20 17Q-25 37 -34 22Z" fill="url(#oa-enamel-light)"/><path d="M-43 59Q-12 71 36 65" fill="none" stroke="#eff5ed" opacity=".18" stroke-width=".7"/></g>})}</g>
+            <g data-oa-teeth>{teeth.map((t,i)=>{const contour=Math.abs(i-3)>1?'M-46 -66C-47 -91 -28 -106 -5 -108C21 -109 44 -90 48 -65L50 37Q49 63 28 73Q5 81 -22 74Q-47 68 -49 44Z':'M-49 -65C-47 -102 -25 -109 0 -106C29 -111 48 -96 50 -65L51 43Q52 68 35 74Q9 79 -31 75Q-51 72 -52 49Z';return <g transform={`translate(${t.x} ${t.y}) rotate(${t.r}) scale(${t.s})`}><path d={contour} fill="url(#oa-enamel)" stroke="#dce3dd" stroke-opacity=".22" stroke-width=".65"/><path d={contour} fill="url(#oa-enamel-edge)"/><path d="M-36 -66Q-38 -87 -21 -91Q-9 -90 -15 -68L-20 17Q-25 37 -34 22Z" fill="url(#oa-enamel-light)"/><path d="M-43 59Q-12 71 36 65" fill="none" stroke="#eff5ed" opacity=".18" stroke-width=".7"/></g>})}<UpperArch /></g>
             {teeth.map((t,i)=><g transform={`translate(${t.x} ${t.y}) rotate(${t.r}) scale(${t.s})`}><g data-oa-bracket data-index={i} filter="url(#oa-shadow)"><use href="#oa-bracket"/></g></g>)}
             <path d={wire} fill="none" stroke="#101e28" stroke-width="4" opacity=".45" transform="translate(0 1.8)" data-oa-wire-shadow/>
             <path d={wire} fill="none" stroke="url(#oa-wire)" stroke-width="2.6" stroke-linecap="round" data-oa-wire/>

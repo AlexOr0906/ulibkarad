@@ -1,9 +1,9 @@
 ---
 import '@/styles/orthodontics-arc.css';
-import UpperArch from './UpperArch.astro';
+const base=import.meta.env.BASE_URL;
 interface Props {contactHref:string;}
 const {contactHref}=Astro.props;
-const teeth=[{x:370,y:100,r:40,s:.5},{x:350,y:145,r:33,s:.58},{x:355,y:195,r:27,s:.68},{x:380,y:245,r:20,s:.76},{x:435,y:280,r:12,s:.86},{x:510,y:300,r:6,s:.95},{x:600,y:310,r:0,s:1.04},{x:690,y:300,r:-6,s:.95},{x:765,y:280,r:-12,s:.86},{x:820,y:245,r:-20,s:.76},{x:845,y:195,r:-27,s:.68},{x:850,y:145,r:-33,s:.58},{x:830,y:100,r:-40,s:.5}];
+const teeth=[{x:433.51,y:211.41,r:30,s:0.34},{x:456.29,y:229.64,r:25,s:0.36},{x:479.08,y:250.14,r:20,s:0.38},{x:501.86,y:268.37,r:15,s:0.4},{x:524.65,y:279.77,r:9,s:0.43},{x:558.83,y:283.41,r:3,s:0.46},{x:599.85,y:288.88,r:0,s:0.5},{x:643.14,y:288.88,r:0,s:0.5},{x:686.43,y:284.32,r:-3,s:0.46},{x:725.17,y:279.77,r:-9,s:0.43},{x:757.07,y:268.37,r:-15,s:0.4},{x:779.86,y:247.86,r:-20,s:0.38},{x:802.65,y:229.64,r:-25,s:0.36},{x:816.32,y:209.13,r:-30,s:0.34}];
 const points=[{x:-180,y:130},{x:140,y:110},...teeth,{x:1040,y:160},{x:1120,y:320},{x:1020,y:600}];
 const wire=points.reduce((path,p,i)=>{if(!i)return `M${p.x} ${p.y}`;const a=points[i-1],before=points[Math.max(0,i-2)],after=points[Math.min(points.length-1,i+1)];return path+` C${a.x+(p.x-before.x)/6} ${a.y+(p.y-before.y)/6} ${p.x-(after.x-a.x)/6} ${p.y-(after.y-a.y)/6} ${p.x} ${p.y}`;},'');
 ---
@@ -11,7 +11,7 @@ const wire=points.reduce((path,p,i)=>{if(!i)return `M${p.x} ${p.y}`;const a=poin
   <section class="oa-scene" id="arc-start" aria-labelledby="arc-title" data-oa-scene>
     <div class="oa-stage" data-oa-stage>
       <header class="oa-heading"><p class="oa-eyebrow">Ортодонтия / исследование движения</p><h1 id="arc-title">Всё связано.</h1><p class="oa-subtitle">Одна линия.<br />Целая система.</p></header>
-      <div class="oa-art" role="img" aria-label="Художественная модель верхней зубной дуги с десной и брекетной системой. Не схема лечения.">
+      <div class="oa-art" role="img" aria-label="Демонстрационная AI-модель нижней челюсти с видимым телом челюсти и брекетной системой. Не медицинская схема.">
         <svg viewBox="0 0 1200 520" aria-hidden="true" class="oa-svg">
           <defs>
             <radialGradient id="oa-enamel" cx=".36" cy=".27" r=".8" gradientTransform="translate(0 -.12) scale(1 1.25)"><stop stop-color="#fffef5"/><stop offset=".34" stop-color="#eeeee3"/><stop offset=".7" stop-color="#c9d0cd"/><stop offset=".9" stop-color="#899a9e"/><stop offset="1" stop-color="#576b74"/></radialGradient>
@@ -52,7 +52,7 @@ const wire=points.reduce((path,p,i)=>{if(!i)return `M${p.x} ${p.y}`;const a=poin
           </defs>
           <ellipse cx="600" cy="290" rx="550" ry="220" fill="url(#oa-pool)"/>
           <g data-oa-camera>
-            <g data-oa-teeth><UpperArch />{teeth.map((t,i)=>{const contour=Math.abs(i-6)>1?'M-46 -66C-47 -91 -28 -106 -5 -108C21 -109 44 -90 48 -65L50 37Q49 63 28 73Q5 81 -22 74Q-47 68 -49 44Z':'M-49 -65C-47 -102 -25 -109 0 -106C29 -111 48 -96 50 -65L51 43Q52 68 35 74Q9 79 -31 75Q-51 72 -52 49Z';return <g transform={`translate(${t.x} ${t.y}) rotate(${t.r}) scale(${t.s})`}><path d={contour} fill="url(#oa-enamel)" stroke="#dce3dd" stroke-opacity=".22" stroke-width=".65"/><path d={contour} fill="url(#oa-enamel-edge)"/><path d="M-36 -66Q-38 -87 -21 -91Q-9 -90 -15 -68L-20 17Q-25 37 -34 22Z" fill="url(#oa-enamel-light)"/><path d="M-43 59Q-12 71 36 65" fill="none" stroke="#eff5ed" opacity=".18" stroke-width=".7"/></g>})}</g>
+            <g data-oa-teeth><image href={`${base}orthodontics-concept/mandible-study-v1.png`} x="274" y="20" width="700" height="466.667" preserveAspectRatio="xMidYMid meet" /></g>
             {teeth.map((t,i)=><g transform={`translate(${t.x} ${t.y}) rotate(${t.r}) scale(${t.s})`}><g data-oa-bracket data-index={i} filter="url(#oa-shadow)"><use href="#oa-bracket"/></g></g>)}
             <path d={wire} fill="none" stroke="#101e28" stroke-width="4" opacity=".45" transform="translate(0 1.8)" data-oa-wire-shadow/>
             <path d={wire} fill="none" stroke="url(#oa-wire)" stroke-width="2.6" stroke-linecap="round" data-oa-wire/>
@@ -61,7 +61,7 @@ const wire=points.reduce((path,p,i)=>{if(!i)return `M${p.x} ${p.y}`;const a=poin
           </g>
         </svg>
       </div>
-      <div class="oa-stage-bottom"><div><span class="oa-phase" data-oa-phase>Целая система</span><p>Художественный прототип. Не медицинская схема.</p></div><a href="#arc-story" class="oa-skip">Дальше по линии <span aria-hidden="true">↓</span></a></div>
+      <div class="oa-stage-bottom"><div><span class="oa-phase" data-oa-phase>Целая система</span><p>AI-модель челюсти. Не медицинская схема.</p></div><a href="#arc-story" class="oa-skip">Дальше по линии <span aria-hidden="true">↓</span></a></div>
       <div class="oa-progress" aria-hidden="true"><i data-oa-progress></i></div>
     </div>
   </section>
@@ -69,7 +69,7 @@ const wire=points.reduce((path,p,i)=>{if(!i)return `M${p.x} ${p.y}`;const a=poin
     <svg class="oa-thread" viewBox="0 0 1200 1000" preserveAspectRatio="none" aria-hidden="true"><path d="M1020 -50 C1020 100 1000 180 820 200 S170 190 170 420 S1000 540 1000 720 S650 810 650 1050" fill="none" stroke="#b9c7ce" stroke-opacity=".16" stroke-width="2"/><path data-oa-thread d="M1020 -50 C1020 100 1000 180 820 200 S170 190 170 420 S1000 540 1000 720 S650 810 650 1050" fill="none" stroke="#c9dbe5" stroke-width="2" pathLength="1"/></svg>
     <div class="oa-story-first"><p class="oa-eyebrow">Концепция «Дуга»</p><h2 id="arc-story-title">Деталь становится<br />целым.</h2><p>Линия соединяет элементы системы.<br />И продолжает путь по странице.</p></div>
     <div class="oa-story-second"><h2>Продолжим<br />знакомство?</h2><p>Здесь появится согласованная информация об ортодонтии. Пока проверяем образ, движение и ощущение от страницы.</p><div class="oa-actions"><a href={contactHref}>Связаться с клиникой <span aria-hidden="true">↗</span></a><a href="#arc-start">Посмотреть ещё раз <span aria-hidden="true">↑</span></a></div></div>
-    <p class="oa-note">Демонстрационная модель создана для обсуждения анимации. Конструкция условная; не иллюстрирует установку системы или результат лечения.</p>
+    <p class="oa-note">Демонстрационная AI-модель создана для обсуждения анимации. Конструкция условная; не иллюстрирует установку системы или результат лечения.</p>
   </section>
 </div>
 <script>

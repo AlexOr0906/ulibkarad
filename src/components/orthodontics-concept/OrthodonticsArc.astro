@@ -26,13 +26,12 @@ const wire=teeth.reduce((path,p,i)=>{if(!i)return `M-180 130 C80 110 ${first.x-4
             <linearGradient id="oa-edge" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff"/><stop offset=".18" stop-color="#a4b9c6"/><stop offset=".48" stop-color="#304451"/><stop offset=".7" stop-color="#91a8b6"/><stop offset="1" stop-color="#d8e4ea"/></linearGradient>
             <linearGradient id="oa-wire" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#6e8493"/><stop offset=".42" stop-color="#eefaff"/><stop offset=".58" stop-color="#b3c4cf"/><stop offset="1" stop-color="#607582"/></linearGradient>
             <radialGradient id="oa-pool"><stop stop-color="#a1b9c6" stop-opacity=".16"/><stop offset="1" stop-color="#a1b9c6" stop-opacity="0"/></radialGradient>
-            <filter id="oa-shadow" x="-70%" y="-70%" width="240%" height="260%"><feDropShadow dx="0" dy=".8" stdDeviation=".6" flood-color="#071019" flood-opacity=".4"/></filter>
-            <g id="oa-bracket"><image href={`${base}orthodontics-concept/bracket-steel-v1.png`} x="-35.156" y="-34.312" width="72" height="72" /></g>
+            <g id="oa-bracket"><image href={`${base}orthodontics-concept/bracket-steel-v1.webp`} x="-35.156" y="-34.312" width="72" height="72" /></g>
           </defs>
           <ellipse cx="600" cy="290" rx="550" ry="220" fill="url(#oa-pool)"/>
           <g clip-path="url(#oa-smile-aperture)"><g data-oa-camera>
-            <g data-oa-teeth clip-path="url(#oa-smile-frame)"><image href={`${base}orthodontics-concept/smile-study-v1.png`} x="150" y="-10" width="900" height="600" preserveAspectRatio="xMidYMid meet" /></g>
-            {teeth.map((t,i)=><g transform={`translate(${t.x} ${t.y}) rotate(${t.r}) scale(${t.s*t.sx} ${t.s})`}><g data-oa-bracket data-index={i} filter="url(#oa-shadow)"><use href="#oa-bracket"/></g></g>)}
+            <g data-oa-teeth clip-path="url(#oa-smile-frame)"><image href={`${base}orthodontics-concept/smile-study-v1.webp`} x="150" y="-10" width="900" height="600" preserveAspectRatio="xMidYMid meet" /></g>
+            {teeth.map((t,i)=><g transform={`translate(${t.x} ${t.y}) rotate(${t.r}) scale(${t.s*t.sx} ${t.s})`}><g data-oa-bracket data-index={i}><use href="#oa-bracket"/></g></g>)}
           </g></g><g data-oa-wire-camera>
             <path d={wire} fill="none" stroke="#101e28" stroke-width="2.5" opacity=".3" transform="translate(0 .8)" data-oa-wire-shadow/>
             <path d={wire} fill="none" stroke="url(#oa-wire)" stroke-width="1.8" stroke-linecap="round" data-oa-wire/>

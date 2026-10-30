@@ -8,9 +8,9 @@ export function initArc(root:HTMLElement){
  let raf=0,start=0,span=1,storyStart=0,storySpan=1;
  const length=wires[0].getTotalLength(),tail=root.querySelector<SVGPathElement>('[data-oa-tail]')!;wires.forEach(w=>{w.style.strokeDasharray=String(length);});
  function render(){raf=0;const p=reduced.matches?1:clamp((scrollY-start)/span),reveal=ease((p-.08)/.55),scale=1+(phone.matches?3.8:2.8)*(1-reveal);
-  camera.setAttribute('transform',`translate(600 270) scale(${scale}) translate(-600 -280)`);
+  camera.setAttribute('transform',`translate(600 270) scale(${scale}) translate(-600 -310)`);
   teeth.style.opacity=String(.08+.92*ease((p-.25)/.4));
-  brackets.forEach((b,i)=>{const distance=Math.abs(i-3),land=i===3?1:ease((p-.12-distance*.07)/.25);b.setAttribute('transform',`translate(0 ${-65*(1-land)}) scale(${1+.16*(1-land)})`);b.style.opacity=String(i===3?1:land);});
+  brackets.forEach((b,i)=>{const distance=Math.abs(i-6)/2,land=i===6?1:ease((p-.12-distance*.07)/.25);b.setAttribute('transform',`translate(0 ${-65*(1-land)}) scale(${1+.16*(1-land)})`);b.style.opacity=String(i===6?1:land);});
   // The central wire is visible in macro; the complete curve threads in as the system appears.
   const wireReveal=.49+.51*ease((p-.3)/.55);wires.forEach(w=>w.style.strokeDashoffset=String(length*(1-wireReveal)));
   tail.style.opacity=String(ease((p-.75)/.1));

@@ -1,19 +1,16 @@
 ---
-// Shared gingival form follows the existing seven-tooth illustrative arch.
-// The front edge overlaps the cervical ends, keeping the row connected in every camera pose.
-const outline='M185 140 C163 107 162 54 195 39 C225 25 258 48 300 69 C398 119 486 138 600 138 C714 138 802 119 900 69 C942 48 975 25 1005 39 C1038 54 1037 107 1015 140 Q982 95 957 112 Q932 120 913 172 Q888 139 858 149 Q825 156 802 210 Q768 180 736 181 Q694 180 666 231 Q638 193 600 194 Q562 193 534 231 Q506 180 464 181 Q432 180 398 210 Q375 156 342 149 Q312 139 287 172 Q264 120 239 112 Q218 95 185 140Z';
+// Neutral study cast in an oblique view, with a continuous horseshoe foundation.
+const outline='M320 80 C285 202 345 294 470 326 Q600 367 730 326 C855 294 915 202 880 80 Q864 49 828 58 L795 65 C825 179 785 215 700 238 Q600 270 500 238 C415 215 375 179 405 65 L372 58 Q336 49 320 80Z';
 ---
 <g data-oa-upper-arch>
   <defs>
-    <linearGradient id="oa-gum" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#8d7177"/><stop offset=".23" stop-color="#b49497"/><stop offset=".55" stop-color="#c7a6a6"/><stop offset=".8" stop-color="#a77f84"/><stop offset="1" stop-color="#745760"/></linearGradient>
-    <linearGradient id="oa-gum-rim" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#efd7d0" stop-opacity=".5"/><stop offset="1" stop-color="#e6bdba" stop-opacity="0"/></linearGradient>
-    <radialGradient id="oa-gum-volume"><stop stop-color="#efd1ca" stop-opacity=".3"/><stop offset="1" stop-color="#efd1ca" stop-opacity="0"/></radialGradient>
-    <clipPath id="oa-gum-clip"><path d={outline}/></clipPath>
+    <linearGradient id="oa-cast-side" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#c2c7c1"/><stop offset=".6" stop-color="#a0aaa5"/><stop offset="1" stop-color="#667d83"/></linearGradient>
+    <linearGradient id="oa-cast-top" x1="0" y1="0" x2=".2" y2="1"><stop stop-color="#efeee3"/><stop offset=".45" stop-color="#e4e5db"/><stop offset=".85" stop-color="#c6d0cb"/><stop offset="1" stop-color="#99b0b3"/></linearGradient>
+    <linearGradient id="oa-cast-inner" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#60747b"/><stop offset="1" stop-color="#c4cfca"/></linearGradient>
   </defs>
-  <path d={outline} fill="#2a1e27" opacity=".25" transform="translate(0 2)"/>
-  <path d={outline} fill="url(#oa-gum)" stroke="#d3b2b1" stroke-opacity=".35" stroke-width=".7"/>
-  <g clip-path="url(#oa-gum-clip)">
-    <path d="M181 75 C198 23 251 65 301 88 C404 137 496 154 600 154 C704 154 796 137 899 88 C949 65 1002 23 1019 75" fill="none" stroke="url(#oa-gum-rim)" stroke-width="13"/>
-    {[{x:234,y:95},{x:344,y:137},{x:468,y:172},{x:600,y:185},{x:732,y:172},{x:856,y:137},{x:966,y:95}].map(p=><ellipse cx={p.x} cy={p.y} rx="46" ry="40" fill="url(#oa-gum-volume)"/>)}
-  </g>
+  <path d={outline} fill="#101d24" opacity=".35" transform="translate(0 22)"/>
+  <path d={outline} fill="url(#oa-cast-side)" transform="translate(0 15)"/>
+  <path d={outline} fill="url(#oa-cast-top)" stroke="#eff4ec" stroke-opacity=".35" stroke-width="1"/>
+  <path d="M405 65 C375 179 415 215 500 238 Q600 270 700 238 C785 215 825 179 795 65 L790 86 C809 181 770 213 696 232 Q600 260 504 232 C430 213 391 181 410 86Z" fill="url(#oa-cast-inner)"/>
+  <path d="M337 88 C308 200 366 278 479 307 Q600 345 721 307 C834 278 892 200 863 88" fill="none" stroke="#fbfff6" stroke-opacity=".35" stroke-width="2"/>
 </g>

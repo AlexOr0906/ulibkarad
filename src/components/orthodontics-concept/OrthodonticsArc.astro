@@ -3,8 +3,9 @@ import '@/styles/orthodontics-arc.css';
 import UpperArch from './UpperArch.astro';
 interface Props {contactHref:string;}
 const {contactHref}=Astro.props;
-const teeth=[{x:234,y:176,r:20,s:.82},{x:344,y:233,r:13,s:.9},{x:468,y:268,r:6,s:.98},{x:600,y:280,r:0,s:1.04},{x:732,y:268,r:-6,s:.98},{x:856,y:233,r:-13,s:.9},{x:966,y:176,r:-20,s:.82}];
-const wire='M -180 130 C -50 -100 80 70 234 176 C 355 244 470 280 600 280 C 730 280 845 244 966 176 C 1120 70 1200 180 1120 320 C 1080 400 1020 440 1020 600';
+const teeth=[{x:370,y:100,r:40,s:.5},{x:350,y:145,r:33,s:.58},{x:355,y:195,r:27,s:.68},{x:380,y:245,r:20,s:.76},{x:435,y:280,r:12,s:.86},{x:510,y:300,r:6,s:.95},{x:600,y:310,r:0,s:1.04},{x:690,y:300,r:-6,s:.95},{x:765,y:280,r:-12,s:.86},{x:820,y:245,r:-20,s:.76},{x:845,y:195,r:-27,s:.68},{x:850,y:145,r:-33,s:.58},{x:830,y:100,r:-40,s:.5}];
+const points=[{x:-180,y:130},{x:140,y:110},...teeth,{x:1040,y:160},{x:1120,y:320},{x:1020,y:600}];
+const wire=points.reduce((path,p,i)=>{if(!i)return `M${p.x} ${p.y}`;const a=points[i-1],before=points[Math.max(0,i-2)],after=points[Math.min(points.length-1,i+1)];return path+` C${a.x+(p.x-before.x)/6} ${a.y+(p.y-before.y)/6} ${p.x-(after.x-a.x)/6} ${p.y-(after.y-a.y)/6} ${p.x} ${p.y}`;},'');
 ---
 <div class="oa" data-oa>
   <section class="oa-scene" id="arc-start" aria-labelledby="arc-title" data-oa-scene>
@@ -51,7 +52,7 @@ const wire='M -180 130 C -50 -100 80 70 234 176 C 355 244 470 280 600 280 C 730 
           </defs>
           <ellipse cx="600" cy="290" rx="550" ry="220" fill="url(#oa-pool)"/>
           <g data-oa-camera>
-            <g data-oa-teeth>{teeth.map((t,i)=>{const contour=Math.abs(i-3)>1?'M-46 -66C-47 -91 -28 -106 -5 -108C21 -109 44 -90 48 -65L50 37Q49 63 28 73Q5 81 -22 74Q-47 68 -49 44Z':'M-49 -65C-47 -102 -25 -109 0 -106C29 -111 48 -96 50 -65L51 43Q52 68 35 74Q9 79 -31 75Q-51 72 -52 49Z';return <g transform={`translate(${t.x} ${t.y}) rotate(${t.r}) scale(${t.s})`}><path d={contour} fill="url(#oa-enamel)" stroke="#dce3dd" stroke-opacity=".22" stroke-width=".65"/><path d={contour} fill="url(#oa-enamel-edge)"/><path d="M-36 -66Q-38 -87 -21 -91Q-9 -90 -15 -68L-20 17Q-25 37 -34 22Z" fill="url(#oa-enamel-light)"/><path d="M-43 59Q-12 71 36 65" fill="none" stroke="#eff5ed" opacity=".18" stroke-width=".7"/></g>})}<UpperArch /></g>
+            <g data-oa-teeth><UpperArch />{teeth.map((t,i)=>{const contour=Math.abs(i-6)>1?'M-46 -66C-47 -91 -28 -106 -5 -108C21 -109 44 -90 48 -65L50 37Q49 63 28 73Q5 81 -22 74Q-47 68 -49 44Z':'M-49 -65C-47 -102 -25 -109 0 -106C29 -111 48 -96 50 -65L51 43Q52 68 35 74Q9 79 -31 75Q-51 72 -52 49Z';return <g transform={`translate(${t.x} ${t.y}) rotate(${t.r}) scale(${t.s})`}><path d={contour} fill="url(#oa-enamel)" stroke="#dce3dd" stroke-opacity=".22" stroke-width=".65"/><path d={contour} fill="url(#oa-enamel-edge)"/><path d="M-36 -66Q-38 -87 -21 -91Q-9 -90 -15 -68L-20 17Q-25 37 -34 22Z" fill="url(#oa-enamel-light)"/><path d="M-43 59Q-12 71 36 65" fill="none" stroke="#eff5ed" opacity=".18" stroke-width=".7"/></g>})}</g>
             {teeth.map((t,i)=><g transform={`translate(${t.x} ${t.y}) rotate(${t.r}) scale(${t.s})`}><g data-oa-bracket data-index={i} filter="url(#oa-shadow)"><use href="#oa-bracket"/></g></g>)}
             <path d={wire} fill="none" stroke="#101e28" stroke-width="4" opacity=".45" transform="translate(0 1.8)" data-oa-wire-shadow/>
             <path d={wire} fill="none" stroke="url(#oa-wire)" stroke-width="2.6" stroke-linecap="round" data-oa-wire/>

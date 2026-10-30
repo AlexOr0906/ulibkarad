@@ -1,0 +1,20 @@
+{
+  "checkedCommit": "17cda01b9395d9d8e6b7ecb2156f107eaa73e8b1",
+  "codeBranch": "feature/site-functions",
+  "baseCommit": "0a9eafc7d01a405995440df586993a07d2d98546",
+  "checks": [
+    "Search: index, ranking, case, body text, empty/no results, URL and back",
+    "Development fallback reads only the seven allowed HTML documents",
+    "Reading persisted across 7 pages, largest/dark, reset/back, 320",
+    "Reading persisted across 7 pages, largest/dark, reset/back, 390",
+    "Reading persisted across 7 pages, largest/dark, reset/back, 768",
+    "Reading persisted across 7 pages, largest/dark, reset/back, 1440",
+    "Settings controls synchronise after change in another tab",
+    "9 setting combinations; modal fields escape markup; no-JS fallback",
+    "Reduced motion: utility pages and reading controls"
+  ],
+  "astroCheck": "102 files; 0 errors; 0 warnings; 0 hints",
+  "build": "Root build passed; Pages base path build passed",
+  "physicalPhoneTested": false,
+  "standardsComplianceClaim": false
+}

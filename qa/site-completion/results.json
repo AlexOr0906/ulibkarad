@@ -1,0 +1,87 @@
+{
+  "checkedCommit": "0a9eafc7d01a405995440df586993a07d2d98546",
+  "codeBranch": "feature/site-completion",
+  "suite": "scripts/verify-site-completion.mjs",
+  "browser": "Desktop Chrome via playwright-core",
+  "physicalDevice": false,
+  "reports": [
+    {
+      "width": 320,
+      "mode": "normal",
+      "routes": 7,
+      "passed": true
+    },
+    {
+      "width": 320,
+      "mode": "reduced",
+      "routes": 7,
+      "passed": true
+    },
+    {
+      "width": 320,
+      "mode": "nojs",
+      "routes": 7,
+      "passed": true
+    },
+    {
+      "width": 390,
+      "mode": "normal",
+      "routes": 7,
+      "passed": true
+    },
+    {
+      "width": 390,
+      "mode": "reduced",
+      "routes": 7,
+      "passed": true
+    },
+    {
+      "width": 390,
+      "mode": "nojs",
+      "routes": 7,
+      "passed": true
+    },
+    {
+      "width": 768,
+      "mode": "normal",
+      "routes": 7,
+      "passed": true
+    },
+    {
+      "width": 768,
+      "mode": "reduced",
+      "routes": 7,
+      "passed": true
+    },
+    {
+      "width": 768,
+      "mode": "nojs",
+      "routes": 7,
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "mode": "normal",
+      "routes": 7,
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "mode": "reduced",
+      "routes": 7,
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "mode": "nojs",
+      "routes": 7,
+      "passed": true
+    }
+  ],
+  "linksChecked": 47,
+  "limits": [
+    "No physical phone or Safari testing",
+    "No backend or real appointment submission",
+    "Not a medical content or legal compliance audit"
+  ]
+}

@@ -1,6 +1,6 @@
 ---
 import ArrowIcon from '../ArrowIcon.astro';
-import { contactDetails, type ClinicContacts } from '../../data/contacts-footer';
+import { contactDetails, cityMapEmbed, cityMapLink, type ClinicContacts } from '../../data/contacts-footer';
 import '../../styles/contacts-footer.css';
 interface Props { contacts?: ClinicContacts; }
 const { contacts = contactDetails } = Astro.props;
@@ -20,21 +20,18 @@ const { contacts = contactDetails } = Astro.props;
           <div><dt>Режим работы</dt><dd data-cf-contact="hours">{contacts.hours ?? 'Расписание уточняется'}</dd></div>
           <div><dt>Электронная почта</dt><dd data-cf-contact="email">{contacts.email ? <a href={`mailto:${contacts.email}`}>{contacts.email}</a> : 'Адрес будет добавлен'}</dd></div>
         </dl>
-        <details class="cf-visit">
+        {(contacts.phone||contacts.email)&&<details class="cf-visit">
           <summary>Обсудить визит <ArrowIcon /></summary>
           <div class="cf-visit-note"><p>Запись пока недоступна.</p><p>Способы связи появятся после подтверждения клиникой.</p></div>
-        </details>
+        </details>}
         <p class="cf-action-caption">Способы связи появятся после подтверждения клиникой.</p>
       </div>
       <div class="cf-map-area">
         <slot name="map">
-          <div class="cf-map-placeholder">
-            <div class="cf-map-label"><span>Как нас найти</span><span>Карта ещё не подключена</span></div>
-            <div class="cf-map-surface" aria-hidden="true"><span class="cf-map-orbit"></span><span class="cf-map-orbit cf-map-orbit-two"></span><span class="cf-map-centre">О</span></div>
-            <div class="cf-map-bottom"><p>{contacts.city}</p><span>Здесь появится карта<br />или схема проезда.</span></div>
-          </div>
+          <iframe class="cf-city-map" title="Обзорная карта Магнитогорска без метки клиники" src={cityMapEmbed} width="640" height="420" loading="lazy" referrerpolicy="no-referrer"></iframe>
         </slot>
-        <p class="cf-map-caption">Расположение и маршрут будут доступны после подтверждения точного адреса.</p>
+        <p class="cf-map-caption">Магнитогорск. Точный адрес скоро появится</p>
+        <p class="cf-map-caption"><a href={cityMapLink} target="_blank" rel="noopener noreferrer">Открыть обзор города в отдельной вкладке</a> · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap contributors</a></p>
       </div>
     </div>
   </div>

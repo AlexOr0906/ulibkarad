@@ -18,10 +18,10 @@ const {homeHref=base,contactHref=`${base}#contacts`}=Astro.props;
       <aside class="pa-identity" aria-label="Статус раздела" data-ip-enter data-ip-delay="120">
         <span class="pa-identity-caption">OrthoFamily<br />Стоматология для всей семьи</span>
         <img src={`${base}brand/logo-chrome.svg`} alt="" width="921" height="960" />
-        <p>Раздел готовится<br />к наполнению.</p>
+        <p>Магнитогорск.</p>
       </aside>
     </header>
-    <div class="ip-demo-strip"><p>Временное наполнение раздела.</p><p>Ниже — места для подтверждённых сведений и документов.</p></div>
+
     <div class="pa-reading-grid">
       <nav class="pa-index" aria-label="Содержание раздела Пациентам">
         <p>В этом разделе</p>
@@ -31,22 +31,22 @@ const {homeHref=base,contactHref=`${base}#contacts`}=Astro.props;
         <section class="pa-section" id="pa-clinic" tabindex="-1" aria-labelledby="pa-clinic-title">
           <h2 id="pa-clinic-title" data-ip-enter>Сведения<br class="pa-wide-break" /> о клинике</h2>
           <div class="pa-section-body">
-            <p class="pa-intro">Здесь будут собраны основные сведения об OrthoFamily.</p>
+
             <dl class="pa-facts">{clinicInformation.map(item=><div><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl>
             <a class="ip-link" href={`${homeHref}about/`}>Познакомиться с клиникой <ArrowIcon /></a>
           </div>
         </section>
         <section class="pa-license" id="pa-license" tabindex="-1" aria-labelledby="pa-license-title">
           <div><p class="pa-status-light">Сведения не предоставлены</p><h2 id="pa-license-title" data-ip-enter>Лицензия</h2></div>
-          <div><p>Здесь появятся подтверждённые сведения о лицензии и документ для просмотра.</p><p class="pa-license-note">Номер, дата, орган выдачи и файл пока не получены. Ссылка будет доступна после подготовки материалов.</p></div>
+          <div><p>Здесь появятся подтверждённые сведения о лицензии и документ для просмотра.</p><p class="pa-license-note">Документ не предоставлен.</p></div>
         </section>
         <section class="pa-section" id="pa-rules" tabindex="-1" aria-labelledby="pa-rules-title">
           <h2 id="pa-rules-title" data-ip-enter>Правила<br class="pa-wide-break" /> приёма</h2>
-          <div class="pa-section-body"><p class="pa-intro">Этот блок будет наполнен согласованными организационными правилами.</p><ul class="pa-rules-list">{rulesPlaceholders.map(item=><li><h3>{item.title}</h3><p>{item.text}</p></li>)}</ul></div>
+          <div class="pa-section-body"><p class="pa-intro">Правила приёма скоро появятся.</p>{rulesPlaceholders.length>0&&<ul class="pa-rules-list">{rulesPlaceholders.map(item=><li><h3>{item.title}</h3><p>{item.text}</p></li>)}</ul>}</div>
         </section>
         <section class="pa-section pa-documents-section" id="pa-documents" tabindex="-1" aria-labelledby="pa-documents-title">
           <h2 id="pa-documents-title" data-ip-enter>Документы</h2>
-          <div class="pa-section-body"><p class="pa-intro">Документы для ознакомления перед визитом.</p><ul class="pa-documents">{patientDocuments.map(item=><li>{item.href?<a class="ip-link" href={`${base}${item.href.replace(/^\/+/, '')}`}>{item.title}<ArrowIcon /></a>:<span>{item.title}</span>}<small>{item.status}</small></li>)}</ul><p class="pa-note">Пока файлы не предоставлены, названия остаются текстом и не имитируют скачивание.</p></div>
+          <div class="pa-section-body"><p class="pa-intro">Документы для ознакомления перед визитом.</p><ul class="pa-documents">{patientDocuments.map(item=><li>{item.href?<a class="ip-link" href={`${base}${item.href.replace(/^\/+/, '')}`}>{item.title}<ArrowIcon /></a>:<span>{item.title}</span>}<small>{item.status}</small></li>)}</ul><p class="pa-note">Документы скоро появятся.</p></div>
         </section>
         <section class="pa-section" id="pa-prices" tabindex="-1" aria-labelledby="pa-prices-title">
           <h2 id="pa-prices-title" data-ip-enter>Стоимость</h2>

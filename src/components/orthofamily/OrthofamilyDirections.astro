@@ -11,7 +11,7 @@ const base = import.meta.env.BASE_URL;
     <header class="of-directions-heading">
       <p class="of-eyebrow">Направления</p>
       <h2 id="of-directions-title">С чего<br/> начнём?</h2>
-      <p>Направления, запланированные к открытию клиники. Изображения демонстрационные.</p>
+      <p>Направления, запланированные к открытию клиники.</p>
     </header>
     <div class="of-direction-list">
       {directions.map((item) => {const href=item.title==='Ортопедия'?orthopedicsHref:item.title==='Ортодонтия'?orthodonticsHref:item.title==='Взрослая терапия'?adultTherapyHref:childrenTherapyHref;return (
@@ -19,7 +19,7 @@ const base = import.meta.env.BASE_URL;
           <summary><span>{item.title}</span><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M12 4v16" fill="none" stroke="currentColor" stroke-width="1.2" /></svg></summary>
           <div class="of-direction-panel">
             <p>{item.text}</p>
-            <img src={`${base}orthofamily/${item.image}`} alt={item.alt} width="400" height="300" loading="lazy" decoding="async" style={`object-position:${item.position}`} />
+            <figure class="of-direction-figure"><img src={`${base}orthofamily/${item.image}`} alt={item.alt} width="400" height="300" loading="lazy" decoding="async" style={`object-position:${item.position}`} /><figcaption>AI-иллюстрация.</figcaption></figure>
             {href?<a class="of-text-link" href={href}>О направлении <OrthofamilyIcon /></a>:<a class="of-text-link" href="#of-visit" data-of-visit data-of-topic={item.title}>Обсудить направление <OrthofamilyIcon /></a>}
           </div>
         </details>

@@ -4,8 +4,8 @@ import DoctorInformation from '@/components/DoctorInformation.astro';
 import {clinicConfirmed} from '@/data/clinic-confirmed';
 import {hasServiceContent,nonemptyServiceText,isReadyServiceDoctor,isReadyServicePrice,type ServicePageData} from '@/data/service-page';
 import '@/styles/service-page.css';
-interface Props {data:ServicePageData;idPrefix?:string;headingLevel?:'h1'|'h2';}
-const {data,idPrefix=`sv-${data.id}`,headingLevel='h1'}=Astro.props;
+interface Props {data:ServicePageData;idPrefix?:string;headingLevel?:'h1'|'h2';showContext?:boolean;}
+const {data,idPrefix=`sv-${data.id}`,headingLevel='h1',showContext=true}=Astro.props;
 const Heading=headingLevel;
 const base=import.meta.env.BASE_URL;
 const customBody=Astro.slots.has('default');
@@ -22,7 +22,7 @@ const money=new Intl.NumberFormat('ru-RU',{style:'currency',currency:'RUB',maxim
     {data.breadcrumbs.length>0&&<nav class="sv-crumbs" aria-label="Хлебные крошки"><ol>{data.breadcrumbs.map(item=><li>{item.href?<a href={item.href}>{item.label}</a>:<span aria-current="page">{item.label}</span>}</li>)}</ol></nav>}
     <header class="sv-hero">
       <div class="sv-hero-copy"><Heading id={`${idPrefix}-title`} data-ip-enter data-ip-mask>{data.title}</Heading>{data.lead?.trim()&&<p class="sv-lead" data-ip-enter data-ip-delay="60">{data.lead}</p>}{data.demoNotice?.trim()&&<p class="sv-demo-note">{data.demoNotice}</p>}</div>
-      <aside class="sv-context"><p>OrthoFamily</p><span>Стоматология<br />для всей семьи</span><p>{clinicConfirmed.paymentLabel}</p></aside>
+      {showContext&&<aside class="sv-context"><p>OrthoFamily</p><span>Стоматология<br />для всей семьи</span><p>{clinicConfirmed.paymentLabel}</p></aside>}
     </header>
   </div>
   {Astro.slots.has('scene')&&<div class="sv-scene" data-service-scene><slot name="scene" /></div>}

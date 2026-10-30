@@ -97,3 +97,4 @@ html[data-team-transition]::view-transition-new(root) { animation: none; }
 
 .doctors-section .team-entrance-replay { min-height: 44px; padding: .5rem 1rem; border: 1px solid #8f989f; font-size: .75rem; cursor: pointer; }
 .doctor-information:not(:empty){margin-top:24px}.doctor-information>div{border-top:1px solid #aab5bb;padding:12px 0;font-size:.8rem;line-height:1.8}.doctor-information dt{font-weight:600}.doctor-information dd{margin:4px 0 0;overflow-wrap:anywhere}
+.team-awaiting{display:flex;align-items:center;gap:clamp(24px,5vw,72px);border-top:1px solid #aab5bb;margin-top:48px;padding-top:40px}.team-awaiting img{width:clamp(80px,13vw,170px);height:auto;flex:none}.team-awaiting p:first-child{font-size:clamp(1.5rem,3vw,2.5rem);font-weight:300;line-height:1.2}.team-awaiting p+p{font-size:.9rem;line-height:1.8;color:#596770;margin-top:24px}

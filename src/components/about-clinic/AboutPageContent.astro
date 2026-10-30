@@ -26,7 +26,7 @@ const {homeHref=base,doctorsHref=`${base}#doctors`,contactHref=`${base}#contacts
   <section class="ac-story" id="ac-approach" aria-labelledby="ac-approach-title">
     <div class="ac-shell ac-story-grid">
       <AboutReveal kind="type"><h2 id="ac-approach-title">{content.approach.title.map(line=><span>{line}</span>)}</h2></AboutReveal>
-      <AboutReveal><div class="ac-story-copy">{content.approach.paragraphs.map(text=><p>{text}</p>)}<p class="ac-story-note">{content.approach.note}</p></div></AboutReveal>
+      <AboutReveal><div class="ac-story-copy">{content.approach.paragraphs.map(text=><p>{text}</p>)}{content.approach.note&&<p class="ac-story-note">{content.approach.note}</p>}</div></AboutReveal>
     </div>
   </section>
   <section class="ac-facts ac-shell" aria-labelledby="ac-facts-title">

@@ -1,8 +1,8 @@
 ---
 import '@/styles/orthodontics-arc.css';
+import {bracketAnchors as anchors,smileFrame} from '@/data/braces-fit';
 const base=import.meta.env.BASE_URL;
 interface Props {contactHref:string;}
-const anchors=[{x:416.60,y:215.59,s:0.24,sx:0.62},{x:440.62,y:223.20,s:0.27,sx:0.72},{x:472.27,y:228.48,s:0.34,sx:0.85},{x:511.52,y:233.75,s:0.4,sx:0.96},{x:566.60,y:240.20,s:0.46,sx:1},{x:631.64,y:240.20,s:0.46,sx:1},{x:689.06,y:233.16,s:0.4,sx:0.96},{x:730.08,y:226.72,s:0.34,sx:0.85},{x:762.30,y:218.52,s:0.27,sx:0.72},{x:787.50,y:210.90,s:0.24,sx:0.62}];
 const teeth=anchors.map((p,i)=>{const before=anchors[Math.max(0,i-1)],after=anchors[Math.min(anchors.length-1,i+1)];return {...p,r:Math.atan2(after.y-before.y,after.x-before.x)*180/Math.PI};});
 const first=teeth[0],second=teeth[1];
 const wire=teeth.reduce((path,p,i)=>{if(!i)return `M-180 130 C80 110 ${first.x-4*(second.x-first.x)} ${first.y-4*(second.y-first.y)} ${p.x} ${p.y}`;const a=teeth[i-1],before=i>1?teeth[i-2]:{x:2*first.x-second.x,y:2*first.y-second.y},after=teeth[Math.min(teeth.length-1,i+1)];return path+` C${a.x+(p.x-before.x)/6} ${a.y+(p.y-before.y)/6} ${p.x-(after.x-a.x)/6} ${p.y-(after.y-a.y)/6} ${p.x} ${p.y}`;},'')+' C1000 120 1200 180 1120 320 C1080 400 1020 440 1020 600';
@@ -30,13 +30,13 @@ const wire=teeth.reduce((path,p,i)=>{if(!i)return `M-180 130 C80 110 ${first.x-4
           </defs>
           <ellipse cx="600" cy="290" rx="550" ry="220" fill="url(#oa-pool)"/>
           <g clip-path="url(#oa-smile-aperture)"><g data-oa-camera>
-            <g data-oa-teeth clip-path="url(#oa-smile-frame)"><image href={`${base}orthodontics-concept/smile-study-v1.webp`} x="150" y="-10" width="900" height="600" preserveAspectRatio="xMidYMid meet" /></g>
+            <g data-oa-teeth clip-path="url(#oa-smile-frame)"><image href={`${base}orthodontics-concept/smile-study-v1.webp`} x={smileFrame.x} y={smileFrame.y} width={smileFrame.width} height={smileFrame.height} preserveAspectRatio="xMidYMid meet" /></g>
             {teeth.map((t,i)=><g transform={`translate(${t.x} ${t.y}) rotate(${t.r}) scale(${t.s*t.sx} ${t.s})`}><g data-oa-bracket data-index={i}><use href="#oa-bracket"/></g></g>)}
           </g></g><g data-oa-wire-camera>
             <path d={wire} fill="none" stroke="#101e28" stroke-width="2.5" opacity=".3" transform="translate(0 .8)" data-oa-wire-shadow/>
             <path d={wire} fill="none" stroke="url(#oa-wire)" stroke-width="1.8" stroke-linecap="round" data-oa-wire/>
             <path d={wire} fill="none" stroke="#fff" stroke-opacity=".75" stroke-width=".4" transform="translate(0 -.4)" data-oa-wire-highlight/>
-            <path d="M1020 600V5000" fill="none" stroke="#c9dbe5" stroke-width="2" data-oa-tail/>
+            <path d="M1020 600V1400" fill="none" stroke="#c9dbe5" stroke-width="2" data-oa-tail/>
           </g>
         </svg>
       </div>

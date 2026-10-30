@@ -39,20 +39,21 @@ function initHumanScene(root:HTMLElement):()=>void {
   const panel=root.querySelector<HTMLElement>('.or-scene-panel')!;
   const photo=root.querySelector<HTMLElement>('[data-or-human-frame]')!,image=photo.querySelector<HTMLImageElement>('img')!;
   let crop={top:58,right:9,bottom:22,left:62};
-  let frame=0,start=0,span=1,last=-1;
+  let frame=0,start=0,span=1,last=-1,decoded=false;
+  const opening=root.dataset.orOpening||'current';
   function render(p:number){
-    const reveal=ease(p/.78),closed=1-reveal;
+    const reveal=ease(p/.78),closed=1-reveal,zoom=opening==='smile'?2:opening==='portrait'?.06:.35;
     root.style.setProperty('--or-human-top',`${crop.top*closed}%`);
     root.style.setProperty('--or-human-right',`${crop.right*closed}%`);
     root.style.setProperty('--or-human-bottom',`${crop.bottom*closed}%`);
     root.style.setProperty('--or-human-left',`${crop.left*closed}%`);
     root.style.setProperty('--or-human-radius',`${28*closed}px`);
-    root.style.setProperty('--or-human-scale',String(1+.35*closed));
+    root.style.setProperty('--or-human-scale',String(1+zoom*closed));
     root.style.setProperty('--or-human-copy-y',`${(phone.matches?6:18)*closed}px`);
     root.style.setProperty('--or-human-copy-opacity',String(.85+.15*reveal));
-    root.dataset.orProgress=p.toFixed(4);root.dataset.orScale=(1+.35*closed).toFixed(4);root.dataset.orHumanReveal=reveal.toFixed(4);
+    root.dataset.orProgress=p.toFixed(4);root.dataset.orScale=(1+zoom*closed).toFixed(4);root.dataset.orHumanReveal=reveal.toFixed(4);
   }
-  function update(){frame=0;const p=reduced.matches?1:clamp((scrollY-start)/span);if(Math.abs(p-last)<.0001)return;last=p;render(p);}
+  function update(){frame=0;if(!decoded)return;const p=reduced.matches?1:clamp((scrollY-start)/span);if(Math.abs(p-last)<.0001)return;last=p;render(p);}
   function queue(){if(!frame)frame=requestAnimationFrame(update);}
   function measure(){
     root.dataset.orMotion=reduced.matches?'reduced':'scroll';
@@ -63,8 +64,10 @@ function initHumanScene(root:HTMLElement):()=>void {
     const cx=(nw*.68*fit+(w-nw*fit)*(position[0]||0))/Math.max(1,w),cy=(nh*.495*fit+(h-nh*fit)*(position[1]||0))/Math.max(1,h);
     // Zoom around the teeth themselves, so the smile stays centred inside the aperture.
     root.style.setProperty('--or-human-origin',`${cx*100}% ${cy*100}%`);
-    const halfWidth=Math.min(.42,nw*.105*fit/Math.max(1,w)),halfHeight=Math.min(.3,nh*.075*fit/Math.max(1,h));
+    const halfWidth=Math.min(.46,nw*(opening==='smile'?.24:phone.matches?.18:.105)*fit/Math.max(1,w)),halfHeight=Math.min(.38,nh*(opening==='smile'?.2:phone.matches?.13:.075)*fit/Math.max(1,h));
     crop={top:clamp(cy-halfHeight)*100,right:clamp(1-cx-halfWidth)*100,bottom:clamp(1-cy-halfHeight)*100,left:clamp(cx-halfWidth)*100};
+    if(opening==='smile')crop=phone.matches?{top:0,right:0,bottom:0,left:0}:{top:8,right:2,bottom:4,left:40};
+    if(opening==='portrait')crop=phone.matches?{top:3,right:3,bottom:3,left:3}:{top:5,right:3,bottom:5,left:36};
     const header=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--of-header-height'))||89;
     start=Math.max(0,root.getBoundingClientRect().top+scrollY-header-(phone.matches?12:20));
     span=Math.max(1,root.offsetHeight-panel.offsetHeight);last=-1;
@@ -73,8 +76,11 @@ function initHumanScene(root:HTMLElement):()=>void {
   addEventListener('scroll',queue,{passive:true,signal:abort.signal});addEventListener('resize',measure,{passive:true,signal:abort.signal});
   addEventListener('of-header-resize',measure,{signal:abort.signal});addEventListener('pageshow',measure,{signal:abort.signal});
   reduced.addEventListener('change',measure,{signal:abort.signal});
-  document.fonts.ready.then(()=>{if(!abort.signal.aborted)measure();});
-  root.querySelector<HTMLImageElement>('img')?.decode().catch(()=>{}).then(()=>{if(!abort.signal.aborted)measure();});measure();
+  // Reserve the sticky range in CSS before fetching. Never paint a full image then snap to a crop.
+  Promise.all([image.decode(),document.fonts.ready]).then(()=>{if(abort.signal.aborted)return;decoded=true;measure();update();root.dataset.orImageReady='true';}).catch(()=>{
+    if(abort.signal.aborted)return;const label=root.querySelector<HTMLElement>('[data-or-loading]');if(label)label.textContent='Не удалось загрузить фотографию.';
+    root.dataset.orImageError='true';
+  });measure();
   return()=>{abort.abort();cancelAnimationFrame(frame);delete root.dataset.orReady;};
 }
 /** Text stays visible by default and only animates once when entered. */

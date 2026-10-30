@@ -1,0 +1,12 @@
+---
+import InternalPageLayout from '@/layouts/InternalPageLayout.astro';
+import OrthopedicsHumanVisual from '@/components/orthopedics/OrthopedicsHumanVisual.astro';
+import {siteNavigation} from '@/data/site-preview-navigation';
+const nav=siteNavigation(import.meta.env.BASE_URL);
+---
+<InternalPageLayout title="Раскрытие портрета: сравнение" description="Два варианта раскрытия одной фотографии для выбора." homeHref={nav.home} contactHref={nav.contactHref} navigation={nav.navigation} footerNavigation={nav.footerNavigation} transitionHrefs={nav.transitionHrefs}>
+ <div class="sf-shell"><h1>Как раскрывается портрет.</h1><p class="sf-lead">Одна фотография, одинаковая композиция и длительность прокрутки. Основная страница пока сохраняет прежнее раскрытие.</p><nav class="se-index" aria-label="Варианты раскрытия"><a href="#reveal-a">А — от улыбки к портрету</a><a href="#reveal-b">Б — портрет с первого кадра</a><a href={`${nav.orthopedics}`}>Текущая ортопедия</a></nav></div>
+ <section class="or-shell reveal-option" id="reveal-a" aria-labelledby="reveal-a-title"><h2 id="reveal-a-title">А. Крупная улыбка → портрет.</h2><OrthopedicsHumanVisual autoMotion={false} opening="smile" /></section>
+ <section class="or-shell reveal-option" id="reveal-b" aria-labelledby="reveal-b-title"><h2 id="reveal-b-title">Б. Портрет → мягкое раскрытие.</h2><OrthopedicsHumanVisual autoMotion={false} opening="portrait" /></section>
+</InternalPageLayout>
+<style>.reveal-option{margin-bottom:64px;scroll-margin-top:calc(var(--of-header-height,89px) + 20px)}.reveal-option>h2{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:300;margin-bottom:32px}</style>

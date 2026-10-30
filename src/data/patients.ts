@@ -16,11 +16,7 @@ export const clinicInformation = [
   {label:'Реквизиты',value:'Сведения будут добавлены'},
   {label:'Адрес клиники',value:'Точный адрес уточняется'},
 ];
-export const rulesPlaceholders = [
-  {title:'Организация приёма',text:'Здесь появятся подтверждённые правила записи и посещения клиники.'},
-  {title:'Перед первым визитом',text:'Порядок первого обращения и необходимые сведения будут согласованы с клиникой.'},
-  {title:'Для взрослых и детей',text:'Организационные условия приёма будут добавлены после подтверждения клиникой.'},
-];
+export const rulesPlaceholders: {title:string;text:string}[] = [];
 // A preliminary content inventory, not existing or legally validated documents.
 // These rows deliberately have no href/download property until actual files are received.
 export interface PatientDocument {title:string;status:string;href:string|null;}

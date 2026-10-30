@@ -1,0 +1,40 @@
+---
+import {therapyScene} from '@/data/therapy-scenes';
+import type {TherapyAudience} from '@/data/therapy';
+import ArrowIcon from '@/components/ArrowIcon.astro';
+import '@/styles/therapy-scenes.css';
+interface Props {audience:TherapyAudience;}
+const {audience}=Astro.props,data=therapyScene(audience),base=import.meta.env.BASE_URL;
+const image=`${base}therapy-scenes/${data.image}-1536.webp`,small=`${base}therapy-scenes/${data.image}-768.webp`;
+---
+<section class:list={['ts-scene',`ts-${audience}`]} aria-labelledby={`ts-${audience}-title`}>
+ <div class="ts-shell ts-story">
+  <div class="ts-story-copy">
+   <h2 id={`ts-${audience}-title`}>{data.title.map(line=><span>{line}</span>)}</h2>
+   <p>{data.text}</p>
+   <a class="ts-link" href={`#sv-${audience==='adult'?'adult':'children'}-therapy-description`}>О направлении <ArrowIcon /></a>
+  </div>
+  <div class="ts-track" data-ts-track data-ts-kind={audience} data-ts-phases={JSON.stringify(data.phases)}>
+   <script is:inline>
+    {const root=document.currentScript.closest('[data-ts-track]');root.dataset.tsBoot='true';setTimeout(()=>{if(root.isConnected&&!root.dataset.tsReady&&!root.dataset.tsInitializing){root.dataset.tsBoot='fallback';}},2400);}
+   </script>
+   <figure class="ts-panel">
+    {audience==='adult'?<div class="ts-adult-stage ts-image-motion">
+     <svg class="ts-optic" viewBox="0 0 1536 1024" role="img" aria-label={data.alt}>
+      <defs><clipPath id="ts-adult-window"><rect data-ts-window x="0" y="0" width="1536" height="1024" rx="0" /></clipPath></defs>
+      <g clip-path="url(#ts-adult-window)"><g data-ts-camera><image href={image} x="0" y="0" width="1536" height="1024" /></g></g>
+     </svg>
+    </div>:<div class="ts-child-stage ts-image-motion" role="img" aria-label={data.alt}>
+     <div class="ts-fold" aria-hidden="true">
+      {[0,1,2].map(index=><div class:list={['ts-leaf',`ts-leaf-${index}`]} data-ts-leaf={index} style={`--ts-leaf:${index}`}><img src={image} srcset={`${small} 768w, ${image} 1536w`} sizes="(max-width:767px) 100vw, 65vw" alt="" width="1536" height="1024" decoding="async" fetchpriority="high" /></div>)}
+     </div>
+    </div>}
+    <figcaption><span data-ts-phase>{data.phases[2]}</span><small>{data.caption}</small></figcaption>
+   </figure>
+  </div>
+ </div>
+</section>
+<script>
+ import {initTherapyScene} from './therapy-scene-motion';
+ document.querySelectorAll<HTMLElement>('[data-ts-track]').forEach(root=>initTherapyScene(root));
+</script>

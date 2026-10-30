@@ -1,0 +1,21 @@
+---
+import InternalPageLayout from '@/layouts/InternalPageLayout.astro';
+import ServicePageContent from '@/components/services/ServicePageContent.astro';
+import ServiceEditorial from '@/components/services/ServiceEditorial.astro';
+import TherapySignatureScene from './TherapySignatureScene.astro';
+import {therapyPage,type TherapyAudience} from '@/data/therapy';
+import {siteNavigation} from '@/data/site-preview-navigation';
+interface Props {audience:TherapyAudience;}
+const {audience}=Astro.props,base=import.meta.env.BASE_URL,nav=siteNavigation(base),data=therapyPage(audience,base);
+const original=audience==='adult'?nav.adultTherapy:nav.childrenTherapy;
+---
+<InternalPageLayout title={`${data.service.title} · Сцена для сравнения`} description="Отдельный визуальный прототип OrthoFamily. Медицинские материалы ожидаются." homeHref={nav.home} contactHref={nav.contactHref} navigation={nav.navigation} footerNavigation={nav.footerNavigation} transitionHrefs={nav.transitionHrefs.filter(href=>href!==original)}>
+ <ServicePageContent data={data.service} showContext={false}>
+  <TherapySignatureScene slot="scene" audience={audience} />
+  <nav class="ts-preview-links" aria-label="Сравнение вариантов">
+   <a href={original}>Текущая версия направления</a>
+   <a href={`${base}${audience==='adult'?'children':'adult'}-therapy-scene-preview/`}>Сцена {audience==='adult'?'детской':'взрослой'} терапии</a>
+  </nav>
+  <ServiceEditorial service={audience==='adult'?'adult-therapy':'children-therapy'} />
+ </ServicePageContent>
+</InternalPageLayout>

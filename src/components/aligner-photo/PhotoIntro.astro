@@ -1,0 +1,25 @@
+---
+import '@/styles/home-aligner-photo.css';
+import '@/styles/orthofamily-wordmark.css';
+import Icon from '@/components/orthofamily/OrthofamilyIcon.astro';
+const base=import.meta.env.BASE_URL;
+---
+<div class="hp-world" id="of-top">
+ <section class="hp-scene" data-hp-scene aria-labelledby="hp-title">
+  <div class="hp-stage">
+   <div class="hp-art"><img data-hp-image src={`${base}aligner-photo/hand-853.webp`} srcset={`${base}aligner-photo/hand-480.webp 480w, ${base}aligner-photo/hand-853.webp 853w`} sizes="(max-width:767px) 80vw, 50vw" width="853" height="1280" alt="Рука держит прозрачный элайнер на холодном голубовато-сером фоне." fetchpriority="high" decoding="async" /></div>
+   <div class="hp-copy">
+    <p class="hp-location">Магнитогорск · Для взрослых и детей</p>
+    <h1 class="of-brand-wordmark" id="hp-title">OrthoFamily</h1>
+    <p class="of-brand-descriptor">Стоматология для всей семьи</p>
+    <p class="hp-lead">Внимание к человеку.<br/>Забота об улыбке.</p>
+    <a class="of-button" href="#of-visit">Обсудить визит <Icon /></a>
+   </div>
+  </div>
+ </section>
+ <section class="hp-about" id="of-about" aria-labelledby="hp-about-title"><div class="hp-about-inner">
+  <h2 id="hp-about-title">Внимание<br/>к каждому.</h2>
+  <div><p>Знакомство со стоматологией начинается с разговора. Важно понять ваш запрос, спокойно обсудить возможные шаги и ответить на вопросы.</p><p>Для взрослых и детей — в одной клинике и с вниманием к особенностям каждого.</p><a class="of-text-link" href={`${base}about/`}>О клинике <Icon /></a></div>
+ </div></section>
+</div>
+<script>import {initPhotoIntro} from './photo-intro';document.querySelectorAll<HTMLElement>('[data-hp-scene]').forEach(initPhotoIntro);</script>

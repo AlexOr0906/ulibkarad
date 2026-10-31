@@ -29,6 +29,12 @@ const {homeHref=base,doctorsHref=`${base}#doctors`,contactHref=`${base}#contacts
       <AboutReveal><div class="ac-story-copy">{content.approach.paragraphs.map(text=><p>{text}</p>)}{content.approach.note&&<p class="ac-story-note">{content.approach.note}</p>}</div></AboutReveal>
     </div>
   </section>
+  {content.storySections.map(section=><section class="ac-story" id={section.id} aria-labelledby={`${section.id}-title`}>
+    <div class="ac-shell ac-story-grid">
+      <AboutReveal kind="type"><h2 id={`${section.id}-title`}>{section.title.map(line=><span>{line}</span>)}</h2></AboutReveal>
+      <AboutReveal><div class="ac-story-copy">{section.paragraphs.map(text=><p>{text}</p>)}</div></AboutReveal>
+    </div>
+  </section>)}
   <section class="ac-facts ac-shell" aria-labelledby="ac-facts-title">
     <AboutReveal kind="type"><h2 id="ac-facts-title">{content.factsTitle}</h2></AboutReveal>
     <dl class="ac-facts-grid">{content.facts.map(fact=><div class="ac-fact"><dt>{fact.label}</dt><dd>{fact.value}{fact.note&&<small>{fact.note}</small>}</dd></div>)}</dl>
@@ -36,7 +42,7 @@ const {homeHref=base,doctorsHref=`${base}#doctors`,contactHref=`${base}#contacts
   <section class="ac-next" aria-labelledby="ac-next-title">
     <div class="ac-shell ac-next-grid">
       <AboutReveal kind="type"><h2 id="ac-next-title">{content.closing.title.map(line=><span>{line}</span>)}</h2></AboutReveal>
-      <AboutReveal><div class="ac-next-copy"><p>{content.closing.text}</p><div class="ac-actions"><a class="ac-button" href={doctorsHref}>К разделу врачей <ArrowIcon /></a><a class="ac-link" href={contactHref}>Контакты <ArrowIcon /></a></div><p class="ac-demo-note">{content.closing.note}</p></div></AboutReveal>
+      <AboutReveal><div class="ac-next-copy"><p>{content.closing.text}</p><p>{content.closing.statement}</p><div class="ac-actions"><a class="ac-button" href={doctorsHref}>К разделу врачей <ArrowIcon /></a><a class="ac-link" href={contactHref}>Контакты <ArrowIcon /></a></div><p class="ac-demo-note">{content.closing.note}</p></div></AboutReveal>
     </div>
   </section>
 </article>

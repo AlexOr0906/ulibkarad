@@ -7,6 +7,7 @@ export const patientTopics: PatientTopic[] = [
   {id:'pa-rules',label:'Правила приёма'},
   {id:'pa-documents',label:'Документы'},
   {id:'pa-prices',label:'Стоимость'},
+  {id:'pa-resources',label:'Официальные ресурсы'},
   {id:'pa-appeals',label:'Обращения'},
 ];
 export const clinicInformation = [

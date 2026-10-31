@@ -1,0 +1,13 @@
+---
+import DoctorCard from '@/components/DoctorCard.astro';
+import DoctorProfileContent from './DoctorProfileContent.astro';
+import type {DoctorProfile} from '@/data/doctors';
+import '@/styles/team-profile.css';
+interface Props {doctors:readonly DoctorProfile[];preview?:boolean;}
+const {doctors,preview=false}=Astro.props;
+---
+<div class="dp-collection" data-dp-collection>
+ <div class="dp-grid">{doctors.map((doctor,index)=><DoctorCard doctor={doctor} preview={preview} index={index} presentation="profile" profileTarget={`#${doctor.id}-profile`} />)}</div>
+ <div class="dp-profiles">{doctors.map(doctor=><details class="dp-fallback" id={`${doctor.id}-profile`} data-dp-profile><summary>Подробный профиль: {doctor.name??'врач'}</summary><div data-dp-content><DoctorProfileContent doctor={doctor} preview={preview}/></div></details>)}</div>
+</div>
+<script>import {initTeamProfiles} from './team-profiles';initTeamProfiles();</script>

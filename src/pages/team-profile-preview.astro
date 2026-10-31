@@ -1,0 +1,10 @@
+---
+import InternalPageLayout from '@/layouts/InternalPageLayout.astro';
+import DoctorProfileCollection from '@/components/team-profile/DoctorProfileCollection.astro';
+import {doctorProfileExamples} from '@/data/doctor-profile-examples';
+import {siteNavigation} from '@/data/site-preview-navigation';
+const nav=siteNavigation(import.meta.env.BASE_URL);
+---
+<InternalPageLayout title="Команда: предпросмотр профилей" description="Отдельный пример карточек и подробного профиля врача." homeHref={nav.home} contactHref={nav.contactHref} navigation={nav.navigation} footerNavigation={nav.footerNavigation}>
+ <div class="dp-preview"><header class="dp-heading"><p>OrthoFamily · пример оформления</p><h1>Знакомство<br />с врачом.</h1><div><p>Направления работы, профессиональный путь и первый приём. Всё, что помогает познакомиться до встречи.</p><p class="dp-caption">Демонстрационные изображения и поля для заполнения. Не состав команды клиники.</p></div></header><DoctorProfileCollection doctors={doctorProfileExamples} preview /></div>
+</InternalPageLayout>

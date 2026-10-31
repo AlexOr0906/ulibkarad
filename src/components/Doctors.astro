@@ -3,7 +3,6 @@ import SectionHeading from './SectionHeading.astro';
 import BracketDivider from './orthodontics/BracketDivider.astro';
 import { teamProfileFields } from '@/data/site';
 import DoctorCollection from './DoctorCollection.astro';
-import {clinicDoctors} from '@/data/doctors';
 import '@/styles/doctors-section.css';
 interface Props { showDivider?: boolean; generalClinic?: boolean; }
 const { showDivider = true, generalClinic = false } = Astro.props;
@@ -12,7 +11,7 @@ const { showDivider = true, generalClinic = false } = Astro.props;
   <div class="container-shell">
     <div data-team-heading={generalClinic ? '' : undefined} data-sc-in={generalClinic ? '' : undefined}><SectionHeading index="03" label="Команда" title="За улыбкой стоят люди" /></div>
     {generalClinic ? (
-      clinicDoctors.length>0?<DoctorCollection />:<div class="team-awaiting"><img src={`${import.meta.env.BASE_URL}brand/logo-chrome.svg`} alt="" width="921" height="960" /><div><p>Команда OrthoFamily</p><p>Сведения о врачах скоро появятся.</p></div></div>
+      <DoctorCollection />
     ) : (
     <div class="mt-12 grid items-stretch gap-10 md:mt-16 md:grid-cols-[1.15fr_1fr] md:gap-16">
       <div class="team-editorial flex min-h-[22rem] flex-col justify-between border border-graphite/25 p-7 md:min-h-[30rem] md:p-10" data-reveal>

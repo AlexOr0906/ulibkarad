@@ -1,0 +1,27 @@
+---
+import type {DoctorProfile} from '@/data/doctors';
+import DoctorInformation from '@/components/DoctorInformation.astro';
+interface Props {doctor:DoctorProfile;preview?:boolean;}
+const {doctor,preview=false}=Astro.props,base=import.meta.env.BASE_URL;
+const info=doctor.professionalInformation;
+const introduction=doctor.introduction??doctor.summary;
+const hasCredentials=info&&(info.jobTitle||info.education.length||info.additionalEducation.length||info.qualifications.length||info.qualificationCategory);
+const booking=doctor.booking;
+const bookingHref=booking&&/^(https:\/\/|tel:|mailto:)/.test(booking.href)?booking.href:booking?`${base}${booking.href.replace(/^\/+/, '')}`:null;
+---
+<article class="dp-profile">
+ <div class="dp-profile-lead">
+  {doctor.portrait&&<figure class="dp-profile-portrait"><img src={`${base}${doctor.portrait.src}`} alt={doctor.portrait.alt} width={doctor.portrait.width??800} height={doctor.portrait.height??1000} loading="lazy" style={`object-position:${doctor.portrait.profilePosition??doctor.portrait.position??'50% 0%'};object-fit:${doctor.portrait.profileFit??doctor.portrait.fit??'contain'}`} />{preview&&<figcaption>AI-портрет для примера. Не сотрудник клиники.</figcaption>}</figure>}
+  <div class="dp-profile-intro"><p class="dp-kicker">{preview?'Пример профиля':'Команда OrthoFamily'}</p><h2 id={`${doctor.id}-title`} tabindex="-1">{doctor.name??'Фамилия Имя Отчество'}</h2>{doctor.specialty&&<p class="dp-specialty">{doctor.specialty}</p>}
+   {introduction&&<section class="dp-introduction"><h3>Знакомство с врачом</h3><p>{introduction}</p></section>}
+   {bookingHref&&<a class="dp-booking" href={bookingHref}>{booking!.label}</a>}
+  </div>
+ </div>
+ <div class="dp-profile-body">
+  {(doctor.directions?.length??0)>0&&<section class="dp-detail"><h3>Направления работы</h3><ul>{doctor.directions!.map(direction=><li>{direction}</li>)}</ul></section>}
+  {hasCredentials&&<section class="dp-detail"><h3>Образование и квалификация</h3><DoctorInformation information={{...info!,appointmentSchedule:null}} /></section>}
+  {info?.appointmentSchedule&&<section class="dp-detail"><h3>Расписание</h3><p>{info.appointmentSchedule}</p></section>}
+  {doctor.firstAppointment?.description&&<section class="dp-detail"><h3>Первый приём</h3><div><p>{doctor.firstAppointment.description}</p>{doctor.firstAppointment.duration&&<p>Продолжительность: {doctor.firstAppointment.duration}</p>}{doctor.firstAppointment.preparation&&<p>{doctor.firstAppointment.preparation}</p>}</div></section>}
+  {preview&&<p class="dp-example-note">Это пример структуры, а не сведения о враче. Способ записи ещё не выбран; кнопка появится после его подключения.</p>}
+ </div>
+</article>

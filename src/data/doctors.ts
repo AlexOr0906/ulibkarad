@@ -5,7 +5,12 @@ export interface DoctorProfile {
   specialty: string | null;
   summary: string | null;
   professionalInformation?: DoctorInformation | null;
-  portrait: { src: string; alt: string; position?: string; srcSet?: string; width?: number; height?: number } | null;
+  directions?: readonly string[];
+  introduction?: string | null;
+  firstAppointment?: { description: string; preparation?: string | null; duration?: string | null } | null;
+  /** Approved working destination. Omit until a booking method is selected. */
+  booking?: { href: string; label: string } | null;
+  portrait: { profilePosition?: string; fit?: 'cover' | 'contain'; profileFit?: 'cover' | 'contain'; src: string; alt: string; position?: string; srcSet?: string; width?: number; height?: number } | null;
   /** Optional approved, silent video portrait; paths relative to public/. */
   video?: { src: string; type?: string };
   profileHref: string | null;

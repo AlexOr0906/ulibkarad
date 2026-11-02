@@ -1,3 +1,4 @@
+import {clinicTeamContent} from './clinic-team-content';
 import type {DoctorInformation} from './doctor-information';
 export interface DoctorProfile {
   id: string;
@@ -15,12 +16,14 @@ export interface DoctorProfile {
   video?: { src: string; type?: string };
   profileHref: string | null;
   study?: string;
+  service?: string;
+  approach?: string | null;
 }
 
-// Add only profiles and image paths approved by the clinic. None supplied yet.
+// Client supplied names and clinical text; portraits and credentials are still awaited.
 // Portrait paths are relative to public/; profileHref is a site-relative path
 // only after the corresponding page exists. No profile pages are created here.
-export const clinicDoctors: DoctorProfile[] = [];
+export const clinicDoctors: DoctorProfile[] = clinicTeamContent.map(d=>({id:d.id,name:d.name,specialty:d.specialty,summary:d.summary,introduction:d.summary,directions:d.indications,service:d.service,approach:d.approach,firstAppointment:d.firstAppointment,portrait:null,profileHref:`doctors/${d.id}/`,booking:null,professionalInformation:{jobTitle:d.specialty,education:[],additionalEducation:[],qualifications:[],qualificationCategory:null,appointmentSchedule:null}}));
 
 // Original AI portrait demos, explicitly not staff photos or clinic headcount.
 export const doctorCardExamples: DoctorProfile[] = [1, 2, 3, 4].map(index => ({

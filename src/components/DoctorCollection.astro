@@ -1,4 +1,6 @@
 ---
+import DoctorProfileContent from './team-profile/DoctorProfileContent.astro';
+import '@/styles/team-profile.css';
 import DoctorCard from './DoctorCard.astro';
 import '../styles/doctors-section.css';
 import ArrowIcon from './ArrowIcon.astro';
@@ -6,8 +8,8 @@ import { clinicDoctors, doctorCardExamples } from '@/data/doctors';
 const preview = clinicDoctors.length === 0;
 const cards = preview ? doctorCardExamples : clinicDoctors;
 ---
-<div class="team-collection doctors-section mt-10 md:mt-14" data-team-carousel>
-  <div class="team-introduction"><p>Познакомиться до первой встречи.</p><span>Здесь появятся проверенные сведения<br />о врачах OrthoFamily.</span></div>
+<div class="team-collection doctors-section mt-10 md:mt-14" data-team-carousel data-dp-collection>
+  <div class="team-introduction"><p>Познакомиться до первой встречи.</p><span>Команда OrthoFamily.<br />Фотографии врачей готовятся.</span></div>
   <div class="team-toolbar">
     <p class="team-demo-note max-w-xl text-xs leading-relaxed text-graphite">{preview ? 'Демонстрационные портреты. Это не сотрудники клиники; количество карточек не отражает состав команды.' : 'Знакомство с врачом до первого визита.'}</p>
     <div class="team-navigation" data-team-control>
@@ -18,8 +20,9 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
     </div>
   </div>
   <div id="team-rail" class="team-rail" data-sc-in data-team-rail tabindex="0" role="region" aria-label="Коллекция карточек врачей">
-    {cards.map((doctor, index) => <DoctorCard doctor={doctor} preview={preview} index={index} />)}
+    {cards.map((doctor, index) => <DoctorCard doctor={doctor} preview={preview} index={index} profileTarget={preview?undefined:`#${doctor.id}-profile`} />)}
   </div>
+  {!preview&&cards.map(doctor=><details class="dp-fallback" id={`${doctor.id}-profile`} data-dp-profile><summary>Подробный профиль: {doctor.name}</summary><div data-dp-content><DoctorProfileContent doctor={doctor}/><a href={`${import.meta.env.BASE_URL}${doctor.profileHref}`}>Отдельная страница врача</a></div></details>)}
   <div class="team-progress" aria-hidden="true"><span data-team-progress></span></div>
 </div>
 
@@ -29,7 +32,7 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
     <form method="dialog"><button class="size-11 text-2xl" type="submit" aria-label="Закрыть карточку врача">×</button></form>
   </div>
   <div class="doctor-dialog-grid mt-6">
-    <img class="doctor-dialog-image" data-doctor-dialog-image src={`${import.meta.env.BASE_URL}team/portrait-demo-1-800.webp`} loading="lazy" width="800" height="1000" alt="Портрет для оформления карточки врача" />
+    <img class="doctor-dialog-image" data-doctor-dialog-image src={`${import.meta.env.BASE_URL}team/portrait-study-1.svg`} loading="lazy" width="800" height="1000" alt="Портрет для оформления карточки врача" />
     <div>
       <h2 id="doctor-demo-title" class="text-3xl font-light tracking-[-.03em]">Имя и фамилия</h2>
       <p class="mt-3 text-sm text-graphite" data-doctor-dialog-specialty>Специальность врача</p>
@@ -42,6 +45,7 @@ const cards = preview ? doctorCardExamples : clinicDoctors;
 </dialog>
 
 <script>
+  import {initTeamProfiles} from './team-profile/team-profiles';initTeamProfiles();
   import { initDoctorsEntrance } from './doctors-entrance';
   initDoctorsEntrance();
   const collection = document.querySelector<HTMLElement>('[data-team-carousel]');

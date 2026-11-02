@@ -11,3 +11,5 @@
 @media(prefers-reduced-motion:reduce){.dp-dialog[open],.dp-card-portrait img{animation:none;transition:none}.dp-card-link:hover .dp-card-portrait img{transform:none}}
 html[data-reading=on] .dp-dialog{background:var(--read-bg)!important;color:var(--read-ink)!important}html[data-reading=on] .dp-profile-lead,html[data-reading=on] .dp-detail{display:block!important}html[data-reading=on] .dp-profile img{max-width:100%;height:auto}html[data-reading=on][data-hide-images=true] .dp-profile img{display:none}
 .dp-card{display:flex;flex-direction:column}.dp-card-link{flex:1;display:flex;flex-direction:column}.dp-card-copy{flex:1;display:flex;flex-direction:column}.dp-card-copy p{margin-bottom:24px}.dp-card-copy .dp-card-action{margin-top:auto}
+
+.dp-detail li{list-style:disc}.dp-profile-lead:not(:has(figure)){display:block;max-width:760px}

@@ -5,7 +5,7 @@ interface Props {doctor:DoctorProfile;preview?:boolean;}
 const {doctor,preview=false}=Astro.props,base=import.meta.env.BASE_URL;
 const info=doctor.professionalInformation;
 const introduction=doctor.introduction??doctor.summary;
-const hasCredentials=info&&(info.jobTitle||info.education.length||info.additionalEducation.length||info.qualifications.length||info.qualificationCategory);
+const hasCredentials=info&&(info.education.length||info.additionalEducation.length||info.qualifications.length||info.qualificationCategory);
 const booking=doctor.booking;
 const bookingHref=booking&&/^(https:\/\/|tel:|mailto:)/.test(booking.href)?booking.href:booking?`${base}${booking.href.replace(/^\/+/, '')}`:null;
 ---
@@ -18,10 +18,12 @@ const bookingHref=booking&&/^(https:\/\/|tel:|mailto:)/.test(booking.href)?booki
   </div>
  </div>
  <div class="dp-profile-body">
-  {(doctor.directions?.length??0)>0&&<section class="dp-detail"><h3>Направления работы</h3><ul>{doctor.directions!.map(direction=><li>{direction}</li>)}</ul></section>}
-  {hasCredentials&&<section class="dp-detail"><h3>Образование и квалификация</h3><DoctorInformation information={{...info!,appointmentSchedule:null}} /></section>}
+  {(doctor.directions?.length??0)>0&&<section class="dp-detail"><h3>Поводы для обращения</h3><ul>{doctor.directions!.map(direction=><li>{direction}</li>)}</ul></section>}
+  {doctor.approach&&<section class="dp-detail"><h3>Мой подход к лечению</h3><p>{doctor.approach}</p></section>}
+  {info?.jobTitle&&<section class="dp-detail"><h3>Должность</h3><p>{info.jobTitle}</p></section>}
+  {hasCredentials&&<section class="dp-detail"><h3>Образование и квалификация</h3><DoctorInformation information={{...info!,jobTitle:null,appointmentSchedule:null}} /></section>}
   {info?.appointmentSchedule&&<section class="dp-detail"><h3>Расписание</h3><p>{info.appointmentSchedule}</p></section>}
-  {doctor.firstAppointment?.description&&<section class="dp-detail"><h3>Первый приём</h3><div><p>{doctor.firstAppointment.description}</p>{doctor.firstAppointment.duration&&<p>Продолжительность: {doctor.firstAppointment.duration}</p>}{doctor.firstAppointment.preparation&&<p>{doctor.firstAppointment.preparation}</p>}</div></section>}
+  {doctor.firstAppointment?.description&&<section class="dp-detail"><h3>Первый приём</h3><div>{doctor.firstAppointment.description.split('\n\n').map(paragraph=><p>{paragraph}</p>)}{doctor.firstAppointment.duration&&<p>Продолжительность: {doctor.firstAppointment.duration}</p>}{doctor.firstAppointment.preparation&&<p>{doctor.firstAppointment.preparation}</p>}</div></section>}
   {preview&&<p class="dp-example-note">Это пример структуры, а не сведения о враче. Способ записи ещё не выбран; кнопка появится после его подключения.</p>}
  </div>
 </article>

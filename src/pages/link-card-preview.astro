@@ -1,0 +1,8 @@
+---
+import LinkCard from '@/components/link-card/LinkCard.astro';
+import {linkCardData} from '@/data/link-card';
+import '@/styles/orthofamily-wordmark.css';
+import '@/styles/link-card.css';
+const data=linkCardData(import.meta.env.BASE_URL);
+---
+<!doctype html><html lang="ru"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="robots" content="noindex,nofollow,noarchive"/><meta name="theme-color" content="#eef1f3"/><title>OrthoFamily · Стоматология для всей семьи</title><meta name="description" content="OrthoFamily в Магнитогорске. Сайт, направления и способы связи с клиникой."/></head><body class="lc-page"><a class="lc-skip" href="#main">К содержимому</a><LinkCard data={data}/></body></html>

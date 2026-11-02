@@ -1,0 +1,21 @@
+---
+import ArrowIcon from '@/components/ArrowIcon.astro';
+import {linkCardData} from '@/data/link-card';
+interface Props {data:ReturnType<typeof linkCardData>;}
+const {data}=Astro.props,base=import.meta.env.BASE_URL;
+---
+<main class="lc-card" id="main">
+ <header class="lc-brand">
+  <img class="lc-emblem" src={`${base}orthofamily/brand/emblem-silver-original.jpg`} alt="Семейная эмблема OrthoFamily" width="1322" height="1190" fetchpriority="high" />
+  <h1 class="of-brand-wordmark">OrthoFamily</h1>
+  <p class="lc-descriptor">Стоматология для всей семьи</p>
+  <p class="lc-city">{data.city}</p>
+ </header>
+ <nav class="lc-actions" aria-label="Сайт и связь с клиникой">
+  <a class="lc-primary lc-action" href={data.primary.href}><span><strong>{data.primary.label}</strong><small>{data.primary.detail}</small></span><ArrowIcon /></a>
+  <a class="lc-contact lc-action" href={data.contact.href}><span><strong>{data.contact.label}</strong><small>{data.contact.detail}</small></span><ArrowIcon /></a>
+ </nav>
+ <nav class="lc-explore" aria-label="Познакомиться с клиникой">{data.explore.map(item=><a href={item.href}><span>{item.label}</span><ArrowIcon /></a>)}</nav>
+ {data.optional.length>0&&<ul class="lc-optional" aria-label="Другие способы связи">{data.optional.map(item=><li>{item.href?<a class="lc-row" href={item.href}><span>{item.label}<small>{item.detail}</small></span><ArrowIcon /></a>:<div class="lc-row lc-pending"><span>{item.label}<small>{item.detail}</small></span><span class="lc-dash" aria-hidden="true">—</span></div>}</li>)}</ul>}
+ <footer class="lc-footer"><a href={data.patientsHref}>Информация для пациентов <ArrowIcon /></a><p>{data.legalName}</p></footer>
+</main>

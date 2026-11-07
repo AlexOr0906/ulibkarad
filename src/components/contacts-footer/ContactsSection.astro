@@ -1,6 +1,6 @@
 ---
 import ArrowIcon from '../ArrowIcon.astro';
-import { addressSearchLink, contactDetails, cityMapEmbed, cityMapLink, type ClinicContacts } from '../../data/contacts-footer';
+import { addressSearchLink, contactDetails, type ClinicContacts } from '../../data/contacts-footer';
 import '../../styles/contacts-footer.css';
 interface Props { contacts?: ClinicContacts; }
 const { contacts = contactDetails } = Astro.props;
@@ -28,10 +28,9 @@ const { contacts = contactDetails } = Astro.props;
       </div>
       <div class="cf-map-area">
         <slot name="map">
-          <iframe class="cf-city-map" title="Обзорная карта Магнитогорска без метки клиники" src={cityMapEmbed} width="640" height="420" loading="lazy" referrerpolicy="no-referrer"></iframe>
+          <iframe class="cf-city-map" title={`Яндекс Карты: ${contacts.city}${contacts.address ? `, ${contacts.address}` : ''}`} src={addressSearchLink(contacts.city, contacts.address, true)} width="640" height="420" loading="lazy" referrerpolicy="no-referrer"></iframe>
         </slot>
-        <p class="cf-map-caption">{contacts.address ? <a href={addressSearchLink(contacts.city, contacts.address)} target="_blank" rel="noopener noreferrer">Найти адрес клиники на карте</a> : contacts.city}</p>
-        <p class="cf-map-caption"><a href={cityMapLink} target="_blank" rel="noopener noreferrer">Открыть обзор города в отдельной вкладке</a> · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap contributors</a></p>
+        <p class="cf-map-caption"><a href={addressSearchLink(contacts.city, contacts.address)} target="_blank" rel="noopener noreferrer">Открыть адрес в Яндекс Картах</a></p>
       </div>
     </div>
   </div>

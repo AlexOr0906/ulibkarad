@@ -1,6 +1,6 @@
 ---
 import ArrowIcon from '../ArrowIcon.astro';
-import { contactDetails, cityMapEmbed, cityMapLink, type ClinicContacts } from '../../data/contacts-footer';
+import { addressSearchLink, contactDetails, cityMapEmbed, cityMapLink, type ClinicContacts } from '../../data/contacts-footer';
 import '../../styles/contacts-footer.css';
 interface Props { contacts?: ClinicContacts; }
 const { contacts = contactDetails } = Astro.props;
@@ -15,22 +15,22 @@ const { contacts = contactDetails } = Astro.props;
     <div class="cf-contact-grid">
       <div class="cf-contact-copy">
         <dl class="cf-details">
-          <div class="cf-address"><dt>Адрес клиники</dt><dd data-cf-contact="address">{contacts.address ?? 'Точный адрес скоро появится'}</dd></div>
-          <div><dt>Телефон</dt><dd data-cf-contact="phone">{contacts.phone ? <a href={contacts.phone.href}>{contacts.phone.label}</a> : 'Номер будет добавлен'}</dd></div>
+          <div class="cf-address"><dt>Адрес клиники</dt><dd data-cf-contact="address">{contacts.address ?? 'Точный адрес скоро появится'}{contacts.entrance && <><br />{contacts.entrance}</>}</dd></div>
+          <div><dt>Телефон</dt><dd data-cf-contact="phone">{contacts.phone?.href ? <a href={contacts.phone.href}>{contacts.phone.label}</a> : contacts.phone?.label ?? 'Номер будет добавлен'}</dd></div>
           <div><dt>Режим работы</dt><dd data-cf-contact="hours">{contacts.hours ?? 'Расписание уточняется'}</dd></div>
           <div><dt>Электронная почта</dt><dd data-cf-contact="email">{contacts.email ? <a href={`mailto:${contacts.email}`}>{contacts.email}</a> : 'Адрес будет добавлен'}</dd></div>
         </dl>
-        {(contacts.phone||contacts.email)&&<details class="cf-visit">
+        {(contacts.phone?.href||contacts.email)&&<details class="cf-visit">
           <summary>Обсудить визит <ArrowIcon /></summary>
           <div class="cf-visit-note"><p>Запись пока недоступна.</p><p>Способы связи появятся после подтверждения клиникой.</p></div>
         </details>}
-        <p class="cf-action-caption">Способы связи появятся после подтверждения клиникой.</p>
+
       </div>
       <div class="cf-map-area">
         <slot name="map">
           <iframe class="cf-city-map" title="Обзорная карта Магнитогорска без метки клиники" src={cityMapEmbed} width="640" height="420" loading="lazy" referrerpolicy="no-referrer"></iframe>
         </slot>
-        <p class="cf-map-caption">Магнитогорск. Точный адрес скоро появится</p>
+        <p class="cf-map-caption">{contacts.address ? <a href={addressSearchLink(contacts.city, contacts.address)} target="_blank" rel="noopener noreferrer">Найти адрес клиники на карте</a> : contacts.city}</p>
         <p class="cf-map-caption"><a href={cityMapLink} target="_blank" rel="noopener noreferrer">Открыть обзор города в отдельной вкладке</a> · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap contributors</a></p>
       </div>
     </div>

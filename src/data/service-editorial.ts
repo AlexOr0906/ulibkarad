@@ -14,4 +14,4 @@ export const serviceEditorial:Record<ServiceKey,ServiceEditorialData>={
  orthopedics:{key:'orthopedics',title:'Ортопедия',layout:'material',intro:{title:'О направлении',brief:'Ортопедия — одно из направлений OrthoFamily в Магнитогорске.'},topics:[]},
  orthodontics:{key:'orthodontics',title:'Ортодонтия',layout:'line',intro:{title:'О направлении',brief:'Ортодонтия — одно из направлений OrthoFamily в Магнитогорске.'},topics:[]},
 };
-export const servicePreparation={team:'Сведения о врачах направления скоро появятся.',teamSize:'',price:'Прейскурант скоро появится.',priceStatus:'',contact:'Способы связи будут доступны в разделе контактов.'};
+export const servicePreparation={team:'Сведения о врачах направления скоро появятся.',teamSize:'',price:'Прейскурант скоро появится.',priceStatus:'',contact:'Адрес и телефон указаны в разделе «Контакты».'};

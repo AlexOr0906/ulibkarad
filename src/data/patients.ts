@@ -1,3 +1,4 @@
+import {contactDetails} from './contacts-footer';
 import {clinicConfirmed} from './clinic-confirmed';
 /** Editorial inventory, not a claim of regulatory compliance. */
 export interface PatientTopic { id: string; label: string; }
@@ -10,11 +11,12 @@ export const patientTopics: PatientTopic[] = [
   {id:'pa-appeals',label:'Обращения'},
 ];
 export const clinicInformation = [
-  {label:'Город',value:'Магнитогорск'},
+  {label:'Город',value:contactDetails.city},
   {label:'Юридическое наименование',value:clinicConfirmed.legalName},
   {label:'Формат приёма',value:clinicConfirmed.paymentLabel},
   {label:'Реквизиты',value:'Сведения будут добавлены'},
-  {label:'Адрес клиники',value:'Точный адрес уточняется'},
+  {label:'Адрес клиники',value:[contactDetails.address, contactDetails.entrance].filter(Boolean).join('. ') || 'Точный адрес уточняется'},
+  ...(contactDetails.phone ? [{label:'Телефон',value:contactDetails.phone.label}] : []),
 ];
 export const rulesPlaceholders: {title:string;text:string}[] = [];
 // A preliminary content inventory, not existing or legally validated documents.

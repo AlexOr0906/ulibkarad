@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270">
+  <title>Схема расположения дома 23 на улице Калинина</title>
+  <rect width="480" height="270" fill="#eef1f3"/>
+  <rect x="38" y="22" width="404" height="68" rx="12" fill="#d6e3d9"/>
+  <path d="M60 68c100-34 230-34 360 0" fill="none" stroke="#edf3ee" stroke-width="8"/>
+  <text x="240" y="61" text-anchor="middle" fill="#324a3d" font-family="system-ui,sans-serif" font-size="19">Университетский сквер</text>
+  <path d="M0 119h480" stroke="#fff" stroke-width="45"/>
+  <path d="M0 137h480M0 101h480" stroke="#ced5d9" stroke-width="1"/>
+  <text x="240" y="126" text-anchor="middle" fill="#36434b" font-family="system-ui,sans-serif" font-size="19">улица Калинина</text>
+  <rect x="149" y="164" width="182" height="73" rx="5" fill="#d9dfe3" stroke="#a9b6be"/>
+  <path d="M240 155c-12 0-21 9-21 20 0 15 21 34 21 34s21-19 21-34c0-11-9-20-21-20Z" fill="#273037" stroke="#fff" stroke-width="2"/>
+  <text x="240" y="182" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="17" font-weight="600">23</text>
+  <text x="240" y="226" text-anchor="middle" fill="#273037" font-family="system-ui,sans-serif" font-size="18">OrthoFamily</text>
+  <text x="240" y="257" text-anchor="middle" fill="#4a5860" font-family="system-ui,sans-serif" font-size="15">Вход со стороны сквера</text>
+</svg>

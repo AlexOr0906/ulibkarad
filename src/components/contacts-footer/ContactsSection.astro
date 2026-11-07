@@ -5,6 +5,7 @@ import '../../styles/contacts-footer.css';
 interface Props { contacts?: ClinicContacts; }
 const { contacts = contactDetails } = Astro.props;
 const mapLink = addressSearchLink(contacts.city, contacts.address);
+const showClinicScheme = contacts.city === contactDetails.city && contacts.address === contactDetails.address;
 ---
 <section class="cf-contacts" id="contacts" aria-labelledby="cf-contacts-title">
   <div class="cf-wrap">
@@ -31,8 +32,17 @@ const mapLink = addressSearchLink(contacts.city, contacts.address);
         <slot name="map">
           <div class="cf-map-frame">
             <div class="cf-map-fallback">
-              <p>{contacts.city}{contacts.address ? `, ${contacts.address}` : ''}</p>
-              {contacts.entrance && <p>{contacts.entrance}</p>}
+              {showClinicScheme ? (
+                <figure class="cf-map-scheme">
+                  <img src={`${import.meta.env.BASE_URL}orthofamily/clinic-location-scheme.svg`} width="480" height="270" alt="Дом 23 на улице Калинина напротив Университетского сквера. Вход со стороны сквера." />
+                  <figcaption>Схема расположения · без масштаба</figcaption>
+                </figure>
+              ) : (
+                <>
+                  <p>{contacts.city}{contacts.address ? `, ${contacts.address}` : ''}</p>
+                  {contacts.entrance && <p>{contacts.entrance}</p>}
+                </>
+              )}
               <a href={mapLink} target="_blank" rel="noopener noreferrer">Открыть Яндекс Карты <ArrowIcon /></a>
             </div>
             <iframe class="cf-city-map" title={`Яндекс Карты: ${contacts.city}${contacts.address ? `, ${contacts.address}` : ''}`} src={addressSearchLink(contacts.city, contacts.address, true)} width="640" height="420"></iframe>

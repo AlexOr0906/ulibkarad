@@ -9,21 +9,22 @@ export interface ClinicContacts {
 // Only clinic-approved details go here. Null values render honest placeholders.
 export const contactDetails: ClinicContacts = {
   city: 'Магнитогорск', address: 'ул. Калинина, 23', entrance: 'Вход со стороны сквера',
-  phone: { label: '45-59-59', href: null }, hours: null, email: null,
+  phone: { label: '+7 (912) 805-59-59', href: 'tel:+79128055959' }, hours: null, email: null,
 };
-// Building centre from the Yandex address card. The entrance is described in text.
-const clinicMapPoint = '58.982375,53.419427';
-const clinicYandexHouse = 'https://yandex.ru/maps/235/magnitogorsk/house/ulitsa_kalinina_23/YUEYfw9iSkICQFtpfXhweHhhYw%3D%3D/';
+// Coordinates and ID from the confirmed ProfiMed organization card.
+const clinicMapPoint = '58.982561,53.419564';
+const clinicYandexId = '128592345539';
+const clinicYandexOrg = `https://yandex.ru/maps/org/profimed/${clinicYandexId}/`;
 
 export function addressSearchLink(city: string, address?: string | null, embed = false) {
   if (city === contactDetails.city && address === contactDetails.address) {
-    if (!embed) return clinicYandexHouse;
+    if (!embed) return clinicYandexOrg;
     const params = new URLSearchParams({
-      mode: 'whatshere',
+      mode: 'search',
       ll: clinicMapPoint,
       z: '17',
-      'whatshere[point]': clinicMapPoint,
-      'whatshere[zoom]': '17',
+      oid: clinicYandexId,
+      ol: 'biz',
     });
     return `https://yandex.ru/map-widget/v1/?${params}`;
   }

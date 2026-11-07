@@ -1,0 +1,12 @@
+---
+import InternalPageLayout from '@/layouts/InternalPageLayout.astro';
+import DoctorProfileContent from '@/components/team-profile/DoctorProfileContent.astro';
+import {clinicDoctors} from '@/data/doctors';
+import {siteNavigation} from '@/data/site-preview-navigation';
+import '@/styles/team-profile.css';
+export function getStaticPaths(){return clinicDoctors.map(doctor=>({params:{slug:doctor.id},props:{doctor}}));}
+const {doctor}=Astro.props,nav=siteNavigation(import.meta.env.BASE_URL);
+---
+<InternalPageLayout title={doctor.name??'Врач'} description={doctor.specialty??''} homeHref={nav.home} contactHref={nav.contactHref} navigation={nav.navigation} footerNavigation={nav.footerNavigation}>
+<div class="dp-preview"><a href={`${nav.home}#doctors`}>К команде</a><h1 style="font-size:20px;margin:24px 0">Врач OrthoFamily</h1><DoctorProfileContent doctor={doctor}/></div>
+</InternalPageLayout>

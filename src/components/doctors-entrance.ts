@@ -97,7 +97,7 @@ function initPhoneDoctorsEntrance(section: HTMLElement, reduced: MediaQueryList)
   async function enter(card: HTMLElement) {
     if (card.dataset.phoneReveal !== 'armed') return;
     if (reduced.matches) { finish(card); return; }
-    await portrait(card).querySelector<HTMLImageElement>('img')!.decode().catch(() => {});
+    await portrait(card).querySelector<HTMLImageElement>('img')?.decode().catch(() => {});
     if (card.dataset.phoneReveal !== 'armed') return;
     card.dataset.phoneReveal = 'playing';
     const animation = portrait(card).animate([

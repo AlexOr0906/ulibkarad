@@ -1,9 +1,11 @@
 ---
 import {serviceEditorial,servicePreparation as preparation,serviceRoutes,type ServiceKey} from '@/data/service-editorial';
+import {clinicDoctors} from '@/data/doctors';
 import ArrowIcon from '@/components/ArrowIcon.astro';
 import '@/styles/service-editorial.css';
 interface Props {service:ServiceKey;}
 const {service}=Astro.props,content=serviceEditorial[service],base=import.meta.env.BASE_URL;
+const doctor=clinicDoctors.find(d=>d.service===service);
 const overview=service==='orthopedics'?'or-overview':`sv-${service}-description`;
 ---
 <div class:list={['se-content',`se-${content.layout}`]} id={`${service}-editorial`}>
@@ -18,7 +20,7 @@ const overview=service==='orthopedics'?'or-overview':`sv-${service}-description`
   <div class="se-topics">{content.topics.map(topic=>content.layout==='questions'?<details class="se-question"><summary>{topic.title}<span aria-hidden="true">+</span></summary><div><small>{topic.size}</small><p>{topic.brief}</p></div></details>:<article class="se-topic"><small>{topic.size}</small><h3>{topic.title}</h3><p>{topic.brief}</p></article>)}</div>
  </section>}
  <section class="se-team-price" id={`${service}-team`} aria-label="Врачи и стоимость">
-  <div><h2 data-ip-enter>Кто будет рядом.</h2><p>{preparation.team}</p><small>{preparation.teamSize}</small><a class="se-link" href={`${base}#doctors`}>Познакомиться с командой <ArrowIcon /></a></div>
+  <div><h2 data-ip-enter>Кто будет рядом.</h2>{doctor&&<p>{doctor.name}<br/>{doctor.specialty}</p>}<small>{preparation.teamSize}</small><a class="se-link" href={doctor?`${base}${doctor.profileHref}`:`${base}#doctors`}>Подробнее о враче <ArrowIcon /></a></div>
   <div><h2 data-ip-enter>Стоимость.</h2><p>{preparation.price}</p><small>{preparation.priceStatus}</small><p class="se-payment">Только платный приём</p></div>
  </section>
  <section class="se-next" aria-labelledby={`${service}-next-title`}><div><h2 id={`${service}-next-title`} data-ip-enter>Начать знакомство.</h2><p>{preparation.contact}</p></div><a class="se-action" href={`${base}#contacts`}>К способам связи <ArrowIcon /></a></section>

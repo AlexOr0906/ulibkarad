@@ -1,3 +1,4 @@
+import {clinicTeamContent} from './clinic-team-content';
 export type ServiceKey='adult-therapy'|'children-therapy'|'orthopedics'|'orthodontics';
 export interface EditorialBlock {title:string;brief:string;size?:string;}
 export interface ServiceEditorialData {key:ServiceKey;title:string;layout:'open'|'questions'|'material'|'line';intro:EditorialBlock;topics:EditorialBlock[];image?:{src:string;alt:string;caption:string};}
@@ -15,3 +16,5 @@ export const serviceEditorial:Record<ServiceKey,ServiceEditorialData>={
  orthodontics:{key:'orthodontics',title:'Ортодонтия',layout:'line',intro:{title:'О направлении',brief:'Ортодонтия — одно из направлений OrthoFamily в Магнитогорске.'},topics:[]},
 };
 export const servicePreparation={team:'Сведения о врачах направления скоро появятся.',teamSize:'',price:'Прейскурант скоро появится.',priceStatus:'',contact:'Адрес и телефон указаны в разделе «Контакты».'};
+// General direction descriptions belong on service pages, not repeated in every profile.
+for(const doctor of clinicTeamContent){serviceEditorial[doctor.service].intro.brief=doctor.about[0];serviceEditorial[doctor.service].topics=doctor.about.slice(1).map((brief,index)=>({title:index===0?'Подход к лечению':'Особенности направления',brief}));}

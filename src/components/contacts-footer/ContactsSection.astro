@@ -4,6 +4,7 @@ import { addressSearchLink, contactDetails, type ClinicContacts } from '../../da
 import '../../styles/contacts-footer.css';
 interface Props { contacts?: ClinicContacts; }
 const { contacts = contactDetails } = Astro.props;
+const mapLink = addressSearchLink(contacts.city, contacts.address);
 ---
 <section class="cf-contacts" id="contacts" aria-labelledby="cf-contacts-title">
   <div class="cf-wrap">
@@ -28,9 +29,16 @@ const { contacts = contactDetails } = Astro.props;
       </div>
       <div class="cf-map-area">
         <slot name="map">
-          <iframe class="cf-city-map" title={`Яндекс Карты: ${contacts.city}${contacts.address ? `, ${contacts.address}` : ''}`} src={addressSearchLink(contacts.city, contacts.address, true)} width="640" height="420" loading="lazy" referrerpolicy="no-referrer"></iframe>
+          <div class="cf-map-frame">
+            <div class="cf-map-fallback">
+              <p>{contacts.city}{contacts.address ? `, ${contacts.address}` : ''}</p>
+              {contacts.entrance && <p>{contacts.entrance}</p>}
+              <a href={mapLink} target="_blank" rel="noopener noreferrer">Открыть Яндекс Карты <ArrowIcon /></a>
+            </div>
+            <iframe class="cf-city-map" title={`Яндекс Карты: ${contacts.city}${contacts.address ? `, ${contacts.address}` : ''}`} src={addressSearchLink(contacts.city, contacts.address, true)} width="640" height="420"></iframe>
+          </div>
         </slot>
-        <p class="cf-map-caption"><a href={addressSearchLink(contacts.city, contacts.address)} target="_blank" rel="noopener noreferrer">Открыть адрес в Яндекс Картах</a></p>
+        <p class="cf-map-caption"><a href={mapLink} target="_blank" rel="noopener noreferrer">Открыть адрес в Яндекс Картах</a></p>
       </div>
     </div>
   </div>
